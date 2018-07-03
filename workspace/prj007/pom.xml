@@ -63,5 +63,10 @@
   		<artifactId>jboss-jms-api_2.0_spec</artifactId>
   		<version>1.0.2.Final</version>
   	</dependency>
+  	<dependency>
+  		<groupId>javax.inject</groupId>
+  		<artifactId>javax.inject</artifactId>
+  		<version>1</version>
+  	</dependency>
   </dependencies>
 </project>
