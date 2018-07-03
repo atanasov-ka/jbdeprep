@@ -32,7 +32,7 @@ public class BroadcastReceiverBean implements MessageListener {
      */
     public void onMessage(Message message) {
         try {
-			loggerBean.logMessage(message.getBody(String.class));
+			loggerBean.logMessage("Received: " +  message.getBody(String.class));
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
