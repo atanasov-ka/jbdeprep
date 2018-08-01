@@ -1,0 +1,3 @@
+<jboss-web>
+	<security-domain>simpleLoginSecurityDomain</security-domain>
+</jboss-web>

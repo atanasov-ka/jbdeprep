@@ -2,6 +2,7 @@ package org.vb.backend.rest.rest;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class BoxRSDTOEndpoint {
 	@EJB
 	private BoxDAO boxDao;
 	
+	@RolesAllowed({"admin", "user"})
 	@POST
 	public Response create(@Valid final BoxRSDTO boxrsdto) {
 		//TODO: process the given boxrsdto 
@@ -53,7 +55,8 @@ public class BoxRSDTOEndpoint {
 		}
 		return Response.ok(boxrsdto).build();
 	}
-
+	
+	@RolesAllowed({"guest"})
 	@GET
 	@Produces("application/json")
 	public List<BoxRSDTO> listAll(@QueryParam("start") final Integer startPosition,

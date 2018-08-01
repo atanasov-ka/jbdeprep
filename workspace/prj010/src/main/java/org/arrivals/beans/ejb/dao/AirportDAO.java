@@ -2,6 +2,8 @@ package org.arrivals.beans.ejb.dao;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Session Bean implementation class AirportDAO
@@ -10,8 +12,8 @@ import javax.ejb.Stateless;
 @LocalBean
 public class AirportDAO {
 
-//	@PersitenceContext
-//	EntityManager em;
+	@PersistenceContext(unitName="AirportPU")  
+	EntityManager entityManager; 
 	
     public void updateState(String message) {
     	String [] messages = message.split(":");
