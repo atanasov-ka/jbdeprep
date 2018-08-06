@@ -19,14 +19,15 @@ public class Box {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Size(min = 2, max = 50)
 	@Column(name =  "box_name")
 	private String boxName;
 	
-	@Size(min = 2, max = 5)
+	@Size(min = 2, max = 50)
 	@Column(name = "front")
 	private String front;
 	
-	@Size(min = 2, max = 5)
+	@Size(min = 2, max = 50)
 	@Column(name = "back")
 	private String back;
 	
@@ -126,7 +127,4 @@ public class Box {
 	public void setPlayList(List<Play> playList) {
 		this.playList = playList;
 	}
-	
-	
-	
 }

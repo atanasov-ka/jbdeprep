@@ -4,8 +4,15 @@ import java.util.Date;
 
 public class VerbRSDTO {
 	private Long id;
+	
 	private String front;
+	private String fronTranscription;
+	private String frontAudio;
+	
 	private String back;
+	private String backTranscription;
+	private String backAudio;
+	
 	private Date created;
 	
 	public String getFront() {
@@ -32,6 +39,28 @@ public class VerbRSDTO {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
-	
+	public String getFronTranscription() {
+		return fronTranscription;
+	}
+	public void setFronTranscription(String fronTranscription) {
+		this.fronTranscription = fronTranscription;
+	}
+	public String getFrontAudio() {
+		return frontAudio;
+	}
+	public void setFrontAudio(String frontAudio) {
+		this.frontAudio = frontAudio;
+	}
+	public String getBackTranscription() {
+		return backTranscription;
+	}
+	public void setBackTranscription(String backTranscription) {
+		this.backTranscription = backTranscription;
+	}
+	public String getBackAudio() {
+		return backAudio;
+	}
+	public void setBackAudio(String backAudio) {
+		this.backAudio = backAudio;
+	}	
 }

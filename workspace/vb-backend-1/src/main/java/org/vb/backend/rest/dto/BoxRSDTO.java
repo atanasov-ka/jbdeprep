@@ -8,11 +8,9 @@ public class BoxRSDTO {
 	private Long id;
 	//@NotNull
 	private String name;
-	//@NotNull
+
 	private String front;
-	//@NotNull
 	private String back;
-	//@NotNull
 	private boolean isPublic;
 	private String owner;
 	private List<VerbRSDTO> verbList;
@@ -73,7 +71,4 @@ public class BoxRSDTO {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
-	
-	
 }

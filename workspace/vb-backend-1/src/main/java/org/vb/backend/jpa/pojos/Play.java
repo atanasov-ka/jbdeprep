@@ -42,6 +42,4 @@ public class Play {
 	public void setBox(Box box) {
 		this.box = box;
 	}
-	
-	
 }

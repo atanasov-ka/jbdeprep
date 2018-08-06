@@ -72,8 +72,11 @@ public class DTOMapper {
 	public static Verb getVerb(VerbRSDTO verbRSDTO) {
 		Verb result = new Verb();
 		result.setFront(verbRSDTO.getFront());
+		result.setFrontTranscription(verbRSDTO.getFronTranscription());
+		result.setFrontAudio(verbRSDTO.getFrontAudio());
 		result.setBack(verbRSDTO.getBack());
+		result.setBackTranscription(verbRSDTO.getBackTranscription());
+		result.setBackAudio(verbRSDTO.getBackAudio());
 		return result;
 	}
-
 }
