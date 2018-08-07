@@ -19,15 +19,15 @@ public class Box {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Size(min = 2, max = 50)
+	@Size(min = 2, max = 150)
 	@Column(name =  "box_name")
 	private String boxName;
 	
-	@Size(min = 2, max = 50)
+	@Size(min = 2, max = 20)
 	@Column(name = "front")
 	private String front;
 	
-	@Size(min = 2, max = 50)
+	@Size(min = 2, max = 20)
 	@Column(name = "back")
 	private String back;
 	

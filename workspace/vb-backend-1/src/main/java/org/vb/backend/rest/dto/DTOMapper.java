@@ -20,11 +20,15 @@ public class DTOMapper {
 	}
 
 	public static BoxRSDTO getBoxDTO(Box box) {
+		if (box == null) {
+			return null;
+		}
+		
 		BoxRSDTO boxRSDTO = new BoxRSDTO();
 		
 		boxRSDTO.setId(box.getId());
 		boxRSDTO.setName(box.getBoxName());
-		boxRSDTO.setBack(box.getBoxName());
+		boxRSDTO.setBack(box.getBack());
 		boxRSDTO.setFront(box.getFront());
 		boxRSDTO.setOwner(box.getOwner());
 		boxRSDTO.setPublic(box.isPublic());
@@ -55,6 +59,10 @@ public class DTOMapper {
 		verbRSDTO.setFront(verb.getFront());
 		verbRSDTO.setId(verb.getId());
 		verbRSDTO.setCreated(verb.getCreated());
+		verbRSDTO.setFrontAudio(verb.getFrontAudio());
+		verbRSDTO.setBackAudio(verb.getBackAudio());
+		verbRSDTO.setFrontTranscription(verb.getFrontTranscription());
+		verbRSDTO.setBackTranscription(verb.getBackTranscription());
 		
 		return verbRSDTO;
 	}
@@ -72,11 +80,25 @@ public class DTOMapper {
 	public static Verb getVerb(VerbRSDTO verbRSDTO) {
 		Verb result = new Verb();
 		result.setFront(verbRSDTO.getFront());
-		result.setFrontTranscription(verbRSDTO.getFronTranscription());
+		result.setFrontTranscription(verbRSDTO.getFrontTranscription());
 		result.setFrontAudio(verbRSDTO.getFrontAudio());
 		result.setBack(verbRSDTO.getBack());
 		result.setBackTranscription(verbRSDTO.getBackTranscription());
 		result.setBackAudio(verbRSDTO.getBackAudio());
 		return result;
+	}
+
+	public static Box getBox(BoxRSDTO boxrsdto) {
+		Box box = new Box();
+		
+		box.setBoxName(boxrsdto.getName());
+		box.setFront(boxrsdto.getFront());
+		box.setBack(boxrsdto.getBack());
+		box.setPublic(boxrsdto.isPublic());
+			
+		box.setVerbList(DTOMapper.getVerbList(boxrsdto.getVerbList()));
+		// TODO play list?
+		
+		return box;
 	}
 }

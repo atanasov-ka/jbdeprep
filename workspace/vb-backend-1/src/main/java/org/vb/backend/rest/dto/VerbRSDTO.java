@@ -6,7 +6,7 @@ public class VerbRSDTO {
 	private Long id;
 	
 	private String front;
-	private String fronTranscription;
+	private String frontTranscription;
 	private String frontAudio;
 	
 	private String back;
@@ -39,11 +39,11 @@ public class VerbRSDTO {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	public String getFronTranscription() {
-		return fronTranscription;
+	public String getFrontTranscription() {
+		return frontTranscription;
 	}
-	public void setFronTranscription(String fronTranscription) {
-		this.fronTranscription = fronTranscription;
+	public void setFrontTranscription(String frontTranscription) {
+		this.frontTranscription = frontTranscription;
 	}
 	public String getFrontAudio() {
 		return frontAudio;
