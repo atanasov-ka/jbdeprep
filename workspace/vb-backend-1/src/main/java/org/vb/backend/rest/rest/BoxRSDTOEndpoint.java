@@ -1,5 +1,7 @@
 package org.vb.backend.rest.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,9 +26,10 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.vb.backend.jpa.pojos.Box;
 import org.vb.backend.jpa.pojos.Verb;
-import org.vb.backend.jpa.service.BoxDAO;
-import org.vb.backend.rest.dto.BoxRSDTO;
-import org.vb.backend.rest.dto.DTOMapper;
+import org.vb.backend.jpa.service.BoxService;
+import org.vb.backend.jpa.dao.BoxDAO;
+import org.vb.backend.dto.BoxRSDTO;
+import org.vb.backend.dto.DTOMapper;
 
 @RequestScoped
 @Path("/box")
@@ -35,34 +38,34 @@ import org.vb.backend.rest.dto.DTOMapper;
 public class BoxRSDTOEndpoint {
 
 	@EJB
-	private BoxDAO boxDao;
+	private BoxService boxService;
 	
 	@Context
 	SecurityContext context;
 	
 	@RolesAllowed({"admin"})
 	@POST
-	public Response create(@Valid final BoxRSDTO boxrsdto) {
+	public Response create(@Valid final BoxRSDTO boxrsdto) throws URISyntaxException {
 		//TODO: process the given boxrsdto 
 		//you may want to use the following return statement, assuming that BoxRSDTO#getId() or a similar method 
 		//would provide the identifier to retrieve the created BoxRSDTO resource:
 		//return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(boxrsdto.getId())).build()).build();
 				
 		List<Verb> verbList = DTOMapper.getVerbList(boxrsdto.getVerbList());
-		Box box = boxDao.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), context.getUserPrincipal().getName(), verbList);
-		return Response.created(null).build();
+		BoxRSDTO box = boxService.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), context.getUserPrincipal().getName(), verbList);
+		URI uri = new URI("api/box/" + box.getId());
+		return Response.created(uri).build();
 	}
 
 	@RolesAllowed("user")
 	@GET
 	@Path("/{id:[0-9]+}")
 	public Response findById(@PathParam("id") final Long id) { 
-		Box box = boxDao.getBoxById(id);
-		BoxRSDTO boxrsdto = DTOMapper.getBoxDTO(box);
-		if (boxrsdto == null) {
+		BoxRSDTO box = boxService.getBoxById(id);
+		if (box == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return Response.ok(boxrsdto).build();
+		return Response.ok(box).build();
 	}
 	
 	@RolesAllowed("user")
@@ -71,18 +74,15 @@ public class BoxRSDTOEndpoint {
 	public List<BoxRSDTO> listAll(@QueryParam("start") final Integer startPosition,
 			@QueryParam("max") final Integer maxResult) {
 		
-		List<Box> boxList = boxDao.getAll();
-		List<BoxRSDTO> boxRsDtoList = DTOMapper.getBoxDTOList(boxList);
-		return boxRsDtoList;
+		List<BoxRSDTO> boxList = boxService.getAll();
+		return boxList;
 	}
 
 	@RolesAllowed("user")
 	@PUT
 	@Path("/{id:[0-9]+}")
 	public Response update(@PathParam("id") Long id, final BoxRSDTO boxrsdto) {
-		Box box = DTOMapper.getBox(boxrsdto);
-		box.setId(id);
-		Box updatedBox = boxDao.updateBox(box);
+		BoxRSDTO updatedBox = boxService.updateBox(boxrsdto);
 		if (null == updatedBox) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -99,17 +99,15 @@ public class BoxRSDTOEndpoint {
 		boolean isUser = context.isUserInRole("user");
 		boolean deleted = false;
 		if (isAdmin) {
-			deleted = boxDao.deleteBoxById(id);
+			deleted = boxService.deleteBoxById(id);
 		} else if (isUser) {
-			if (!boxDao.deleteBoxByIdAndUser(id, username)) {
-				return Response.status(Status.METHOD_NOT_ALLOWED).build();
-			}
+			deleted = boxService.deleteBoxByIdAndUser(id, currentUser);
 		} else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		
 		if (!deleted) {
-			return Response.status(Status.METHOD_NOT_ALLOWED).build();
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 		return Response.ok().build();
 	}

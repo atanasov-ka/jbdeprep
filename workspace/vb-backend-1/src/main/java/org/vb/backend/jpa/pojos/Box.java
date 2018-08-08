@@ -44,7 +44,7 @@ public class Box {
 	private Date created;
 	
 	// unidirectional mapping. Only this entity "knows about the relation"
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_box_id")
 	private List<Verb> verbList;
 

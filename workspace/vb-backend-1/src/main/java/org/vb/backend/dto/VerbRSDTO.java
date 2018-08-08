@@ -1,4 +1,4 @@
-package org.vb.backend.rest.dto;
+package org.vb.backend.dto;
 
 import java.util.Date;
 
