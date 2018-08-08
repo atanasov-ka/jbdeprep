@@ -40,7 +40,6 @@ public class BoxDAO {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Box getBoxById(Long id) {
 		Box box = entityManager.find(Box.class, id);
-		entityManager.detach(box);
 		return box;
 	}
 
