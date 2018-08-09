@@ -84,9 +84,10 @@ public class DTOMapper {
 
 	public static List<Verb> getVerbList(List<VerbRSDTO> verbList) {
 		List<Verb> result = new ArrayList<>();
-		
-		for (VerbRSDTO verbRSDTO : verbList) {
-			result.add(DTOMapper.getVerb(verbRSDTO));
+		if (verbList != null) {
+			for (VerbRSDTO verbRSDTO : verbList) {
+				result.add(DTOMapper.getVerb(verbRSDTO));
+			}
 		}
 		
 		return result;

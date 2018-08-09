@@ -91,7 +91,7 @@ public class Play {
 		return correctFronts;
 	}
 
-	public void setCorrectFront() {
+	public void addCorrectFront() {
 		if (correctFronts < MAX_CORRECTNESS_DEGREE) {
 			correctFronts++;
 		}

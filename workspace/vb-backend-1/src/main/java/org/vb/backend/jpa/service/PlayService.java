@@ -7,9 +7,9 @@ import javax.ejb.Stateless;
 
 import org.vb.backend.dto.BoxPlayRSDTO;
 import org.vb.backend.dto.DTOMapper;
+import org.vb.backend.dto.VerbPlayRSDTO;
 import org.vb.backend.jpa.dao.BoxDAO;
 import org.vb.backend.jpa.dao.PlayDAO;
-import org.vb.backend.jpa.dao.UserDAO;
 import org.vb.backend.jpa.pojos.Box;
 import org.vb.backend.jpa.pojos.Play;
 
@@ -20,15 +20,22 @@ public class PlayService {
 	private BoxDAO boxDAO;
 	
 	@EJB
-	private UserDAO userDAO;
-	
-	@EJB
 	private PlayDAO playDAO;
 	
-	public BoxPlayRSDTO findBoxPlayByBoxIdAndPrincipal(Long id, String username) {
+	public BoxPlayRSDTO findBoxPlayByBoxIdAndUser(Long id, String username) {
 		List<Play> playList = playDAO.getPlayListByBoxIdAndUser(id, username);
 		Box box = boxDAO.getBoxById(id, username);
 		return DTOMapper.getBoxPlayDTO(playList, box);
+	}
+
+	public void updateVerbPlays(Long id, List<VerbPlayRSDTO> verbPlayList, String username) {
+		playDAO.updatePlayListByBoxIdAndUser(id, username, verbPlayList);
+		
+	}
+
+	public void removeHistorOfBoxPlay(Long id, String username) {
+		playDAO.removeHistoryOfBoxPlay(id, username);
+		
 	}
 
 }

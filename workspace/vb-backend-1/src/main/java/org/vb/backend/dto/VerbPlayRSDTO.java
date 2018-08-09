@@ -5,7 +5,9 @@ import java.util.Date;
 public class VerbPlayRSDTO {
 	private Long id;
 	private Double progressFront; // Percentage [0 - 100]
+	private Long correctFronts;
 	private Double progressBack; // Percentage [0 - 100]
+	private Long correctBacks;
 	private Date lastModified;
 	private VerbRSDTO verb;
 	
@@ -38,5 +40,17 @@ public class VerbPlayRSDTO {
 	}
 	public void setVerb(VerbRSDTO verb) {
 		this.verb = verb;
+	}
+	public Long getCorrectFronts() {
+		return correctFronts;
+	}
+	public void setCorrectFronts(Long correctFronts) {
+		this.correctFronts = correctFronts;
+	}
+	public Long getCorrectBacks() {
+		return correctBacks;
+	}
+	public void setCorrectBacks(Long correctBacks) {
+		this.correctBacks = correctBacks;
 	}
 }

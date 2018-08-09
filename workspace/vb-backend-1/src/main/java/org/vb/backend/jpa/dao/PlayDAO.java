@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.vb.backend.dto.VerbPlayRSDTO;
+import org.vb.backend.exceptions.VBInternalException;
 import org.vb.backend.jpa.pojos.Box;
 import org.vb.backend.jpa.pojos.Play;
 import org.vb.backend.jpa.pojos.User;
@@ -33,7 +35,7 @@ public class PlayDAO {
 
 	private List<Play> findPlaysForBox(Long id, String username) {
 		List<Play> playList;
-		TypedQuery<Play> playQuery = entityManager.createQuery("select p from Play p where p.user.username = :username and p.verb.boxId = :boxId", Play.class);
+		TypedQuery<Play> playQuery = entityManager.createQuery("select p from Play p where p.user.username = :username and p.verb.boxId = :boxId order by p.correctBacks, p.correctFronts", Play.class);
 		playQuery.setParameter("username", username);
 		playQuery.setParameter("boxId", id);
 		playList = playQuery.getResultList();
@@ -56,5 +58,52 @@ public class PlayDAO {
 			play.setUser(user);
 			entityManager.persist(play);
 		}
+	}
+
+	public void updatePlayListByBoxIdAndUser(Long id, String username, List<VerbPlayRSDTO> verbPlayList) {
+		List<Play> playList = findPlaysForBox(id, username);
+		for (VerbPlayRSDTO pDto : verbPlayList) {
+			Play target = findPlayByID(pDto.getId(), playList);
+			modifyCounters(target, pDto.getCorrectFronts(), pDto.getCorrectBacks());
+			entityManager.persist(target);
+		}
+	}
+
+	private void modifyCounters(Play target, Long correctFronts, Long correctBacks) {
+		if (correctFronts >= 0) {
+			for (int i = 0; i < correctFronts; i++) {
+				target.addCorrectFront();
+			}
+		} else {
+			for (long i = correctFronts; i < 0; i++) {
+				target.addWrongFront();
+			}
+		}
+		
+		if (correctBacks >= 0) {
+			for (int i = 0; i < correctBacks; i++) {
+				target.addCorrectBack();
+			}
+		} else {
+			for (long i = correctBacks; i < 0; i++) {
+				target.addWrongBack();
+			}
+		}
+	}
+
+	private Play findPlayByID(Long id, List<Play> playList) {
+		for (int i = 0; i < playList.size(); ++i) {
+			if (playList.get(i).getId() == id) {
+				return playList.get(i);
+			}
+		}
+		throw new VBInternalException("Can't find box with ID: " + id);
+	}
+
+	public void removeHistoryOfBoxPlay(Long id, String username) {
+		TypedQuery<Play> playQuery = entityManager.createQuery("delete from Play p where p.user.username = :username and p.verb.boxId = :boxId order by p.correctBacks, p.correctFonts", Play.class);
+		playQuery.setParameter("username", username);
+		playQuery.setParameter("boxId", id);
+		playQuery.executeUpdate();
 	}
 }
