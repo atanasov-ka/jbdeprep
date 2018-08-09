@@ -16,8 +16,12 @@ public class Play {
 	private Date created;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "box_id")
-	private Box box;
+	@JoinColumn(name = "verb_id")
+	private Verb verb;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User owner;
 
 	public Long getId() {
 		return id;
@@ -35,11 +39,19 @@ public class Play {
 		this.created = created;
 	}
 
-	public Box getBox() {
-		return box;
+	public Verb getVerb() {
+		return verb;
 	}
 
-	public void setBox(Box box) {
-		this.box = box;
+	public void setVerb(Verb verb) {
+		this.verb = verb;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 }

@@ -4,15 +4,12 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.persistence.TypedQuery;
-
 import org.vb.backend.dto.BoxRSDTO;
 import org.vb.backend.dto.DTOMapper;
 import org.vb.backend.jpa.dao.BoxDAO;
+import org.vb.backend.jpa.dao.UserDAO;
 import org.vb.backend.jpa.pojos.Box;
+import org.vb.backend.jpa.pojos.User;
 import org.vb.backend.jpa.pojos.Verb;
 
 @Stateless
@@ -20,38 +17,52 @@ public class BoxService {
 	
 	@EJB
 	private BoxDAO boxDAO;
+	
+	@EJB
+	private UserDAO userDAO;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public BoxRSDTO getBoxById(Long id) {
-		Box box = boxDAO.getBoxById(id);
+	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public BoxRSDTO getBoxById(Long id, String currentUser, boolean isAdmin) {
+		Box box;
+		if (isAdmin) {
+			box = boxDAO.getBoxById(id);
+		} else {
+			box = boxDAO.getBoxById(id, currentUser);
+		}
 		return DTOMapper.getBoxDTO(box);
 	}
 
-	public List<BoxRSDTO> getAll() {
-		List<Box> boxList = boxDAO.getAll();
+	public List<BoxRSDTO> getAll(String currentUser, boolean isAdmin) {
+		List<Box> boxList;
+		if (isAdmin) {
+			boxList = boxDAO.getAll();
+		} else {
+			boxList = boxDAO.getAll(currentUser);
+		}
+		
 		List<BoxRSDTO> boxRSDTOs = DTOMapper.getBoxDTOListOnly(boxList);
 		return boxRSDTOs;
 	}
 
 	public BoxRSDTO updateBox(BoxRSDTO boxrsdto) {
-		// TODO Auto-generated method stub
-		return null;
+		Box requested = DTOMapper.getBox(boxrsdto);
+		Box response = boxDAO.updateBox(requested);
+		return DTOMapper.getBoxDTO(response);
 	}
 
 	public boolean deleteBoxById(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		return boxDAO.deleteBoxById(id);
 	}
 
 	public boolean deleteBoxByIdAndUser(Long id, String currentUser) {
-		// TODO Auto-generated method stub
-		return false;
+		return boxDAO.deleteBoxByIdAndUser(id, currentUser);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public BoxRSDTO createBox(BoxRSDTO boxrsdto, String principalName) {
+		User user = userDAO.findUserByUsername(principalName);
 		List<Verb> verbs = DTOMapper.getVerbList(boxrsdto.getVerbList());
-		Box box = boxDAO.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), principalName, verbs);
+		Box box = boxDAO.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), user, verbs);
 		return DTOMapper.getBoxDTO(box);
 	}
 

@@ -30,11 +30,7 @@ public class Box {
 	@Size(min = 2, max = 20)
 	@Column(name = "back")
 	private String back;
-	
-	@NotNull
-	@Column(name = "owner")
-	private String owner;
-	
+		
 	@NotNull
 	@Column(name = "is_public")
 	private boolean isPublic;
@@ -43,18 +39,15 @@ public class Box {
 	@Column(name = "date_time_created")
 	private Date created;
 	
+	// bidirectional mapping. Both entities "are knowing about the relation"
+	@ManyToOne
+	@JoinColumn(name = "fk_user")
+	private User user;
+	
 	// unidirectional mapping. Only this entity "knows about the relation"
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_box_id")
 	private List<Verb> verbList;
-
-	// bidirectional mapping. Both entities "are knowing about the relation"
-	@OneToMany(
-			mappedBy = "box",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-	)
-	private List<Play> playList;
 
 	public Long getId() {
 		return id;
@@ -88,14 +81,6 @@ public class Box {
 		this.back = back;
 	}
 
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-
 	public boolean isPublic() {
 		return isPublic;
 	}
@@ -120,11 +105,12 @@ public class Box {
 		this.verbList = verbList;
 	}
 
-	public List<Play> getPlayList() {
-		return playList;
+	public User getUser() {
+		return user;
 	}
 
-	public void setPlayList(List<Play> playList) {
-		this.playList = playList;
+	public void setUser(User user) {
+		this.user = user;
 	}
+	
 }

@@ -1,13 +1,9 @@
 package org.vb.backend.rest.rest;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.ejb.EJBContext;
 import javax.enterprise.context.RequestScoped;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -24,13 +20,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
-
-import org.vb.backend.jpa.pojos.Box;
-import org.vb.backend.jpa.pojos.Verb;
 import org.vb.backend.jpa.service.BoxService;
-import org.vb.backend.jpa.dao.BoxDAO;
+import org.vb.backend.jpa.service.UserService;
 import org.vb.backend.dto.BoxRSDTO;
-import org.vb.backend.dto.DTOMapper;
 
 @RequestScoped
 @Path("/box")
@@ -41,18 +33,16 @@ public class BoxRSDTOEndpoint {
 	@EJB
 	private BoxService boxService;
 	
+	@EJB
+	private UserService userService;
+	
 	@Context
 	SecurityContext context;
 	
-	@RolesAllowed({"admin"})
+	@RolesAllowed("user")
 	@POST
 	public Response create(@Valid final BoxRSDTO boxrsdto) throws URISyntaxException {
-		//TODO: process the given boxrsdto 
-		//you may want to use the following return statement, assuming that BoxRSDTO#getId() or a similar method 
-		//would provide the identifier to retrieve the created BoxRSDTO resource:
-		//
-		String currentUser = context.getUserPrincipal().getName();
-		BoxRSDTO box = boxService.createBox(boxrsdto, currentUser);
+		BoxRSDTO box = boxService.createBox(boxrsdto, getUsername());
 		return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(box.getId())).build()).build();
 	}
 
@@ -60,7 +50,7 @@ public class BoxRSDTOEndpoint {
 	@GET
 	@Path("/{id:[0-9]+}")
 	public Response findById(@PathParam("id") final Long id) { 
-		BoxRSDTO box = boxService.getBoxById(id);
+		BoxRSDTO box = boxService.getBoxById(id, getUsername(), isAdmin());
 		if (box == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -70,10 +60,8 @@ public class BoxRSDTOEndpoint {
 	@RolesAllowed("user")
 	@GET
 	@Produces("application/json")
-	public List<BoxRSDTO> listAll(@QueryParam("start") final Integer startPosition,
-			@QueryParam("max") final Integer maxResult) {
-		
-		List<BoxRSDTO> boxList = boxService.getAll();
+	public List<BoxRSDTO> listAll(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
+		List<BoxRSDTO> boxList = boxService.getAll(getUsername(), isAdmin());
 		return boxList;
 	}
 
@@ -93,9 +81,9 @@ public class BoxRSDTOEndpoint {
 	@Path("/{id:[0-9]+}")
 	public Response deleteById(@PathParam("id") final Long id) {
 		
-		String currentUser = context.getUserPrincipal().getName();
-		boolean isAdmin = context.isUserInRole("admin");
-		boolean isUser = context.isUserInRole("user");
+		String currentUser = getUsername();
+		boolean isAdmin = isAdmin();
+		boolean isUser = isRegularUser();
 		boolean deleted = false;
 		if (isAdmin) {
 			deleted = boxService.deleteBoxById(id);
@@ -111,4 +99,18 @@ public class BoxRSDTOEndpoint {
 		return Response.ok().build();
 	}
 
+	private String getUsername() {
+		String username = context.getUserPrincipal().getName();
+		// auto registration
+		Long userId = userService.register(username, isAdmin(), isRegularUser());
+		return username;
+	}
+	
+	private boolean isAdmin() {
+		return context.isUserInRole("admin");
+	}
+	
+	private boolean isRegularUser() {
+		return context.isUserInRole("user");
+	}
 }

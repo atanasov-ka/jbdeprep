@@ -40,7 +40,9 @@ public class DTOMapper {
 		boxRSDTO.setName(box.getBoxName());
 		boxRSDTO.setBack(box.getBack());
 		boxRSDTO.setFront(box.getFront());
-		boxRSDTO.setOwner(box.getOwner());
+		if (box.getUser() != null) {
+			boxRSDTO.setOwner(box.getUser().getUsername());	
+		}
 		boxRSDTO.setPublic(box.isPublic());
 		boxRSDTO.setCreated(box.getCreated());
 		if (null == box.getVerbList()) {
