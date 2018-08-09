@@ -1,11 +1,13 @@
 package org.vb.backend.jpa.service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.vb.backend.dto.BoxRSDTO;
 import org.vb.backend.dto.DTOMapper;
+import org.vb.backend.dto.VerbRSDTO;
 import org.vb.backend.jpa.dao.BoxDAO;
 import org.vb.backend.jpa.dao.UserDAO;
 import org.vb.backend.jpa.pojos.Box;
@@ -30,6 +32,15 @@ public class BoxService {
 			box = boxDAO.getBoxById(id, currentUser);
 		}
 		return DTOMapper.getBoxDTO(box);
+	}
+	
+	public List<VerbRSDTO> getVerbsByBoxId(Long id, String username, boolean isAdmin) {
+		List<Verb> verbList = boxDAO.findVerbsByBoxId(id);
+		List<VerbRSDTO> result = new LinkedList<>();
+		for (Verb v : verbList) {
+			result.add(DTOMapper.getVerbDTO(v));
+		}
+		return result;
 	}
 
 	public List<BoxRSDTO> getAll(String currentUser, boolean isAdmin) {
@@ -65,5 +76,7 @@ public class BoxService {
 		Box box = boxDAO.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), user, verbs);
 		return DTOMapper.getBoxDTO(box);
 	}
+
+	
 
 }

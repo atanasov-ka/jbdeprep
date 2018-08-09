@@ -39,11 +39,14 @@ public class Box {
 	@Column(name = "date_time_created")
 	private Date created;
 	
-	// bidirectional mapping. Both entities "are knowing about the relation"
+	// child side. bi-directional mapping. Both entities "are knowing about the relation"
 	@ManyToOne
 	@JoinColumn(name = "fk_user")
 	private User user;
 	
+// TODO parent side. bi-directional mapping. Only this entity "knows about the relation"
+//	@OneToMany(mappedBy = "box", cascade = CascadeType.ALL, orphanRemoval = true)
+
 	// unidirectional mapping. Only this entity "knows about the relation"
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_box_id")

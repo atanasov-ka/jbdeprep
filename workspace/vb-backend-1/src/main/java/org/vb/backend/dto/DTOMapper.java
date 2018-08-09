@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.vb.backend.jpa.pojos.Box;
+import org.vb.backend.jpa.pojos.Play;
 import org.vb.backend.jpa.pojos.Verb;
 
 public class DTOMapper {
@@ -25,7 +26,7 @@ public class DTOMapper {
 		}
 		
 		BoxRSDTO boxRSDTO = getBoxDTOOnly(box);
-		boxRSDTO.setVerbList(DTOMapper.getVerbDTOList(box.getVerbList()));
+		boxRSDTO.setVerbList(DTOMapper.getVerbDTOList(new ArrayList<>(box.getVerbList())));
 		return boxRSDTO;
 	}
 
@@ -111,7 +112,6 @@ public class DTOMapper {
 		box.setPublic(boxrsdto.isPublic());
 			
 		box.setVerbList(DTOMapper.getVerbList(boxrsdto.getVerbList()));
-		// TODO play list?
 		
 		return box;
 	}
@@ -126,5 +126,32 @@ public class DTOMapper {
 		return result;
 	}
 
-	
+	public static BoxPlayRSDTO getBoxPlayDTO(List<Play> playList, Box box) {
+		BoxPlayRSDTO result = new BoxPlayRSDTO();
+		
+		int totalCorrectFronts = 0;
+		int totalCorrectBacks = 0;
+		
+		for (Play p : playList) {
+			VerbPlayRSDTO e = getVerbPlayDTO(p);
+			result.getVerbPlayList().add(e);
+		}
+		
+		double overalProgress = (totalCorrectFronts + totalCorrectBacks) / 6 * 100.0;
+		result.setOverralProgress(overalProgress);
+		result.setBox(getBoxDTOOnly(box));
+		
+		return result;
+	}
+
+	private static VerbPlayRSDTO getVerbPlayDTO(Play p) {
+		VerbPlayRSDTO result = new VerbPlayRSDTO();
+		result.setId(p.getId());
+		result.setLastModified(p.getLastModified());
+		result.setProgressBack(p.getCorrectBacks() / Play.MAX_CORRECTNESS_DEGREE * 100.0);
+		result.setProgressFront(p.getCorrectFronts() / Play.MAX_CORRECTNESS_DEGREE * 100.0);
+		result.setVerb(getVerbDTO(p.getVerb()));
+		
+		return result;
+	}	
 }

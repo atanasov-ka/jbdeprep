@@ -1,4 +1,4 @@
-package org.vb.backend.rest.rest;
+package org.vb.backend.rest;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -23,6 +23,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.vb.backend.jpa.service.BoxService;
 import org.vb.backend.jpa.service.UserService;
 import org.vb.backend.dto.BoxRSDTO;
+import org.vb.backend.dto.VerbRSDTO;
 
 @RequestScoped
 @Path("/box")
@@ -55,6 +56,17 @@ public class BoxRSDTOEndpoint {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		return Response.ok(box).build();
+	}
+	
+	@RolesAllowed("user")
+	@GET
+	@Path("/{id:[0-9]+}/verb")
+	public Response findVerbsByBoxId(@PathParam("id") final Long id) { 
+		List<VerbRSDTO> verbList = boxService.getVerbsByBoxId(id, getUsername(), isAdmin());
+		if (verbList == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(verbList).build();
 	}
 	
 	@RolesAllowed("user")
@@ -102,7 +114,7 @@ public class BoxRSDTOEndpoint {
 	private String getUsername() {
 		String username = context.getUserPrincipal().getName();
 		// auto registration
-		Long userId = userService.register(username, isAdmin(), isRegularUser());
+		userService.register(username, isAdmin(), isRegularUser());
 		return username;
 	}
 	

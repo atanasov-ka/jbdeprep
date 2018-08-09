@@ -3,13 +3,13 @@
 	<persistence-unit name="vb-backend-1">
 		
 		<class>org.vb.backend.jpa.pojos.Box</class>
-		<class>org.vb.backend.jpa.pojos.Verb</class>
 		<class>org.vb.backend.jpa.pojos.Play</class>
 		<class>org.vb.backend.jpa.pojos.User</class>
+		<class>org.vb.backend.jpa.pojos.Verb</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 		</properties>

@@ -98,4 +98,10 @@ public class BoxDAO {
 			return false;
 		}
 	}
+
+	public List<Verb> findVerbsByBoxId(Long id) {
+		TypedQuery<Verb> query = entityManager.createQuery("select v from Verb v where v.box.id = :id", Verb.class);
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
 }
