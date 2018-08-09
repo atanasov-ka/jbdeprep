@@ -23,6 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriBuilder;
 
 import org.vb.backend.jpa.pojos.Box;
 import org.vb.backend.jpa.pojos.Verb;
@@ -49,12 +50,10 @@ public class BoxRSDTOEndpoint {
 		//TODO: process the given boxrsdto 
 		//you may want to use the following return statement, assuming that BoxRSDTO#getId() or a similar method 
 		//would provide the identifier to retrieve the created BoxRSDTO resource:
-		//return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(boxrsdto.getId())).build()).build();
-				
-		List<Verb> verbList = DTOMapper.getVerbList(boxrsdto.getVerbList());
-		BoxRSDTO box = boxService.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), context.getUserPrincipal().getName(), verbList);
-		URI uri = new URI("api/box/" + box.getId());
-		return Response.created(uri).build();
+		//
+		String currentUser = context.getUserPrincipal().getName();
+		BoxRSDTO box = boxService.createBox(boxrsdto, currentUser);
+		return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(box.getId())).build()).build();
 	}
 
 	@RolesAllowed("user")

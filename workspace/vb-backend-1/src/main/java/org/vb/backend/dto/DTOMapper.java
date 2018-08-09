@@ -24,6 +24,16 @@ public class DTOMapper {
 			return null;
 		}
 		
+		BoxRSDTO boxRSDTO = getBoxDTOOnly(box);
+		boxRSDTO.setVerbList(DTOMapper.getVerbDTOList(box.getVerbList()));
+		return boxRSDTO;
+	}
+
+	private static BoxRSDTO getBoxDTOOnly(Box box) {
+		if (box == null) {
+			return null;
+		}
+		
 		BoxRSDTO boxRSDTO = new BoxRSDTO();
 		
 		boxRSDTO.setId(box.getId());
@@ -33,19 +43,21 @@ public class DTOMapper {
 		boxRSDTO.setOwner(box.getOwner());
 		boxRSDTO.setPublic(box.isPublic());
 		boxRSDTO.setCreated(box.getCreated());
-		
-		if (box.getVerbList() != null) {
+		if (null == box.getVerbList()) {
+			boxRSDTO.setVerbCount(0);
+		} else {
 			boxRSDTO.setVerbCount(box.getVerbList().size());
-			if (!box.getVerbList().isEmpty()) {
-				boxRSDTO.setVerbList(DTOMapper.getVerbDTOList(box.getVerbList()));
-			}
 		}
-		
+			
 		return boxRSDTO;
 	}
-
+	
 	public static List<VerbRSDTO> getVerbDTOList(List<Verb> verbList) {
 		List<VerbRSDTO> result = new LinkedList<>();
+		if (verbList == null) {
+			return result;
+		}
+		
 		for (Verb verb : verbList) {
 			result.add(DTOMapper.getVerbDTO(verb));
 		}
@@ -101,4 +113,16 @@ public class DTOMapper {
 		
 		return box;
 	}
+
+	public static List<BoxRSDTO> getBoxDTOListOnly(List<Box> boxList) {
+		List<BoxRSDTO> result = new ArrayList<>();
+		
+		for (Box box : boxList) {
+			result.add(DTOMapper.getBoxDTOOnly(box));
+		}
+		
+		return result;
+	}
+
+	
 }

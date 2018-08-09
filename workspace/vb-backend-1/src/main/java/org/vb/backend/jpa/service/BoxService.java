@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
 
 import org.vb.backend.dto.BoxRSDTO;
 import org.vb.backend.dto.DTOMapper;
@@ -27,8 +28,9 @@ public class BoxService {
 	}
 
 	public List<BoxRSDTO> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Box> boxList = boxDAO.getAll();
+		List<BoxRSDTO> boxRSDTOs = DTOMapper.getBoxDTOListOnly(boxList);
+		return boxRSDTOs;
 	}
 
 	public BoxRSDTO updateBox(BoxRSDTO boxrsdto) {
