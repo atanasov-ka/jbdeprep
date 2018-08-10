@@ -151,6 +151,8 @@ public class DTOMapper {
 		result.setLastModified(p.getLastModified());
 		result.setProgressBack(p.getCorrectBacks() / Play.MAX_CORRECTNESS_DEGREE * 100.0);
 		result.setProgressFront(p.getCorrectFronts() / Play.MAX_CORRECTNESS_DEGREE * 100.0);
+		result.setCorrectFronts(p.getCorrectFronts());
+		result.setCorrectBacks(p.getCorrectBacks());
 		result.setVerb(getVerbDTO(p.getVerb()));
 		
 		return result;

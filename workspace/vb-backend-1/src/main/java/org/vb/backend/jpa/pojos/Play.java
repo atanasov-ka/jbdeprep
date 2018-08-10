@@ -10,11 +10,12 @@ public class Play {
 	
 	// This can be a setting of the Box Play
 	public static final Long MAX_CORRECTNESS_DEGREE = 3L;
-	public static final Long MIN_CORRECTNESS_DEGREE = 0L;
+	public static final Long INIT_CORRECTNESS_DEGREE = 0L;
+	public static final Long MIN_CORRECTNESS_DEGREE = -3L;
 	
 	public Play() {
-		correctBacks = MIN_CORRECTNESS_DEGREE;
-		correctFronts = MIN_CORRECTNESS_DEGREE;
+		correctBacks = INIT_CORRECTNESS_DEGREE;
+		correctFronts = INIT_CORRECTNESS_DEGREE;
 		lastModified = new Date();
 	}
 	
