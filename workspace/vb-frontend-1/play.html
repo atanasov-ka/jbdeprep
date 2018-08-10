@@ -1,0 +1,418 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="static/css/play.css">
+  </head>
+  <body>
+    <div id="app">
+      <div id="box">
+        <span class="boxDetails" id="boxTitle">Box title: {{ box.box.name }}</span><br />
+        <span class="boxDetails" id="owner">Owner: {{ box.box.owner }}</span><br />
+        <span class="boxDetails" id="verbCount">VerbCount: {{ box.box.verbCount }}</span><br />
+        <span class="boxDetails" id="fromTo">Type: {{ box.box.front }} - {{ box.box.back }}</span><br />
+        <span class="boxDetails" id="isPublic">Is Public: {{ box.box.public }}</span><br />
+      </div>
+      <div id="startPlayHolder" v-bind:class="{'is-collapsed' : collapsedStartPlayHolder }">
+        <button v-on:click="startPlay">Play</button>
+      </div>
+      <div id="playHolder" v-bind:class="{'is-collapsed' : collapsedPlayHolder }">
+        <div id="verbsHolder">
+          <h1> {{sideA}} </h1>
+          <h1> {{sideB}} </h1>
+        </div>
+        <div id="showVerbHolder" v-bind:class="{'is-collapsed' : collapsedShowVerbHolder }">
+          <button v-on:click="showVerb">Show</button>
+        </div>
+        <div id="correctWrongHolder" v-bind:class="{'is-collapsed' : collapsedCorrectWrongHolder }">
+          <button v-on:click="markedCorrect">Correct</button>
+          <button v-on:click="markedWrong">Wrong</button>
+        </div>
+      </div>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        methods: {
+          loadNextVerb: function() {
+            this.currentIndex++;
+            if (this.box.verbPlayList.length <= this.currentIndex) {
+              alert("Box completed!")
+              this.startPlay()
+            } else {
+              this.sideA = this.box.verbPlayList[this.currentIndex].verb.front;
+              this.sideB = "-"
+            }
+            this.collapsedStartPlayHolder = true
+            this.collapsedPlayHolder      = false
+            this.collapsedShowVerbHolder  = false
+            this.collapsedCorrectWrongHolder = true
+          },
+          markedCorrect: function() {
+            this.loadNextVerb()
+          },
+          markedWrong: function() {
+            this.loadNextVerb()
+            
+          },
+          startPlay: function() {
+              this.currentIndex = -1;
+              this.loadNextVerb()
+          },
+          showVerb: function() {
+            this.sideB = this.box.verbPlayList[this.currentIndex].verb.back;
+            this.collapsedShowVerbHolder = true
+            this.collapsedCorrectWrongHolder = false
+          }
+        },
+        data: {
+          collapsedStartPlayHolder: false,
+          collapsedPlayHolder: true,
+          collapsedShowVerbHolder: true,
+          collapsedCorrectWrongHolder: true,
+          sideA: "-",
+          sideB: "-",
+          currentIndex: null,
+          box: {
+              "box": {
+                  "id": 2,
+                  "name": "001 Лица - 001 Personer",
+                  "front": "no",
+                  "back": "bg",
+                  "owner": "admin",
+                  "verbList": null,
+                  "verbCount": 18,
+                  "created": 1533913687554,
+                  "public": true
+              },
+              "overralProgress": 0,
+              "verbPlayList": [
+                  {
+                      "id": 1886,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802600,
+                      "verb": {
+                          "id": 3,
+                          "front": "jeg",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0003.mp3",
+                          "back": "аз",
+                          "backTranscription": "az",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0003.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1887,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802600,
+                      "verb": {
+                          "id": 4,
+                          "front": "jeg og du",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0004.mp3",
+                          "back": "аз и ти",
+                          "backTranscription": "az i ti",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0004.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1888,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802600,
+                      "verb": {
+                          "id": 5,
+                          "front": "vi to",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0005.mp3",
+                          "back": "ние двамата",
+                          "backTranscription": "nie dvamata",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0005.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1889,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802600,
+                      "verb": {
+                          "id": 6,
+                          "front": "han",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0006.mp3",
+                          "back": "той",
+                          "backTranscription": "toy",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0006.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1890,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 7,
+                          "front": "han og hun",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0007.mp3",
+                          "back": "той и тя",
+                          "backTranscription": "toy i tya",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0007.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1891,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 8,
+                          "front": "de to",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0008.mp3",
+                          "back": "те двамата",
+                          "backTranscription": "te dvamata",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0008.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1892,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 9,
+                          "front": "mannen",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0009.mp3",
+                          "back": "мъж",
+                          "backTranscription": "myzh",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0009.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1893,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 10,
+                          "front": "kvinnen",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0010.mp3",
+                          "back": "жена",
+                          "backTranscription": "zhena",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0010.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1894,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 11,
+                          "front": "barnet",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0011.mp3",
+                          "back": "дете",
+                          "backTranscription": "dete",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0011.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1895,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802601,
+                      "verb": {
+                          "id": 12,
+                          "front": "en familie",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0012.mp3",
+                          "back": "семейство",
+                          "backTranscription": "semeystvo",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0012.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1896,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 13,
+                          "front": "familien min",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0013.mp3",
+                          "back": "моето семейство",
+                          "backTranscription": "moeto semeystvo",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0013.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1897,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 14,
+                          "front": "Familien min er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0014.mp3",
+                          "back": "Моето семейство е тук.",
+                          "backTranscription": "Moeto semeystvo ye tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0014.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1898,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 15,
+                          "front": "Jeg er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0015.mp3",
+                          "back": "Аз съм тук.",
+                          "backTranscription": "Az sym tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0015.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1899,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 16,
+                          "front": "Du er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0016.mp3",
+                          "back": "Ти си тук.",
+                          "backTranscription": "Ti si tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0016.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1900,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 17,
+                          "front": "Han er her og hun er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0017.mp3",
+                          "back": "Той е тук и тя е тук.",
+                          "backTranscription": "Toy ye tuk i tya ye tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0017.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1901,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802602,
+                      "verb": {
+                          "id": 18,
+                          "front": "Vi er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0018.mp3",
+                          "back": "Ние сме тук.",
+                          "backTranscription": "Nie sme tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0018.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1902,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802603,
+                      "verb": {
+                          "id": 19,
+                          "front": "Dere er her.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0019.mp3",
+                          "back": "Вие сте тук.",
+                          "backTranscription": "Vie ste tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0019.mp3",
+                          "created": 1533913687553
+                      }
+                  },
+                  {
+                      "id": 1903,
+                      "progressFront": 0,
+                      "correctFronts": 0,
+                      "progressBack": 0,
+                      "correctBacks": 0,
+                      "lastModified": 1533913802603,
+                      "verb": {
+                          "id": 20,
+                          "front": "De er her alle sammen.",
+                          "frontTranscription": "",
+                          "frontAudio": "https://www.book2.nl/book2/NO/SOUND/0020.mp3",
+                          "back": "Те всички са тук.",
+                          "backTranscription": "Te vsichki sa tuk.",
+                          "backAudio": "https://www.book2.nl/book2/BG/SOUND/0020.mp3",
+                          "created": 1533913687553
+                      }
+                  }
+              ]
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
