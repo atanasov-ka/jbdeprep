@@ -60,13 +60,14 @@ public class PlayDAO {
 		}
 	}
 
-	public void updatePlayListByBoxIdAndUser(Long id, String username, List<VerbPlayRSDTO> verbPlayList) {
+	public List<Play> updatePlayListByBoxIdAndUser(Long id, String username, List<VerbPlayRSDTO> verbPlayList) {
 		List<Play> playList = findPlaysForBox(id, username);
 		for (VerbPlayRSDTO pDto : verbPlayList) {
 			Play target = findPlayByID(pDto.getId(), playList);
 			modifyCounters(target, pDto.getCorrectFronts(), pDto.getCorrectBacks());
 			entityManager.persist(target);
 		}
+		return playList;
 	}
 
 	private void modifyCounters(Play target, Long correctFronts, Long correctBacks) {
@@ -91,13 +92,13 @@ public class PlayDAO {
 		}
 	}
 
-	private Play findPlayByID(Long id, List<Play> playList) {
+	private Play findPlayByID(Long playId, List<Play> playList) {
 		for (int i = 0; i < playList.size(); ++i) {
-			if (playList.get(i).getId() == id) {
+			if (playList.get(i).getId() == playId) {
 				return playList.get(i);
 			}
 		}
-		throw new VBInternalException("Can't find box with ID: " + id);
+		throw new VBInternalException("Can't find play with ID: " + playId);
 	}
 
 	public void removeHistoryOfBoxPlay(Long id, String username) {

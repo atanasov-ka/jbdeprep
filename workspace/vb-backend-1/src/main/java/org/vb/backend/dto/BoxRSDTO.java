@@ -16,6 +16,8 @@ public class BoxRSDTO {
 	private List<VerbRSDTO> verbList;
 	private Integer verbCount;
 	private Date created;
+	private Double progressFront;
+	private Double progressBack;
 	
 	public Long getId() {
 		return id;
@@ -71,4 +73,17 @@ public class BoxRSDTO {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
+	public Double getProgressFront() {
+		return progressFront;
+	}
+	public void setProgressFront(Double progressFront) {
+		this.progressFront = progressFront;
+	}
+	public Double getProgressBack() {
+		return progressBack;
+	}
+	public void setProgressBack(Double progressBack) {
+		this.progressBack = progressBack;
+	}
+	
 }

@@ -45,8 +45,8 @@ public class BoxPlayRSDTOEndpoint {
 	@PUT
 	@Path("/{id:[0-9]+}")
 	public Response update(@PathParam("id") Long id, final List<VerbPlayRSDTO> verbPlayList) {
-		playService.updateVerbPlays(id, verbPlayList, getUsername());
-		return Response.noContent().build();
+		BoxPlayRSDTO boxplayrsdto = playService.updateVerbPlays(id, verbPlayList, getUsername());
+		return Response.ok(boxplayrsdto).build();
 	}
 
 	@DELETE

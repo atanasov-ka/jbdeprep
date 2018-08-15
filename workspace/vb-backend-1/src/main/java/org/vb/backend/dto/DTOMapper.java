@@ -46,6 +46,8 @@ public class DTOMapper {
 		}
 		boxRSDTO.setPublic(box.isPublic());
 		boxRSDTO.setCreated(box.getCreated());
+		boxRSDTO.setProgressFront(box.getProgressFront());
+		boxRSDTO.setProgressBack(box.getProgressBack());
 		if (null == box.getVerbList()) {
 			boxRSDTO.setVerbCount(0);
 		} else {
@@ -130,21 +132,18 @@ public class DTOMapper {
 	public static BoxPlayRSDTO getBoxPlayDTO(List<Play> playList, Box box) {
 		BoxPlayRSDTO result = new BoxPlayRSDTO();
 		
-		int totalCorrectFronts = 0;
-		int totalCorrectBacks = 0;
-		
 		for (Play p : playList) {
 			VerbPlayRSDTO e = getVerbPlayDTO(p);
 			result.getVerbPlayList().add(e);
 		}
 		
-		double overalProgress = (totalCorrectFronts + totalCorrectBacks) / 6 * 100.0;
-		result.setOverralProgress(overalProgress);
+		result.setProgressFront(box.getProgressFront());
+		result.setProgressBack(box.getProgressBack());
 		result.setBox(getBoxDTOOnly(box));
 		
 		return result;
 	}
-
+	
 	private static VerbPlayRSDTO getVerbPlayDTO(Play p) {
 		VerbPlayRSDTO result = new VerbPlayRSDTO();
 		result.setId(p.getId());
@@ -156,5 +155,7 @@ public class DTOMapper {
 		result.setVerb(getVerbDTO(p.getVerb()));
 		
 		return result;
-	}	
+	}
+
+	
 }

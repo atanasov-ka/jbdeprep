@@ -35,6 +35,12 @@ public class Box {
 	@Column(name = "is_public")
 	private boolean isPublic;
 	
+	@Column(name = "progress_front")
+	private Double progressFront;
+	
+	@Column(name = "progress_back")
+	private Double progressBack;
+	
 	@NotNull
 	@Column(name = "date_time_created")
 	private Date created;
@@ -115,5 +121,23 @@ public class Box {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Double getProgressFront() {
+		return progressFront;
+	}
+
+	public void setProgressFront(Double progressFront) {
+		this.progressFront = progressFront;
+	}
+
+	public Double getProgressBack() {
+		return progressBack;
+	}
+
+	public void setProgressBack(Double progressBack) {
+		this.progressBack = progressBack;
+	}
+
 	
+		
 }

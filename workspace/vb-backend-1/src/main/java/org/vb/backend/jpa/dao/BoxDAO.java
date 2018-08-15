@@ -25,11 +25,22 @@ public class BoxDAO {
 		box.setBoxName(name);
 		box.setUser(owner);
 		box.setPublic(isPublic);
-		box.setVerbList(verbList);
 		box.setCreated(new Date());
-		
 		entityManager.persist(box);
+		
+		if (null != verbList) {
+			addBoxIdToVerbs(box.getId(), verbList);
+			box.setVerbList(verbList);
+			entityManager.persist(box);	
+		}
+		
 		return box;
+	}
+
+	private void addBoxIdToVerbs(Long boxId, List<Verb> verbList) {
+		for (int i = 0; i < verbList.size(); ++i) {
+			verbList.get(i).setBoxId(boxId);
+		}
 	}
 
 	public List<Box> getAll(String currentUser) {
@@ -72,6 +83,15 @@ public class BoxDAO {
 		foundBox.setBack(box.getBack());
 		foundBox.setBoxName(box.getBoxName());
 		
+		if (box.getProgressFront() != null) {
+			foundBox.setProgressFront(box.getProgressFront());
+		}
+		
+		if (box.getProgressBack() != null) {
+			foundBox.setProgressBack(box.getProgressBack());
+		}
+		
+		entityManager.persist(foundBox);
 		return foundBox;
 	}
 
@@ -100,7 +120,7 @@ public class BoxDAO {
 	}
 
 	public List<Verb> findVerbsByBoxId(Long id) {
-		TypedQuery<Verb> query = entityManager.createQuery("select v from Verb v where v.box.id = :id", Verb.class);
+		TypedQuery<Verb> query = entityManager.createQuery("select v from Verb v where v.boxId = :id", Verb.class);
 		query.setParameter("id", id);
 		return query.getResultList();
 	}

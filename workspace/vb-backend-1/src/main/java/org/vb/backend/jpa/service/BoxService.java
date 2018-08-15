@@ -23,7 +23,6 @@ public class BoxService {
 	@EJB
 	private UserDAO userDAO;
 
-	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public BoxRSDTO getBoxById(Long id, String currentUser, boolean isAdmin) {
 		Box box;
 		if (isAdmin) {
@@ -58,6 +57,7 @@ public class BoxService {
 	public BoxRSDTO updateBox(BoxRSDTO boxrsdto) {
 		Box requested = DTOMapper.getBox(boxrsdto);
 		Box response = boxDAO.updateBox(requested);
+		
 		return DTOMapper.getBoxDTO(response);
 	}
 
@@ -69,7 +69,6 @@ public class BoxService {
 		return boxDAO.deleteBoxByIdAndUser(id, currentUser);
 	}
 
-	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public BoxRSDTO createBox(BoxRSDTO boxrsdto, String principalName) {
 		User user = userDAO.findUserByUsername(principalName);
 		List<Verb> verbs = DTOMapper.getVerbList(boxrsdto.getVerbList());

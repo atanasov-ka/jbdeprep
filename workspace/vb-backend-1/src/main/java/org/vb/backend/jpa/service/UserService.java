@@ -14,6 +14,4 @@ public class UserService {
 		User user = userDAO.register(username, isAdmin, isRegularUser);
 		return user.getId();
 	}
-	
-	
 }

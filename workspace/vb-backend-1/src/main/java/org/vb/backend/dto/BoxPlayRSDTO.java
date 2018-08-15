@@ -7,11 +7,13 @@ public class BoxPlayRSDTO {
 	
 	public BoxPlayRSDTO() {
 		verbPlayList = new ArrayList<>();
-		overralProgress = 0.;
+		progressFront = 0.;
+		progressBack = 0.;
 	}
 	
 	private BoxRSDTO box;
-	private Double overralProgress; // Percentage [0 - 100]
+	private Double progressFront; // Percentage [0 - 100]
+	private Double progressBack; // Percentage [0 - 100]
 	private List<VerbPlayRSDTO> verbPlayList;
 	
 	public BoxRSDTO getBox() {
@@ -20,11 +22,17 @@ public class BoxPlayRSDTO {
 	public void setBox(BoxRSDTO box) {
 		this.box = box;
 	}
-	public Double getOverralProgress() {
-		return overralProgress;
+	public Double getProgressFront() {
+		return progressFront;
 	}
-	public void setOverralProgress(Double overralProgress) {
-		this.overralProgress = overralProgress;
+	public void setProgressFront(Double progressFront) {
+		this.progressFront = progressFront;
+	}
+	public Double getProgressBack() {
+		return progressBack;
+	}
+	public void setProgressBack(Double progressBack) {
+		this.progressBack = progressBack;
 	}
 	public List<VerbPlayRSDTO> getVerbPlayList() {
 		return verbPlayList;
