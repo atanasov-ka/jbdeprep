@@ -5,6 +5,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>vb-backend-1</name>
+  <repositories>
+	<repository>
+	  <id>Repo GA</id>
+	  <name>RedHat Repo GA</name>
+	  <url>https://maven.repository.redhat.com/ga/</url>
+	</repository>
+  </repositories>
   <build>
   	<finalName>vb</finalName>
     <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
