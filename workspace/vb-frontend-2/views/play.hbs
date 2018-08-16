@@ -1,40 +1,32 @@
 <div id="wra" ondblclick="showVerb()">
     <div id="boxJsonPayloadHolder" style="display: none">{{ body }}</div>
 
-    <script src="http://localhost:3000/js/play.js"></script>
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            {{#if play.box.public}}
-                <i class="fa fa-unlock"></i>
-            {{else}}
-                <i class="fa fa-lock"></i>
-            {{/if}}
-            <h5 class="card-title"> {{play.box.name}} </h5>
-            <h6 class="card-subtitle mb-2 text-muted"> {{ play.box.front}} - {{play.box.back}} </h6>
-            <p class="card-subtitle mb-2 text-muted">Contains {{ play.box.verbCount }} verbs</p>
-            <p class="card-subtitle mb-2 text-muted">Owner: {{ play.box.owner}}</p>
-        </div>
-    </div>
-
+    <script src="/js/play.js"></script>
     <div id="app">
-        <div class="progress">
-            <div id="currentBoxProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-        </div>
-        <div id="startPlayHolder">
-            <!--<button  class="btn btn-primary" onclick="startPlay()">Play</button>-->
-        </div>
-        <div id="playHolder">
-            <div id="verbsHolder">
-                <h1 id="sideA"></h1>
-                <h1 id="sideB"></h1>
+        <div class="card text-center">
+            <div class="card-header bg-light">
+                <div class="progress">
+                    <div id="currentBoxProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                </div>
             </div>
-            <div id="showVerbHolder">
-                <button class="btn btn-secondary" onclick="showVerb()">Show</button>
+            <div class="card-body bg-white">
+                <h5 id="sideA"></h5>
+                <div class="text-muted" id="sideATranscription"></div>
             </div>
-            <div id="correctWrongHolder">
-                <button class="btn btn-danger" onclick="markedWrong()">Wrong</button>
-                <button class="btn btn-success" onclick="markedCorrect()">Correct</button>
+            <div class="card-body bg-white">
+                <h5 id="sideB"></h5>
+                <div class="text-muted" id="sideBTranscription"></div>
+            </div>
+            <div class="card-footer">
+                <div id="startPlayHolder">
+                </div>
+                <div id="showVerbHolder">
+                    <button class="btn btn-secondary" onclick="showVerb()">Show</button>
+                </div>
+                <div id="correctWrongHolder">
+                    <button class="btn btn-danger" onclick="markedWrong()">Wrong</button>
+                    <button class="btn btn-success" onclick="markedCorrect()">Correct</button>
+                </div>
             </div>
         </div>
     </div>

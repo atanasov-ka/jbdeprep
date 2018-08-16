@@ -1,8 +1,6 @@
 loadPlay = function(){
     data.box = JSON.parse(document.getElementById('boxJsonPayloadHolder').innerText.replace(/&quot;/g,'"'));
     data.progressPercentStep = 100.0 / data.box.verbPlayList.length;
-    document.getElementById('startPlayHolder').classList.remove("is-collapsed");
-    document.getElementById('playHolder').classList.add("is-collapsed");
     document.getElementById('showVerbHolder').classList.add("is-collapsed");
     document.getElementById('correctWrongHolder').classList.add("is-collapsed");
 };
@@ -14,10 +12,11 @@ loadNextVerb = function() {
         this.startPlay();
     } else {
         document.getElementById('sideA').innerText = data.box.verbPlayList[data.currentIndex].verb.front;
+        document.getElementById('sideATranscription').innerText = data.box.verbPlayList[data.currentIndex].verb.frontTranscription;
         document.getElementById('sideB').innerText = "-";
+        document.getElementById('sideBTranscription').innerText = "-";
     }
-    document.getElementById('startPlayHolder').classList.add("is-collapsed");
-    document.getElementById('playHolder').classList.remove("is-collapsed");
+
     document.getElementById('showVerbHolder').classList.remove("is-collapsed");
     document.getElementById('correctWrongHolder').classList.add("is-collapsed");
     let flush = new Audio(data.box.verbPlayList[data.currentIndex].verb.frontAudio);
@@ -27,20 +26,26 @@ loadNextVerb = function() {
     document.getElementById('currentBoxProgress').setAttribute("style", "width: " + currentProgress.toString() + "%");
     $('#currentBoxProgress').text(Math.round(currentProgress).toString() + "%");
 };
+
 markedCorrect = function() {
     loadNextVerb()
 };
+
 markedWrong = function() {
     loadNextVerb()
 
 };
+
 startPlay = function() {
     console.info("Start play...");
     data.currentIndex = -1;
     loadNextVerb();
 };
+
 showVerb = function() {
     document.getElementById('sideB').innerText = data.box.verbPlayList[data.currentIndex].verb.back;
+    document.getElementById('sideBTranscription').innerText = data.box.verbPlayList[data.currentIndex].verb.backTranscription;
+
     document.getElementById('showVerbHolder').classList.add("is-collapsed");
     document.getElementById('correctWrongHolder').classList.remove("is-collapsed");
 };
