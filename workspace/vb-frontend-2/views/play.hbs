@@ -1,6 +1,6 @@
 <div id="wra" ondblclick="showVerb()">
     <div id="boxJsonPayloadHolder" style="display: none">{{ body }}</div>
-
+    <div id="playIndexPayloadHolder" style="display: none">{{ playIndexes}}</div>
     <script src="/js/play.js"></script>
     <div id="app">
         <div class="card text-center">
@@ -10,12 +10,14 @@
                 </div>
             </div>
             <div class="card-body bg-white">
+                <i class="fa fa-headphones" aria-hidden="true" onclick="listenSideA()"></i>
                 <h5 id="sideA"></h5>
                 <div class="text-muted" id="sideATranscription"></div>
             </div>
             <div class="card-body bg-white">
                 <h5 id="sideB"></h5>
                 <div class="text-muted" id="sideBTranscription"></div>
+                <i class="fa fa-headphones" aria-hidden="true" onclick="listenSideB()"></i>
             </div>
             <div class="card-footer">
                 <div id="startPlayHolder">
