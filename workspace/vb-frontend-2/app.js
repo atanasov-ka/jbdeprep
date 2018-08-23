@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var expressSession = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -7,10 +8,21 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 
 var app = express();
+app.use(expressSession(
+    {
+        secret: "IamL3g10n!",
+        name: "VERBBOX_SESSION",
+        //store: sessionStore, // connect-mongo session store
+        proxy: true,
+        resave: true,
+        saveUninitialized: true
+    }
+));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.set("env", "development");
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,7 +31,6 @@ app.use(cookieParser());
 
 app.use('/js',express.static(path.join(__dirname, 'public/js')));
 app.use('/css',express.static(path.join(__dirname, 'public/css')));
-
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
