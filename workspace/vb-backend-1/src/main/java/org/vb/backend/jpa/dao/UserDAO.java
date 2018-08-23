@@ -15,20 +15,11 @@ public class UserDAO {
 	@PersistenceContext(unitName="vb-backend-1")  
 	EntityManager entityManager;
 
-	public User register(String username, boolean isAdmin, boolean isRegularUser) {
-		
-		User user = findUserByUsername(username);
-		if (null == user) {
-			user = createUser(username, isAdmin);
-		}
-		
-		return user;
-	}
-
-	private User createUser(String username, boolean isAdmin) {
+	private User createUser(String username, String password, boolean isAdmin) {
 		User newUser = new User();
 		newUser.setCreated(new Date());
 		newUser.setUsername(username);
+		newUser.setPassword(password);
 		newUser.setRole(isAdmin ? "admin" : "user" );
 		
 		entityManager.persist(newUser);
@@ -46,5 +37,14 @@ public class UserDAO {
 			return null;
 		}
 		return user;
+	}
+
+	public User register(String userName, String hashedPassword, boolean isAdmin) {
+		User user = findUserByUsername(userName);
+		if (user == null) {
+			return createUser(userName, hashedPassword, isAdmin);
+		} else {
+			return null;
+		}
 	}
 }

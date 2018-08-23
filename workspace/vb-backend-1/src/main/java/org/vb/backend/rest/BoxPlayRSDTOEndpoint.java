@@ -2,6 +2,7 @@ package org.vb.backend.rest;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -32,6 +33,7 @@ public class BoxPlayRSDTOEndpoint {
 	@Context
 	SecurityContext context;
 
+	@RolesAllowed("user")
 	@GET
 	@Path("/{id:[0-9]+}")
 	public Response findById(@PathParam("id") final Long id) {
@@ -42,6 +44,7 @@ public class BoxPlayRSDTOEndpoint {
 		return Response.ok(boxplayrsdto).build();
 	}
 
+	@RolesAllowed("user")
 	@PUT
 	@Path("/{id:[0-9]+}")
 	public Response update(@PathParam("id") Long id, final List<VerbPlayRSDTO> verbPlayList) {
@@ -49,6 +52,7 @@ public class BoxPlayRSDTOEndpoint {
 		return Response.ok(boxplayrsdto).build();
 	}
 
+	@RolesAllowed("user")
 	@DELETE
 	@Path("/{id:[0-9]+}")
 	public Response deleteById(@PathParam("id") final Long id) {

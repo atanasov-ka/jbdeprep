@@ -1,3 +1,4 @@
 <jboss-web>
-	<security-domain>usersRolesSecurityDomain</security-domain>
+<!-- 	<security-domain>usersRolesSecurityDomain</security-domain> -->
+	<security-domain>databaseSecurityDomain</security-domain>
 </jboss-web>

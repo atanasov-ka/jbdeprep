@@ -10,8 +10,12 @@ public class UserService {
 	@EJB
 	private UserDAO userDAO;
 
-	public Long register(String username, boolean isAdmin, boolean isRegularUser) {
-		User user = userDAO.register(username, isAdmin, isRegularUser);
-		return user.getId();
+	public User register(String userName, String hashedPassword, boolean isAdmin) {
+		return userDAO.register(userName, hashedPassword, isAdmin);
+	}
+
+	public boolean authenticate(String userName, String hashedPassword) {
+		User user = userDAO.findUserByUsername(userName);
+		return hashedPassword.equals(user.getPassword());
 	}
 }

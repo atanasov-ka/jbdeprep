@@ -2,6 +2,7 @@ package org.vb.backend.rest;
 
 import java.net.URISyntaxException;
 import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -114,7 +115,7 @@ public class BoxRSDTOEndpoint {
 	private String getUsername() {
 		String username = context.getUserPrincipal().getName();
 		// auto registration
-		userService.register(username, isAdmin(), isRegularUser());
+		//userService.register(username, isAdmin(), isRegularUser());
 		return username;
 	}
 	

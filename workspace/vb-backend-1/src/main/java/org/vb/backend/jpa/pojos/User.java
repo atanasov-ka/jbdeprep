@@ -19,6 +19,10 @@ public class User {
 	private String username;
 	
 	@NotNull
+	@Column(name = "password")
+	private String password;
+	
+	@NotNull
 	@Column(name = "role")
 	private String role;
 	
@@ -60,6 +64,10 @@ public class User {
 	public void setBoxList(List<Box> boxList) {
 		this.boxList = boxList;
 	}
-	
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
