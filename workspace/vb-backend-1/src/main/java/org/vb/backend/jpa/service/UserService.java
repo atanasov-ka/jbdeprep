@@ -16,6 +16,6 @@ public class UserService {
 
 	public boolean authenticate(String userName, String hashedPassword) {
 		User user = userDAO.findUserByUsername(userName);
-		return hashedPassword.equals(user.getPassword());
+		return user != null && hashedPassword.equals(user.getPassword());
 	}
 }

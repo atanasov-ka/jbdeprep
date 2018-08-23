@@ -31,7 +31,7 @@ public class UserRSDTOEndpoint {
 	
 	@PermitAll
 	@POST
-	@Path("register")
+	@Path("/register")
 	public Response registerNewUser(UserRSDTO user) {
 		User registeredUser = userService.register(user.getUserName(), user.getHashedPassword(), false);
 		if (registeredUser == null) {
@@ -43,7 +43,7 @@ public class UserRSDTOEndpoint {
 	
 	@PermitAll
 	@POST
-	@Path("authenticate")
+	@Path("/authenticate")
 	public Response authenticate(UserRSDTO user) {
 		boolean isAuthenticated = userService.authenticate(user.getUserName(), user.getHashedPassword());
 		if (isAuthenticated) {
