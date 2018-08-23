@@ -6,7 +6,7 @@ module.exports = {
         Request.get({
             "headers": {
                 "content-type": "application/json",
-                "Authorization": "Basic YWRtaW46MTIz"
+                "Authorization": req.session.authrorizationHeader
             },
             "url": "http://localhost:8080/vb/api/box"
         }, (error, response, body) => {
@@ -20,7 +20,7 @@ module.exports = {
         Request.get({
             "headers": {
                 "content-type": "application/json",
-                "Authorization": "Basic YWRtaW46MTIz"
+                "Authorization": req.session.authrorizationHeader
             },
             "url": "http://localhost:8080/vb/api/play/" + playId
         }, (error, response, body) => {

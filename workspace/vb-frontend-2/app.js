@@ -4,7 +4,7 @@ var expressSession = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var bodyParser = require("body-parser");
 var indexRouter = require('./routes/index');
 
 var app = express();
@@ -18,6 +18,10 @@ app.use(expressSession(
         saveUninitialized: true
     }
 ));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
