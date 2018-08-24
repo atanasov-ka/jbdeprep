@@ -33,6 +33,7 @@ loadNextVerb = function() {
         data.indexToLoad = data.indexes[data.currentIndex].i;
         data.currentSide = data.indexes[data.currentIndex].s;
         console.info("indexTOLoad: " + data.indexToLoad);
+        document.getElementById('sideA').removeAttribute("class");
         if (data.currentSide === "b") {
             console.info("Side B");
             document.getElementById('sideA').classList.add(getClassPerCorrectness(data.box.verbPlayList[data.indexToLoad].correctBacks));
