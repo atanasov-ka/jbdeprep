@@ -32,5 +32,5 @@ router.get('/', isAuthenticated, function (req, res, next) {
 
 router.get('/box', isAuthenticated, boxController.getAll);
 router.get('/play/:playId', isAuthenticated, boxController.getPlay);
-
+router.post('/play/:boxId/saveProgress', isAuthenticated, boxController.saveProgress);
 module.exports = router;

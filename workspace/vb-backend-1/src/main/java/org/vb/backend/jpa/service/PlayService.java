@@ -41,9 +41,10 @@ public class PlayService {
 			totalCorrectBacks += play.getCorrectBacks();
 			totalCorrectFronts += play.getCorrectFronts();
 		}
-		
-		double progressFront = totalCorrectFronts / verbPlayList.size() / (Play.MAX_CORRECTNESS_DEGREE * 100.0);
-		double progressBack = totalCorrectBacks / verbPlayList.size() / (Play.MAX_CORRECTNESS_DEGREE * 100.0);
+		//         ??? 100%              30                     10                             3
+		//         ??? 50 %              15                     10                             3
+		double progressFront = (totalCorrectFronts / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0;
+		double progressBack = (totalCorrectBacks / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0;
 		
 		Box box = boxDAO.getBoxById(id);
 		box.setProgressFront(progressFront);

@@ -140,3 +140,45 @@ a {
     margin-right: auto;
     width: 100%;
 }
+
+.underline3n {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: red; /* safari still uses vendor prefix */
+    text-decoration-color: red;
+}
+
+.underline2n {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: lightcoral; /* safari still uses vendor prefix */
+    text-decoration-color: lightcoral;
+}
+
+.underline1n {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: yellow; /* safari still uses vendor prefix */
+    text-decoration-color: yellow;
+}
+
+.underline0 {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: yellow; /* safari still uses vendor prefix */
+    text-decoration-color: yellow;
+}
+
+.underline1p {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: yellow; /* safari still uses vendor prefix */
+    text-decoration-color: yellow;
+}
+
+.underline2p {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: greenyellow; /* safari still uses vendor prefix */
+    text-decoration-color: greenyellow;
+}
+
+.underline3p {
+    text-decoration: underline solid;
+    -webkit-text-decoration-color: green; /* safari still uses vendor prefix */
+    text-decoration-color: green;
+}
