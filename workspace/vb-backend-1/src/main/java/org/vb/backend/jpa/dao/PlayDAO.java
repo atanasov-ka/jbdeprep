@@ -94,7 +94,7 @@ public class PlayDAO {
 
 	private Play findPlayByID(Long playId, List<Play> playList) {
 		for (int i = 0; i < playList.size(); ++i) {
-			if (playList.get(i).getId() == playId) {
+			if (playList.get(i).getId().equals(playId)) {
 				return playList.get(i);
 			}
 		}

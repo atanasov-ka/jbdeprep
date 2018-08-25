@@ -4,6 +4,12 @@ loadPlay = function(){
     data.progressPercentStep = 100.0 / data.indexes.length;
     document.getElementById('showVerbHolder').classList.add("is-collapsed");
     document.getElementById('correctWrongHolder').classList.add("is-collapsed");
+
+    var elements = document.getElementsByClassName("boxLangFront");
+    Array.prototype.map.call(elements, e => e.innerText = data.box.box.front);
+
+    elements = document.getElementsByClassName("boxLangBack");
+    Array.prototype.map.call(elements, e => e.innerText = data.box.box.back);
 };
 
 getClassPerCorrectness = function(correctCount) {
@@ -25,9 +31,11 @@ getClassPerCorrectness = function(correctCount) {
 };
 
 loadNextVerb = function() {
+    updateProgress();
     data.currentIndex++;
     if (data.indexes.length <= data.currentIndex) {
         alert("Box completed!");
+        saveProgress();
         this.startPlay();
     } else {
         data.indexToLoad = data.indexes[data.currentIndex].i;
@@ -99,21 +107,33 @@ showVerb = function() {
     document.getElementById('correctWrongHolder').classList.remove("is-collapsed");
 };
 
-markedCorrect = function() {
-    if (data.currentSide === "b") {
-        data.box.verbPlayList[data.indexToLoad].correctBacks++;
+modifyCorrectnessHelper = function(current, step) {
+    current += step;
+    const MAX = 3, MIN = -3;
+    if (step > 0 && current > MAX) {
+        return MAX;
+    } else if (step < 0 && current < MIN){
+        return MIN;
     } else {
-        data.box.verbPlayList[data.indexToLoad].correctFronts++;
+        return current;
     }
+};
+
+modifyCorrectness = function(indexToLoad, step, side) {
+    if (side === "b") {
+        data.box.verbPlayList[indexToLoad].correctBacks  = modifyCorrectnessHelper(data.box.verbPlayList[indexToLoad].correctBacks, step);
+    } else {
+        data.box.verbPlayList[indexToLoad].correctFronts = modifyCorrectnessHelper(data.box.verbPlayList[indexToLoad].correctFronts, step);
+    }
+};
+
+markedCorrect = function() {
+    modifyCorrectness(data.indexToLoad, 1, data.currentSide);
     loadNextVerb();
 };
 
 markedWrong = function() {
-    if (data.currentSide === "b") {
-        data.box.verbPlayList[data.indexToLoad].correctBacks--;
-    } else {
-        data.box.verbPlayList[data.indexToLoad].correctFronts--;
-    }
+    modifyCorrectness(data.indexToLoad, -1, data.currentSide);
     loadNextVerb();
 };
 
@@ -153,6 +173,70 @@ saveProgress = function() {
     uploadResults(gatherResults());
 };
 
+updateProgress = function() {
+    let correctLevelBackHigh  = 0;
+    let correctLevelBackMid   = 0;
+    let correctLevelBackLow   = 0;
+    let correctLevelFrontHigh = 0;
+    let correctLevelFrontMid  = 0;
+    let correctLevelFrontLow  = 0;
+    let verbPlayListSize = data.box.verbPlayList.length;
+    for (let i = 0; i < verbPlayListSize; ++i) {
+
+        switch (data.box.verbPlayList[i].correctBacks) {
+            case 3:
+            case 2:
+                correctLevelBackHigh++;
+                break;
+            case 1:
+            case 0:
+            case -1:
+                correctLevelBackMid++;
+                break;
+            case -2:
+            case -3:
+                correctLevelBackLow++;
+                break;
+        }
+
+        switch (data.box.verbPlayList[i].correctFronts) {
+            case 3:
+            case 2:
+                correctLevelFrontHigh++;
+                break;
+            case 1:
+            case 0:
+            case -1:
+                correctLevelFrontMid++;
+                break;
+            case -2:
+            case -3:
+                correctLevelFrontLow++;
+                break;
+        }
+    }
+
+    let levelBackHigh  = Math.round(correctLevelBackHigh  / verbPlayListSize * 100);
+    let levelBackMid   = Math.round(correctLevelBackMid   / verbPlayListSize * 100);
+    let levelBackLow   = Math.round(correctLevelBackLow   / verbPlayListSize * 100);
+
+    let levelFrontHigh = Math.round(correctLevelFrontHigh / verbPlayListSize * 100);
+    let levelFrontMid  = Math.round(correctLevelFrontMid  / verbPlayListSize * 100);
+    let levelFrontLow  = Math.round(correctLevelFrontLow  / verbPlayListSize * 100);
+
+    updateProgressBar("levelBackHigh", levelBackHigh);
+    updateProgressBar("levelBackMid",  levelBackMid);
+    updateProgressBar("levelBackLow",  levelBackLow);
+    updateProgressBar("levelFrontHigh", levelFrontHigh);
+    updateProgressBar("levelFrontMid",  levelFrontMid);
+    updateProgressBar("levelFrontLow",  levelFrontLow);
+};
+
+updateProgressBar = function(id, percentage) {
+    document.getElementById(id).setAttribute("aria-valuenow", percentage.toString());
+    document.getElementById(id).setAttribute("style", "width: " + percentage.toString() + "%");
+    $('#' + id).text(Math.round(percentage).toString() + "%");
+};
 
 let data = {
     progressPercentStep: null,

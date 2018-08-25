@@ -82,14 +82,14 @@ public class PlayService {
 			}
 		}
 
-		double progressFront = Math.round((totalCorrectFronts / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
-		double progressBack  = Math.round((totalCorrectBacks / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
-		double levelBackHigh = Math.round(correctLevelBackHigh / verbPlayList.size() * 100);
-		double levelBackMid  = Math.round(correctLevelBackMid / verbPlayList.size() * 100); 
-		double levelBackLow  = Math.round(correctLevelBackLow / verbPlayList.size() * 100);
-		double levelFrontMid  = Math.round(correctLevelFrontMid / verbPlayList.size() * 100); 
+		double progressFront  = Math.round((totalCorrectFronts   / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
+		double progressBack   = Math.round((totalCorrectBacks    / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
+		double levelBackHigh  = Math.round(correctLevelBackHigh  / verbPlayList.size() * 100);
+		double levelBackMid   = Math.round(correctLevelBackMid   / verbPlayList.size() * 100); 
+		double levelBackLow   = Math.round(correctLevelBackLow   / verbPlayList.size() * 100);
+		double levelFrontMid  = Math.round(correctLevelFrontMid  / verbPlayList.size() * 100); 
 		double levelFrontHigh = Math.round(correctLevelFrontHigh / verbPlayList.size() * 100);
-		double levelFrontLow  = Math.round(correctLevelFrontLow / verbPlayList.size() * 100);
+		double levelFrontLow  = Math.round(correctLevelFrontLow  / verbPlayList.size() * 100);
 		
 		Box box = boxDAO.getBoxById(id);
 		box.setProgressFront(progressFront);

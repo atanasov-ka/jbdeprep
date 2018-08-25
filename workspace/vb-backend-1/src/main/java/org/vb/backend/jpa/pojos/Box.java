@@ -13,6 +13,12 @@ public class Box {
 	public Box() {
 		this.created = new Date();
 		this.isPublic = false;
+		this.levelBackHigh = 0.;
+		this.levelBackMid = 0.;
+		this.levelBackLow = 0.;
+		this.levelFrontHigh = 0.;
+		this.levelFrontMid = 0.;
+		this.levelFrontLow = 0.;
 	}
 	
 	@Id

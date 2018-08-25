@@ -6,17 +6,40 @@
         <div class="card text-center">
             <div class="card-header bg-light">
                 <div class="progress">
-                    <div id="currentBoxProgress" class="progress-bar progress-bar-striped progress-bar-animated"
-                         role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                         style="width: 0%"></div>
+                    <div id="currentBoxProgress" class="progress-bar bg-info" role="progressbar" style="width: {{this.levelBackLow}}%"
+                         aria-valuenow="" aria-valuemin="0"
+                         aria-valuemax="100">%</div>
                 </div>
+                <div class="text-muted">From <b class="boxLangFront">-</b> to <b class="boxLangBack">-</b></div>
                 <div class="progress">
-                    <div id="currentBoxProgressLearned" class="progress-bar progress-bar-striped progress-bar-animated"
-                         role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                         style="width: 0%"></div>
-                    <div id="currentBoxProgressSaved" class="progress-bar progress-bar-striped progress-bar-animated"
-                         role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                         style="width: 0%"></div>
+                    <div id="levelBackLow" class="progress-bar bg-danger" role="progressbar"
+                         style="" aria-valuenow=""
+                         aria-valuemin="0" aria-valuemax="100">%
+                    </div>
+                    <div id="levelBackMid" class="progress-bar bg-warning" role="progressbar"
+                         style="" aria-valuenow=""
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                    <div id="levelBackHigh" class="progress-bar bg-success" role="progressbar"
+                         style="" aria-valuenow=""
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+
+                <div class="text-muted">From <b class="boxLangBack">-</b> to <b class="boxLangFront">-</b></div>
+                <div class="progress">
+                    <div id="levelFrontLow" class="progress-bar bg-danger" role="progressbar" style="width: {{this.levelBackLow}}%"
+                         aria-valuenow="" aria-valuemin="0"
+                         aria-valuemax="100">
+                    </div>
+                    <div id="levelFrontMid" class="progress-bar bg-warning" role="progressbar"
+                         style="" aria-valuenow=""
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                    <div id="levelFrontHigh" class="progress-bar bg-success" role="progressbar"
+                         style="" aria-valuenow=""
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
                 </div>
             </div>
             <div class="card-body bg-white">
