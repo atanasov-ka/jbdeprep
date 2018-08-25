@@ -41,9 +41,7 @@ public class DTOMapper {
 		boxRSDTO.setName(box.getBoxName());
 		boxRSDTO.setBack(box.getBack());
 		boxRSDTO.setFront(box.getFront());
-		if (box.getUser() != null) {
-			boxRSDTO.setOwner(box.getUser().getUsername());	
-		}
+		boxRSDTO.setOwner(box.getUser().getUsername());	
 		boxRSDTO.setPublic(box.isPublic());
 		boxRSDTO.setCreated(box.getCreated());
 		boxRSDTO.setProgressFront(box.getProgressFront());
@@ -54,6 +52,8 @@ public class DTOMapper {
 		boxRSDTO.setLevelFrontHigh(box.getLevelFrontHigh());
 		boxRSDTO.setLevelFrontMid(box.getLevelFrontMid());
 		boxRSDTO.setLevelFrontLow(box.getLevelFrontLow());
+		boxRSDTO.setLastPlayDate(box.getLastPlayDate());
+		
 		if (null == box.getVerbList()) {
 			boxRSDTO.setVerbCount(0);
 		} else {
@@ -137,14 +137,11 @@ public class DTOMapper {
 
 	public static BoxPlayRSDTO getBoxPlayDTO(List<Play> playList, Box box) {
 		BoxPlayRSDTO result = new BoxPlayRSDTO();
-		
 		for (Play p : playList) {
 			VerbPlayRSDTO e = getVerbPlayDTO(p);
 			result.getVerbPlayList().add(e);
 		}
-		
-//		result.setProgressFront(box.getProgressFront());
-//		result.setProgressBack(box.getProgressBack());
+				
 		result.setBox(getBoxDTOOnly(box));
 		
 		return result;

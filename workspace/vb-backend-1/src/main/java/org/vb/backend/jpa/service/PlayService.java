@@ -1,5 +1,6 @@
 package org.vb.backend.jpa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -80,8 +81,7 @@ public class PlayService {
 					break;
 			}
 		}
-		//         ??? 100%              30                     10                             3
-		//         ??? 50 %              15                     10                             3
+
 		double progressFront = Math.round((totalCorrectFronts / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
 		double progressBack  = Math.round((totalCorrectBacks / verbPlayList.size() / Play.MAX_CORRECTNESS_DEGREE) * 100.0);
 		double levelBackHigh = Math.round(correctLevelBackHigh / verbPlayList.size() * 100);
@@ -100,6 +100,7 @@ public class PlayService {
 		box.setLevelFrontHigh(levelFrontHigh);
 		box.setLevelFrontMid(levelFrontMid);
 		box.setLevelFrontLow(levelFrontLow);
+		box.setLastPlayDate(new Date());
 		boxDAO.updateBox(box);
 		jmsQueueProducer.notifyUser(box.getUser().getId(), 
 				"Congratulations!", 

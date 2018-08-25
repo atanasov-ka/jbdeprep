@@ -25,7 +25,10 @@ app.use(bodyParser.urlencoded({
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+var hbs = require('hbs');
+hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 app.set('view engine', 'hbs');
+
 app.set("env", "development");
 
 app.use(logger('dev'));

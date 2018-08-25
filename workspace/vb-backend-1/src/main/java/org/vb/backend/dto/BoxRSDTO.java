@@ -23,6 +23,7 @@ public class BoxRSDTO {
 	private Double levelFrontHigh;
 	private Double levelFrontMid; 
 	private Double levelFrontLow;
+	private Date lastPlayDate;
 
 	public Long getId() {
 		return id;
@@ -126,4 +127,11 @@ public class BoxRSDTO {
 	public void setLevelFrontLow(Double levelFrontLow) {
 		this.levelFrontLow = levelFrontLow;
 	}
+	public Date getLastPlayDate() {
+		return lastPlayDate;
+	}
+	public void setLastPlayDate(Date lastPlayDate) {
+		this.lastPlayDate = lastPlayDate;
+	}
+	
 }

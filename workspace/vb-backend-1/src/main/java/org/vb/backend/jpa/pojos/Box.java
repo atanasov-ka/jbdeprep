@@ -59,6 +59,9 @@ public class Box {
 	@Column(name = "level_front_low")
 	private Double levelFrontLow;
 	
+	@Column(name = "last_play_date")
+	private Date lastPlayDate;
+	
 	@NotNull
 	@Column(name = "date_time_created")
 	private Date created;
@@ -202,5 +205,13 @@ public class Box {
 
 	public void setLevelFrontLow(Double levelFrontLow) {
 		this.levelFrontLow = levelFrontLow;
-	}		
+	}
+
+	public Date getLastPlayDate() {
+		return lastPlayDate;
+	}
+
+	public void setLastPlayDate(Date lastPlayDate) {
+		this.lastPlayDate = lastPlayDate;
+	}
 }
