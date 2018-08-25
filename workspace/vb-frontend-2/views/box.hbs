@@ -1,3 +1,4 @@
+<link rel='stylesheet' href='/css/flags.min.css'/>
 <div class="row">
 {{#each boxList}}
     <div class="p-3">
@@ -12,29 +13,37 @@
                 <h5 class="card-title"> {{ this.name}} </h5>
             </div>
             <div class="card-body bg-light">
-
-                <h6 class="card-subtitle mb-2 text-muted"> {{ this.front}} - {{this.back}} </h6>
+                <img src="/images/blank.gif" class="flag flag-{{this.front}}" />
+                <img src="/images/blank.gif" class="flag flag-{{this.back}}" />
+                <h6 class="card-subtitle mb-2 text-muted"> {{this.front}} {{this.back}} </h6>
                 <p class="card-subtitle mb-2 text-muted">Contains {{ this.verbCount }} verbs</p>
                 <p class="card-subtitle mb-2 text-muted">Owner: {{ this.owner}}</p>
 
+                <div class="text-muted">From <b>{{this.back}}</b> to <b>{{this.front}}</b></div>
                 {{#if this.progressFront}}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: {{this.progressFront}}%" aria-valuenow="{{this.progressFront}}" aria-valuemin="0" aria-valuemax="100">{{this.back}} - {{this.front}}: {{this.progressFront}} %</div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{this.levelFrontLow}}%" aria-valuenow="{{this.levelFrontLow}}" aria-valuemin="0" aria-valuemax="100">{{this.levelFrontLow}} %</div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{this.levelFrontMid}}%" aria-valuenow="{{this.levelFrontMid}}" aria-valuemin="0" aria-valuemax="100">{{this.levelFrontMid}} %</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{this.levelFrontHigh}}%" aria-valuenow="{{this.levelFrontHigh}}" aria-valuemin="0" aria-valuemax="100">{{this.levelFrontHigh}} %</div>
                     </div>
                 {{else}}
                     <div class="progress">
                         <div class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Not played</div>
                     </div>
                 {{/if}}
+                <div class="text-muted">From <b>{{this.front}}</b> to <b>{{this.back}}</b></div>
                 {{#if this.progressBack}}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: {{this.progressBack}}%" aria-valuenow="{{this.progressBack}}" aria-valuemin="0" aria-valuemax="100">{{this.front}} - {{this.back}}: {{this.progressBack}} %</div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{this.levelBackLow}}%" aria-valuenow="{{this.levelBackLow}}" aria-valuemin="0" aria-valuemax="100">{{this.levelBackLow}} %</div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{this.levelBackMid}}%" aria-valuenow="{{this.levelBackMid}}" aria-valuemin="0" aria-valuemax="100">{{this.levelBackMid}} %</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{this.levelBackHigh}}%" aria-valuenow="{{this.levelBackHigh}}" aria-valuemin="0" aria-valuemax="100">{{this.levelBackHigh}} %</div>
                     </div>
                 {{else}}
                     <div class="progress">
                         <div class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Not played</div>
                     </div>
                 {{/if}}
+                <span class="text-muted">Last played 24.08.2018 23:11</span>
             </div>
             <div class="card-footer bg-secondary">
                 <div class="">

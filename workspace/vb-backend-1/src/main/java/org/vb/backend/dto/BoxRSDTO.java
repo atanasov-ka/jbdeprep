@@ -3,7 +3,6 @@ package org.vb.backend.dto;
 import java.util.Date;
 import java.util.List;
 
-
 public class BoxRSDTO {
 	private Long id;
 	//@NotNull
@@ -18,7 +17,13 @@ public class BoxRSDTO {
 	private Date created;
 	private Double progressFront;
 	private Double progressBack;
-	
+	private Double levelBackHigh;
+	private Double levelBackMid; 
+	private Double levelBackLow;
+	private Double levelFrontHigh;
+	private Double levelFrontMid; 
+	private Double levelFrontLow;
+
 	public Long getId() {
 		return id;
 	}
@@ -85,5 +90,40 @@ public class BoxRSDTO {
 	public void setProgressBack(Double progressBack) {
 		this.progressBack = progressBack;
 	}
-	
+	public Double getLevelBackHigh() {
+		return levelBackHigh;
+	}
+	public void setLevelBackHigh(Double levelBackHigh) {
+		this.levelBackHigh = levelBackHigh;
+	}
+	public Double getLevelBackMid() {
+		return levelBackMid;
+	}
+	public void setLevelBackMid(Double levelBackMid) {
+		this.levelBackMid = levelBackMid;
+	}
+	public Double getLevelBackLow() {
+		return levelBackLow;
+	}
+	public void setLevelBackLow(Double levelBackLow) {
+		this.levelBackLow = levelBackLow;
+	}
+	public Double getLevelFrontHigh() {
+		return levelFrontHigh;
+	}
+	public void setLevelFrontHigh(Double levelFrontHigh) {
+		this.levelFrontHigh = levelFrontHigh;
+	}
+	public Double getLevelFrontMid() {
+		return levelFrontMid;
+	}
+	public void setLevelFrontMid(Double levelFrontMid) {
+		this.levelFrontMid = levelFrontMid;
+	}
+	public Double getLevelFrontLow() {
+		return levelFrontLow;
+	}
+	public void setLevelFrontLow(Double levelFrontLow) {
+		this.levelFrontLow = levelFrontLow;
+	}
 }
