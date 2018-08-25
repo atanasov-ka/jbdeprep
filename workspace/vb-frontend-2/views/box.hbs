@@ -50,7 +50,8 @@
                                  aria-valuemin="0" aria-valuemax="100">{{this.levelBackHigh}} %
                             </div>
                         </div>
-                        <span class="text-muted">Last played: {{dateFormat lastPlayDate "MMMM Do YYYY, h:mm:ss a"}}</span>
+                        <span class="text-muted">Last played: {{dateFormat lastPlayDate
+                                                                           "MMMM Do YYYY, h:mm:ss a"}}</span>
                     {{else}}
                         <span class="text-muted">Not played yet</span>
                     {{/if}}

@@ -18,16 +18,16 @@ function isAuthenticated(req, res, next) {
 }
 
 router.post('/auth', authController.authenticate);
-router.get('/logout', function(req, res, next) {
+router.get('/logout', function (req, res, next) {
     req.session.user = null;
     req.session.authorization = null;
     res.redirect("/");
 });
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Verbbox Login' });
+router.get('/login', function (req, res, next) {
+    res.render('login', {title: 'Verbbox Login'});
 });
 router.get('/', isAuthenticated, function (req, res, next) {
-    res.render('home', { title: 'Verbbox' });
+    res.render('home', {title: 'Verbbox'});
 });
 
 router.get('/box', isAuthenticated, boxController.getAll);
