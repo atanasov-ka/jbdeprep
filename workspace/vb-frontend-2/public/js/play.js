@@ -36,7 +36,14 @@ loadNextVerb = function () {
     if (data.indexes.length <= data.currentIndex) {
         alert("Box completed!");
         saveProgress();
-        this.startPlay();
+
+        if (data.levelFrontHigh === 100.0 && data.levelBackHigh === 100.0) {
+            // TODO go back to box list
+            console.log("All verbs learned!");
+            return false;
+        } else {
+            this.startPlay();
+        }
     } else {
         data.indexToLoad = data.indexes[data.currentIndex].i;
         data.currentSide = data.indexes[data.currentIndex].s;
@@ -64,6 +71,7 @@ loadNextVerb = function () {
     document.getElementById('currentBoxProgress').setAttribute("aria-valuenow", currentProgress.toString());
     document.getElementById('currentBoxProgress').setAttribute("style", "width: " + currentProgress.toString() + "%");
     $('#currentBoxProgress').text(Math.round(currentProgress).toString() + "%");
+    return true;
 };
 
 startPlay = function () {
@@ -129,7 +137,12 @@ modifyCorrectness = function (indexToLoad, step, side) {
 
 markedCorrect = function () {
     modifyCorrectness(data.indexToLoad, 1, data.currentSide);
-    loadNextVerb();
+    let canContinue = true;
+    do {
+        canContinue = loadNextVerb();
+    } while (canContinue && ((data.currentSide === "b" && data.box.verbPlayList[data.indexToLoad].correctBacks >= 3) ||
+            (data.currentSide === "f" && data.box.verbPlayList[data.indexToLoad].correctFronts >= 3)));
+    
 };
 
 markedWrong = function () {
@@ -216,20 +229,20 @@ updateProgress = function () {
         }
     }
 
-    let levelBackHigh = Math.round(correctLevelBackHigh / verbPlayListSize * 100);
-    let levelBackMid = Math.round(correctLevelBackMid / verbPlayListSize * 100);
-    let levelBackLow = Math.round(correctLevelBackLow / verbPlayListSize * 100);
+    data.levelBackHigh = Math.round(correctLevelBackHigh / verbPlayListSize * 100);
+    data.levelBackMid = Math.round(correctLevelBackMid / verbPlayListSize * 100);
+    data.levelBackLow = Math.round(correctLevelBackLow / verbPlayListSize * 100);
 
-    let levelFrontHigh = Math.round(correctLevelFrontHigh / verbPlayListSize * 100);
-    let levelFrontMid = Math.round(correctLevelFrontMid / verbPlayListSize * 100);
-    let levelFrontLow = Math.round(correctLevelFrontLow / verbPlayListSize * 100);
+    data.levelFrontHigh = Math.round(correctLevelFrontHigh / verbPlayListSize * 100);
+    data.levelFrontMid = Math.round(correctLevelFrontMid / verbPlayListSize * 100);
+    data.levelFrontLow = Math.round(correctLevelFrontLow / verbPlayListSize * 100);
 
-    updateProgressBar("levelBackHigh", levelBackHigh);
-    updateProgressBar("levelBackMid", levelBackMid);
-    updateProgressBar("levelBackLow", levelBackLow);
-    updateProgressBar("levelFrontHigh", levelFrontHigh);
-    updateProgressBar("levelFrontMid", levelFrontMid);
-    updateProgressBar("levelFrontLow", levelFrontLow);
+    updateProgressBar("levelBackHigh", data.levelBackHigh);
+    updateProgressBar("levelBackMid",  data.levelBackMid);
+    updateProgressBar("levelBackLow",  data.levelBackLow);
+    updateProgressBar("levelFrontHigh", data.levelFrontHigh);
+    updateProgressBar("levelFrontMid",  data.levelFrontMid);
+    updateProgressBar("levelFrontLow",  data.levelFrontLow);
 };
 
 updateProgressBar = function (id, percentage) {
@@ -244,5 +257,11 @@ let data = {
     box: null,
     indexes: null,
     indexToLoad: null,
-    currentSide: null
+    currentSide: null,
+    levelBackHigh: null,
+    levelBackMid: null,
+    levelBackLow: null,
+    levelFrontHigh: null,
+    levelFrontMid: null,
+    levelFrontLow: null
 };
