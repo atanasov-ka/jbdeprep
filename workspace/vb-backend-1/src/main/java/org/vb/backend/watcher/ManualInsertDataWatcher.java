@@ -38,11 +38,31 @@ public class ManualInsertDataWatcher {
 	
 	@Asynchronous
 	public void start() {
+		
+//      WatchService watchService = FileSystems.getDefault().newWatchService();
+//
+//      Path path = Paths.get(System.getProperty("user.home"));
+//
+//      path.register(
+//        watchService, 
+//          StandardWatchEventKinds.ENTRY_CREATE, 
+//            StandardWatchEventKinds.ENTRY_DELETE, 
+//              StandardWatchEventKinds.ENTRY_MODIFY);
+//
+//      WatchKey key;
+//      while ((key = watchService.take()) != null) {
+//          for (WatchEvent<?> event : key.pollEvents()) {
+//              System.out.println(
+//                "Event kind:" + event.kind() 
+//                  + ". File affected: " + event.context() + ".");
+//          }
+//          key.reset();
+//      }
+		
 		WatchKey key = null;  
-		String fileName = null;  
+		String fileName = null;
   
         while (true) {  
-  
         	logger.log(Level.INFO, "Waiting for watch event");  
         	logger.log(Level.INFO, "Path being watched: " + dir.toString());  
   
