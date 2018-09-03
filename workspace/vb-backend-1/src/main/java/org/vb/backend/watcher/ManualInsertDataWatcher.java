@@ -2,97 +2,42 @@ package org.vb.backend.watcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.ClosedWatchServiceException;
-import java.nio.file.Path;
+import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.LocalBean;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
-
-/**
- * Session Bean implementation class ManualInsertDataWatcher
- */
+@Startup
 @Singleton
-@LocalBean
 public class ManualInsertDataWatcher {
 	
 	public static Logger logger = Logger.getLogger(ManualInsertDataWatcher.class.getName());  
-    private WatchService watcher;  
-    private Path dir; 
-	
-    public ManualInsertDataWatcher() {
-        dir = Paths.get("C:\\EX183\\jbdeprep\\workspace\\vbData");
-    }
-
-	public void stop() throws IOException {
-		watcher.close();
-	}
-	
-	@Asynchronous
+		
+	@PostConstruct
 	public void start() {
-		
-//      WatchService watchService = FileSystems.getDefault().newWatchService();
-//
-//      Path path = Paths.get(System.getProperty("user.home"));
-//
-//      path.register(
-//        watchService, 
-//          StandardWatchEventKinds.ENTRY_CREATE, 
-//            StandardWatchEventKinds.ENTRY_DELETE, 
-//              StandardWatchEventKinds.ENTRY_MODIFY);
-//
-//      WatchKey key;
-//      while ((key = watchService.take()) != null) {
-//          for (WatchEvent<?> event : key.pollEvents()) {
-//              System.out.println(
-//                "Event kind:" + event.kind() 
-//                  + ". File affected: " + event.context() + ".");
-//          }
-//          key.reset();
-//      }
-		
-		WatchKey key = null;  
-		String fileName = null;
-  
-        while (true) {  
-        	logger.log(Level.INFO, "Waiting for watch event");  
-        	logger.log(Level.INFO, "Path being watched: " + dir.toString());  
-  
-            try {  
-                key = watcher.take();  
-            } catch (InterruptedException e) {  
-                logger.log(Level.SEVERE, "Watcher got interrupted");  
-                e.printStackTrace();  
-            } catch (ClosedWatchServiceException c) {  
-            	logger.log(Level.INFO, "Watchservice is closed exiting thread.");  
-                break;  
-            }  
-  
-            if (key != null) {  
-  
-                for (WatchEvent<?> event : key.pollEvents()) {  
-                    WatchEvent.Kind<?> kind = event.kind();  
-  
-                    if (kind == StandardWatchEventKinds.OVERFLOW) {  
-                        continue;  
-                    }  
-  
-                    fileName = key.watchable().toString() + "\\" + event.context().toString();  
-                    if (!key.reset()) {  
-                    	logger.log(Level.SEVERE, "Watcher key could not be reset stopping watchservice.");  
-                        break;  
-                    }  
-                }  
-            }  
-        }  
+		logger.info("ManualInsertDataWatcher Started!");
+		File directory = new File("~/vbData");
+                
+		File[] fList = directory.listFiles();
+        for (File file : fList){
+            if (file.isFile()){
+                
+                logger.info(file.getName());
+                
+                try {
+					String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+					
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				} finally {
+			        //Files.move(Paths.get("/foo.txt"), Paths.get("bar.txt"), StandardCopyOption.REPLACE_EXISTING);
+				}
+            }
+        }
 	}
-
 }
