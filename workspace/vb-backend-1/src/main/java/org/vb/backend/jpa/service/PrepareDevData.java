@@ -2,14 +2,14 @@ package org.vb.backend.jpa.service;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 /**
  * Session Bean implementation class PrepareDevData
  */
 @Singleton
-@LocalBean
+@Startup
 public class PrepareDevData {
 
 	@EJB
