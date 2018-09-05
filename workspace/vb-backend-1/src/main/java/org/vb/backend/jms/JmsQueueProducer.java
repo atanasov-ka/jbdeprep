@@ -19,6 +19,9 @@ public class JmsQueueProducer {
 	@Resource(mappedName = "java:jboss/jms/queue/vbUserNotifications")
 	private Queue vbUserNotificationsQueue;
 	
+	@Resource(mappedName = "java:jboss/jms/queue/vbManualInsertDataBoxList")
+	private Queue vbManualInsertDataBoxListQueue;
+	
 	@Inject
 	@JMSConnectionFactory("java:jboss/DefaultJMSConnectionFactory")
 	transient JMSContext jmsContext;
@@ -39,5 +42,16 @@ public class JmsQueueProducer {
 		
 		JMSProducer jmsProducer = jmsContext.createProducer();
 		jmsProducer.send(vbUserNotificationsQueue, message);
+	}
+	
+	public void manualInsertDataBoxList(String userName, String boxName, String boxFront, String boxBack, String data) {
+		JMSProducer jmsProducer = jmsContext.createProducer();
+		
+		jmsProducer.setProperty(JMSConstants.VB_IMPORT_BOX_NAME, boxName);
+		jmsProducer.setProperty(JMSConstants.VB_USER_NAME, userName);
+		jmsProducer.setProperty(JMSConstants.VB_IMPORT_BOX_FRONT, boxFront);
+		jmsProducer.setProperty(JMSConstants.VB_IMPORT_BOX_BACK, boxBack);
+		
+		jmsProducer.send(vbManualInsertDataBoxListQueue, data);
 	}
 }

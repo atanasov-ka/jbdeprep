@@ -7,37 +7,67 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
+
+import org.vb.backend.jms.JmsQueueProducer;
 
 @Startup
 @Singleton
 public class ManualInsertDataWatcher {
 	
-	public static Logger logger = Logger.getLogger(ManualInsertDataWatcher.class.getName());  
-		
+	public static Logger LOGGER = Logger.getLogger(ManualInsertDataWatcher.class.getName());  
+	
+	private static final String DIR = "C:\\EX183\\jbdeprep\\workspace\\vbData";
+	
+	@Inject
+	private JmsQueueProducer queueProducer;
+	
 	@PostConstruct
 	public void start() {
-		logger.info("ManualInsertDataWatcher Started!");
-		File directory = new File("~/vbData");
-                
-		File[] fList = directory.listFiles();
-        for (File file : fList){
-            if (file.isFile()){
-                
-                logger.info(file.getName());
-                
-                try {
-					String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-					
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				} finally {
-			        //Files.move(Paths.get("/foo.txt"), Paths.get("bar.txt"), StandardCopyOption.REPLACE_EXISTING);
-				}
-            }
-        }
+		LOGGER.info("Scanning " + DIR);
+		File directory = new File(DIR);
+		if (directory.exists()) {
+			File[] userDirList = directory.listFiles();
+			LOGGER.info("Users found: " + userDirList.length);
+			for (File userDir : userDirList){
+	            if (userDir.isDirectory()){
+	            	String username = userDir.getName();
+	            	LOGGER.info("Processing user: " + username);
+	            	File[] languageDirList = userDir.listFiles();
+	        		LOGGER.info("Files found: " + languageDirList.length);
+	        		
+	            	for (File languageDir : languageDirList) {
+	            		if (languageDir.isDirectory()) {
+	            			LOGGER.info("Processing language: " + languageDir.getName());
+	            			
+	            			String[] langArr = languageDir.getName().split("_");
+	            			String boxFront = langArr[0];
+	    					String boxBack = langArr[1];
+	            			
+	            			File[] boxFileList = languageDir.listFiles();
+	            			LOGGER.info("Boxes Found: " + boxFileList.length);
+	            			
+	            			for (File boxFile : boxFileList) {	
+	            				try {
+	            					String boxName = boxFile.getName();
+	            					LOGGER.info("Processing Box: " + boxName);
+	            					String content = new String(Files.readAllBytes(Paths.get(boxFile.getAbsolutePath())));
+	            					
+			    					queueProducer.manualInsertDataBoxList(username, boxName, boxBack, boxFront, content);
+			    				} catch (IOException e) {
+			    					e.printStackTrace();
+			    				} finally {
+			    					//oneUserFile.delete();
+			    				}
+	            			}
+	            			
+	            			
+	            		}
+	            	}
+	            }
+	        }	
+		}
 	}
 }
