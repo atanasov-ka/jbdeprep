@@ -19,7 +19,7 @@ public class ManualInsertDataWatcher {
 	
 	public static Logger LOGGER = Logger.getLogger(ManualInsertDataWatcher.class.getName());  
 	
-	private static final String DIR = "C:\\EX183\\jbdeprep\\workspace\\vbData";
+	private static final String DIR = System.getProperty("vb.watcher.data.dir");
 	
 	@Inject
 	private JmsQueueProducer queueProducer;
