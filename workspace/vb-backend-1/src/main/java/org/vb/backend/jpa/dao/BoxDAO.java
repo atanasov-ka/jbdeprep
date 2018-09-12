@@ -16,7 +16,7 @@ import org.vb.backend.jpa.pojos.Verb;
 @Stateless
 public class BoxDAO {
 	@PersistenceContext(unitName="vb-backend-1")  
-	EntityManager entityManager; 
+	private EntityManager entityManager; 
 
 	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
 		Box box = new Box();
@@ -44,17 +44,16 @@ public class BoxDAO {
 	}
 
 	public List<Box> getAll(String currentUser) {
-		TypedQuery<Box> allBoxQuery = entityManager.createQuery("select b from Box b where b.user.username = :owner order by b.created desc", Box.class);
+		TypedQuery<Box> allBoxQuery = entityManager.createQuery("select b from Box b where b.user.username = :owner order by b.lastPlayDate desc, b.created asc", Box.class);
 		allBoxQuery.setParameter("owner", currentUser);
 		return allBoxQuery.getResultList();
 	}
 	
 	public List<Box> getAll() {
-		TypedQuery<Box> allBoxQuery = entityManager.createQuery("select b from Box b order by b.created desc", Box.class);
+		TypedQuery<Box> allBoxQuery = entityManager.createQuery("select b from Box b order by b.lastPlayDate desc, b.created desc", Box.class);
 		return allBoxQuery.getResultList();
 	}
 
-	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Box getBoxById(Long id) {
 		Box box = entityManager.find(Box.class, id);
 		return box;
