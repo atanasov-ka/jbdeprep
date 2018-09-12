@@ -35,7 +35,7 @@ public class PlayDAO {
 
 	private List<Play> findPlaysForBox(Long id, String username) {
 		List<Play> playList;
-		TypedQuery<Play> playQuery = entityManager.createQuery("select p from Play p where p.user.username = :username and p.verb.boxId = :boxId order by p.correctBacks, p.correctFronts", Play.class);
+		TypedQuery<Play> playQuery = entityManager.createQuery("select p from Play p where p.user.username = :username and p.verb.box.id = :boxId order by p.correctBacks, p.correctFronts", Play.class);
 		playQuery.setParameter("username", username);
 		playQuery.setParameter("boxId", id);
 		playList = playQuery.getResultList();
@@ -102,7 +102,7 @@ public class PlayDAO {
 	}
 
 	public void removeHistoryOfBoxPlay(Long id, String username) {
-		TypedQuery<Play> playQuery = entityManager.createQuery("delete from Play p where p.user.username = :username and p.verb.boxId = :boxId order by p.correctBacks, p.correctFonts", Play.class);
+		TypedQuery<Play> playQuery = entityManager.createQuery("delete from Play p where p.user.username = :username and p.verb.box.id = :boxId order by p.correctBacks, p.correctFonts", Play.class);
 		playQuery.setParameter("username", username);
 		playQuery.setParameter("boxId", id);
 		playQuery.executeUpdate();
