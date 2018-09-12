@@ -17,7 +17,7 @@ import org.vb.backend.jpa.pojos.Verb;
 @Stateless
 public class PlayDAO {
 	@PersistenceContext(unitName="vb-backend-1")
-	EntityManager entityManager;
+	private EntityManager entityManager;
 	
 	public List<Play> getPlayListByBoxIdAndUser(Long id, String username) {
 		List<Play> playList;

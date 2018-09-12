@@ -13,7 +13,7 @@ import org.vb.backend.jpa.pojos.User;
 @Stateless
 public class UserDAO {
 	@PersistenceContext(unitName="vb-backend-1")  
-	EntityManager entityManager;
+	private EntityManager entityManager;
 
 	private User createUser(String username, String password, boolean isAdmin) {
 		User newUser = new User();
