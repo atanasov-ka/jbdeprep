@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -49,29 +51,17 @@ public class Verb {
 	@Column(name = "date_time_created")
 	private Date created;
 	
-	@Column(name = "fk_box_id")
-	private Long boxId;
+	@ManyToOne
+	@JoinColumn(name = "fk_box_id")
+	private Box box;
+
+	public Box getBox() {
+		return box;
+	}
 	
-	public Long getBoxId() {
-		return boxId;
+	public void setBox(Box box) {
+		this.box = box;
 	}
-
-	public void setBoxId(Long boxId) {
-		this.boxId = boxId;
-	}
-
-	// TODO child side. bi-directional relationship
-	//	@ManyToOne(fetch = FetchType.LAZY)
-	//  @JoinColumn(name = "box_id")
-	//	private Box box;
-
-	//	public Box getBox() {
-	//	return box;
-	//}
-	//
-	//public void setBox(Box box) {
-	//	this.box = box;
-	//}
 
 	public Long getId() {
 		return id;

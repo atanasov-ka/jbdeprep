@@ -26,21 +26,13 @@ public class BoxDAO {
 		box.setUser(owner);
 		box.setPublic(isPublic);
 		box.setCreated(new Date());
-		entityManager.persist(box);
 		
 		if (null != verbList) {
-			addBoxIdToVerbs(box.getId(), verbList);
 			box.setVerbList(verbList);
-			entityManager.persist(box);	
 		}
+		entityManager.persist(box);
 		
 		return box;
-	}
-
-	private void addBoxIdToVerbs(Long boxId, List<Verb> verbList) {
-		for (int i = 0; i < verbList.size(); ++i) {
-			verbList.get(i).setBoxId(boxId);
-		}
 	}
 
 	public List<Box> getAll(String currentUser) {

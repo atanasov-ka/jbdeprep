@@ -10,31 +10,38 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "notification")
 @Entity(name = "Notification")
 public class Notification {
 	
+	public Notification() {
+		this.seen = false;
+		this.created = new Date();
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "fk_user_id")
 	private User user;  
 	
 	@Column(name = "created")
 	private Date created;
 	
 	@Column(name = "is_seen")
+	@NotNull
 	private boolean seen;
 	
-	@Column(name = "message_title")
-	private String messageTitle;
-	
+	@NotNull
 	@Column(name = "message_short")
 	private String messageShort;
 	
+	@NotNull
 	@Column(name = "message_long")
 	private String messageLong;
 
@@ -62,14 +69,6 @@ public class Notification {
 		this.seen = seen;
 	}
 
-	public String getMessageTitle() {
-		return messageTitle;
-	}
-
-	public void setMessageTitle(String messageTitle) {
-		this.messageTitle = messageTitle;
-	}
-
 	public String getMessageShort() {
 		return messageShort;
 	}
@@ -85,6 +84,13 @@ public class Notification {
 	public void setMessageLong(String messageLong) {
 		this.messageLong = messageLong;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 }
