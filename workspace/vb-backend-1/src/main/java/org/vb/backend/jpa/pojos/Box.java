@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity(name = "Box")
 @Table(name = "box")
@@ -25,17 +24,16 @@ public class Box {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Size(min = 2, max = 150)
 	@Column(name =  "box_name")
 	private String boxName;
 	
-	@Size(min = 2, max = 20)
-	@Column(name = "front")
-	private String front;
+	@ManyToOne
+	@JoinColumn(name = "fk_front_lang")
+	private Language front;
 	
-	@Size(min = 2, max = 20)
-	@Column(name = "back")
-	private String back;
+	@ManyToOne
+	@JoinColumn(name = "fk_back_lang")
+	private Language back;
 		
 	@NotNull
 	@Column(name = "is_public")
@@ -72,7 +70,6 @@ public class Box {
 	@Column(name = "date_time_created")
 	private Date created;
 	
-	// parent side of the relation
 	@ManyToOne
 	@JoinColumn(name = "fk_user")
 	private User user;
@@ -96,19 +93,19 @@ public class Box {
 		this.boxName = boxName;
 	}
 
-	public String getFront() {
+	public Language getFront() {
 		return front;
 	}
 
-	public void setFront(String front) {
+	public void setFront(Language front) {
 		this.front = front;
 	}
 
-	public String getBack() {
+	public Language getBack() {
 		return back;
 	}
 
-	public void setBack(String back) {
+	public void setBack(Language back) {
 		this.back = back;
 	}
 

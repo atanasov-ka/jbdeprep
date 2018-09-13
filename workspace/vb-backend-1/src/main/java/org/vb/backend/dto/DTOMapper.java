@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.vb.backend.jpa.pojos.Box;
+import org.vb.backend.jpa.pojos.Language;
 import org.vb.backend.jpa.pojos.Play;
 import org.vb.backend.jpa.pojos.Verb;
 
@@ -39,8 +40,8 @@ public class DTOMapper {
 		
 		boxRSDTO.setId(box.getId());
 		boxRSDTO.setName(box.getBoxName());
-		boxRSDTO.setBack(box.getBack());
-		boxRSDTO.setFront(box.getFront());
+		boxRSDTO.setBack(box.getBack().getAbbreviation());
+		boxRSDTO.setFront(box.getFront().getAbbreviation());
 		boxRSDTO.setOwner(box.getUser().getUsername());	
 		boxRSDTO.setPublic(box.isPublic());
 		boxRSDTO.setCreated(box.getCreated());
@@ -116,8 +117,8 @@ public class DTOMapper {
 		Box box = new Box();
 		
 		box.setBoxName(boxrsdto.getName());
-		box.setFront(boxrsdto.getFront());
-		box.setBack(boxrsdto.getBack());
+		box.setFront(new Language(boxrsdto.getFront()));
+		box.setBack(new Language(boxrsdto.getBack()));
 		box.setPublic(boxrsdto.isPublic());
 			
 		box.setVerbList(DTOMapper.getVerbList(boxrsdto.getVerbList()));

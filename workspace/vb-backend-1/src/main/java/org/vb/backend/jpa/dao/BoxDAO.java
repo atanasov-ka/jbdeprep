@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.vb.backend.jpa.pojos.Box;
+import org.vb.backend.jpa.pojos.Language;
 import org.vb.backend.jpa.pojos.User;
 import org.vb.backend.jpa.pojos.Verb;
 
@@ -19,9 +20,12 @@ public class BoxDAO {
 	private EntityManager entityManager; 
 
 	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
+		Language langFront = getLanguageByAbbreviation(front); 
+		Language langBack = getLanguageByAbbreviation(back);
+		
 		Box box = new Box();
-		box.setBack(back);
-		box.setFront(front);
+		box.setBack(langBack);
+		box.setFront(langFront);
 		box.setBoxName(name);
 		box.setUser(owner);
 		box.setPublic(isPublic);
@@ -33,6 +37,24 @@ public class BoxDAO {
 		entityManager.persist(box);
 		
 		return box;
+	}
+
+	private Language getLanguageByAbbreviation(String abbr) {
+		abbr = abbr.toLowerCase();
+		
+		TypedQuery<Language> queryLangFront = entityManager.createNamedQuery("findLanguageByAbbreviation", Language.class);
+		queryLangFront.setParameter("abbr", abbr);
+		List<Language> result = queryLangFront.getResultList();
+		
+		if (result.isEmpty()) {
+			Language newLang = new Language();
+			newLang.setAbbreviation(abbr);
+			entityManager.persist(newLang);
+			return newLang;
+		}
+		
+		assert(result.size() == 1);
+		return result.get(0);
 	}
 
 	public List<Box> getAll(String currentUser) {
