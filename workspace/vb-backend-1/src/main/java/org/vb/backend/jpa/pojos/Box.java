@@ -74,6 +74,10 @@ public class Box {
 	@JoinColumn(name = "fk_user")
 	private User user;
 	
+	@ManyToOne
+	@JoinColumn(name = "fk_category_id")
+	private Group group;
+	
 	@OneToMany(mappedBy = "box", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Verb> verbList;
 
@@ -211,5 +215,13 @@ public class Box {
 
 	public void setLastPlayDate(Date lastPlayDate) {
 		this.lastPlayDate = lastPlayDate;
+	}
+
+	public Group getCategory() {
+		return group;
+	}
+
+	public void setCategory(Group group) {
+		this.group = group;
 	}
 }

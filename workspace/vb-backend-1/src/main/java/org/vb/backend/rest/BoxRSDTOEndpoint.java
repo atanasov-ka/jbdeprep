@@ -22,8 +22,10 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
 import org.vb.backend.jpa.service.BoxService;
+import org.vb.backend.jpa.service.GroupService;
 import org.vb.backend.jpa.service.UserService;
 import org.vb.backend.dto.BoxRSDTO;
+import org.vb.backend.dto.GroupRSDTO;
 import org.vb.backend.dto.VerbRSDTO;
 
 @RequestScoped
@@ -37,6 +39,9 @@ public class BoxRSDTOEndpoint {
 	
 	@EJB
 	private UserService userService;
+	
+	@EJB
+	private GroupService groupService;
 	
 	@Context
 	SecurityContext context;
@@ -76,6 +81,24 @@ public class BoxRSDTOEndpoint {
 	public List<BoxRSDTO> listAll(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
 		List<BoxRSDTO> boxList = boxService.getAll(getUsername(), isAdmin());
 		return boxList;
+	}
+	
+	@RolesAllowed("user")
+	@GET
+	@Path("/byGroup")
+	@Produces("application/json")
+	public List<GroupRSDTO> listAllByGroups(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
+		List<GroupRSDTO> groupList = groupService.getAllGroups(getUsername(), isAdmin());
+		return groupList;
+	}
+	
+	@RolesAllowed("user")
+	@GET
+	@Path("/byGroup/{groupId}")
+	@Produces("application/json")
+	public GroupRSDTO listAllByGroupId(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult, @PathParam("groupId") Long groupId) {
+		GroupRSDTO group = groupService.getGroup(getUsername(), isAdmin(), groupId);
+		return group;
 	}
 
 	@RolesAllowed("user")

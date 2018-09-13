@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.vb.backend.jpa.pojos.Box;
+import org.vb.backend.jpa.pojos.Group;
 import org.vb.backend.jpa.pojos.Language;
 import org.vb.backend.jpa.pojos.Play;
 import org.vb.backend.jpa.pojos.Verb;
@@ -159,6 +160,16 @@ public class DTOMapper {
 		result.setVerb(getVerbDTO(p.getVerb()));
 		
 		return result;
+	}
+
+	public static List<GroupRSDTO> getGroupDTOList(List<Group> groupList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static GroupRSDTO getGroupDTO(Group group) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
