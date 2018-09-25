@@ -9,10 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.vb.backend.jpa.pojos.Box;
-import org.vb.backend.jpa.pojos.Language;
-import org.vb.backend.jpa.pojos.User;
-import org.vb.backend.jpa.pojos.Verb;
+import org.vb.backend.jpa.pojos.*;
 
 @Stateless
 public class BoxDAO {
@@ -22,7 +19,8 @@ public class BoxDAO {
 	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
 		Language langFront = getLanguageByAbbreviation(front); 
 		Language langBack = getLanguageByAbbreviation(back);
-		
+		entityManager.flush();
+
 		Box box = new Box();
 		box.setBack(langBack);
 		box.setFront(langFront);
@@ -30,13 +28,31 @@ public class BoxDAO {
 		box.setUser(owner);
 		box.setPublic(isPublic);
 		box.setCreated(new Date());
-		
+		BoxCategory category = getBoxCategory(owner, "default");
+		box.setCategory(category);
 		if (null != verbList) {
 			box.setVerbList(verbList);
 		}
 		entityManager.persist(box);
-		
+		entityManager.flush();
 		return box;
+	}
+
+	private BoxCategory getBoxCategory(User owner, String categoryName) {
+		TypedQuery<BoxCategory> boxCategoryQuery = entityManager.createNamedQuery("findCategoryByUserAndName",
+				BoxCategory.class);
+		boxCategoryQuery.setParameter("userId", owner.getId());
+		boxCategoryQuery.setParameter("categoryName", categoryName);
+		List<BoxCategory> boxCategoryList = boxCategoryQuery.getResultList();
+		if (boxCategoryList.isEmpty()) {
+			BoxCategory newCategory = new BoxCategory();
+			newCategory.setName(categoryName);
+			newCategory.setUser(owner);
+			entityManager.persist(newCategory);
+			return newCategory;
+		} else {
+			return boxCategoryList.get(0);
+		}
 	}
 
 	private Language getLanguageByAbbreviation(String abbr) {

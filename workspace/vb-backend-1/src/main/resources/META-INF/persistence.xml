@@ -8,7 +8,7 @@
 		<class>org.vb.backend.jpa.pojos.Verb</class>
 		<class>org.vb.backend.jpa.pojos.Notification</class>
 		<class>org.vb.backend.jpa.pojos.Language</class>
-		<class>org.vb.backend.jpa.pojos.Group</class>
+		<class>org.vb.backend.jpa.pojos.BoxCategory</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />

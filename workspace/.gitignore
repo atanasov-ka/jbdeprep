@@ -1,2 +1,7 @@
 /.metadata/
 /.recommenders/
+/scrapper/
+/vb-frontend-2/node_modules/
+/vb-frontend-2/.idea/
+/scrapper.7z
+/.gitignore

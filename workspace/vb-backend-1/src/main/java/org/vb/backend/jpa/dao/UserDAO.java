@@ -23,6 +23,7 @@ public class UserDAO {
 		newUser.setRole(isAdmin ? "admin" : "user" );
 		
 		entityManager.persist(newUser);
+		entityManager.flush();
 		return newUser;
 	}
 

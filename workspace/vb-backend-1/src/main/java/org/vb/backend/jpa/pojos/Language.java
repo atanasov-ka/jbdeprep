@@ -13,17 +13,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
  
 @Entity(name = "Language")
-@Table(name = "language", uniqueConstraints = @UniqueConstraint(columnNames = {"abbreviation"}))
+@Table(name = "language"//, uniqueConstraints = @UniqueConstraint(columnNames = {"abbreviation"})
+)
 @NamedQueries(value = {
 		@NamedQuery(name="findLanguageByAbbreviation", query="select l from Language l where l.abbreviation = :abbr")
 })
 public class Language {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private Long id;
 	
 	@NotNull
-	@Size(min = 2, max =2)
+	@Size(min = 2, max = 2)
 	@Column(name = "abbreviation")
 	private String abbreviation;
 

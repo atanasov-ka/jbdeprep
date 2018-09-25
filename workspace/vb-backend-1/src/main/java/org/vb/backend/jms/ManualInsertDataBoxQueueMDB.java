@@ -37,6 +37,7 @@ public class ManualInsertDataBoxQueueMDB implements MessageListener {
 	private BoxService boxService;
 	
 	public void onMessage(Message message) {
+
 		try {
 			String body = message.getBody(String.class);
 			String username = message.getStringProperty(JMSConstants.VB_USER_NAME);
@@ -72,6 +73,6 @@ public class ManualInsertDataBoxQueueMDB implements MessageListener {
 			
 		} catch (JMSException e) {
 			e.printStackTrace();
-		}        
+		}
     }
 }

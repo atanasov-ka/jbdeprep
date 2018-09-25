@@ -75,8 +75,8 @@ public class Box {
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_category_id")
-	private Group group;
+	@JoinColumn(name = "fk_box_category_id")
+	private BoxCategory boxCategory;
 	
 	@OneToMany(mappedBy = "box", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Verb> verbList;
@@ -217,11 +217,11 @@ public class Box {
 		this.lastPlayDate = lastPlayDate;
 	}
 
-	public Group getCategory() {
-		return group;
+	public BoxCategory getCategory() {
+		return boxCategory;
 	}
 
-	public void setCategory(Group group) {
-		this.group = group;
+	public void setCategory(BoxCategory boxCategory) {
+		this.boxCategory = boxCategory;
 	}
 }

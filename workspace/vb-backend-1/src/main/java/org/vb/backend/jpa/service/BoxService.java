@@ -71,6 +71,7 @@ public class BoxService {
 
 	public BoxRSDTO createBox(BoxRSDTO boxrsdto, String principalName) {
 		User user = userDAO.findUserByUsername(principalName);
+		assert (user != null);
 		List<Verb> verbs = DTOMapper.getVerbList(boxrsdto.getVerbList());
 		Box box = boxDAO.createBox(boxrsdto.getName(), boxrsdto.getFront(), boxrsdto.getBack(), boxrsdto.isPublic(), user, verbs);
 		return DTOMapper.getBoxDTO(box);

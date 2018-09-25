@@ -11,6 +11,8 @@ import org.vb.backend.jms.util.JMSConstants;
 import org.vb.backend.jpa.service.NotificationService;
 import org.vb.backend.util.LoggerBean;
 
+import java.util.Arrays;
+
 /**
  * Message-Driven Bean implementation class for: JmsQueueConsumer
  */
@@ -42,7 +44,7 @@ public class JmsQueueConsumer implements MessageListener {
 	        
 	        notificationService.saveNotification(userId, title, shortMessage, longMessage);
 		} catch (JMSException e) {
-			loggerBean.logMessage(String.format("%s - %s", e.getMessage(), e.getStackTrace()));
+			loggerBean.logMessage(String.format("%s - %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
 		}
     }
 

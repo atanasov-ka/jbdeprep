@@ -36,7 +36,10 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Notification> notificationList;
-	
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<BoxCategory> boxCategoryList;
+
 	public String getUsername() {
 		return username;
 	}
@@ -72,5 +75,21 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Notification> getNotificationList() {
+		return notificationList;
+	}
+
+	public void setNotificationList(List<Notification> notificationList) {
+		this.notificationList = notificationList;
+	}
+
+	public List<BoxCategory> getBoxCategoryList() {
+		return boxCategoryList;
+	}
+
+	public void setBoxCategoryList(List<BoxCategory> boxCategoryList) {
+		this.boxCategoryList = boxCategoryList;
 	}
 }

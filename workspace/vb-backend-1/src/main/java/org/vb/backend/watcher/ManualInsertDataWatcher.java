@@ -17,7 +17,7 @@ import org.vb.backend.jms.JmsQueueProducer;
 @Singleton
 public class ManualInsertDataWatcher {
 	
-	public static Logger LOGGER = Logger.getLogger(ManualInsertDataWatcher.class.getName());  
+	private static Logger LOGGER = Logger.getLogger(ManualInsertDataWatcher.class.getName());
 	
 	private static final String DIR = System.getProperty("vb.watcher.data.dir");
 	
@@ -25,7 +25,8 @@ public class ManualInsertDataWatcher {
 	private JmsQueueProducer queueProducer;
 	
 	@PostConstruct
-	public void start() {
+	public void start() throws InterruptedException {
+		Thread.sleep(10000);
 		LOGGER.info("Scanning " + DIR);
 		File directory = new File(DIR);
 		if (directory.exists()) {

@@ -4,15 +4,12 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
-import javax.jms.Queue;
-import javax.jms.TextMessage;
+import javax.jms.*;
 
 import org.vb.backend.jms.util.JMSConstants;
 import org.vb.backend.util.LoggerBean;
+
+import java.util.Arrays;
 
 @RequestScoped
 public class JmsQueueProducer {
@@ -51,7 +48,21 @@ public class JmsQueueProducer {
 		jmsProducer.setProperty(JMSConstants.VB_USER_NAME, userName);
 		jmsProducer.setProperty(JMSConstants.VB_IMPORT_BOX_FRONT, boxFront);
 		jmsProducer.setProperty(JMSConstants.VB_IMPORT_BOX_BACK, boxBack);
-		
+		jmsProducer.setAsync(new CompletionListener() {
+            @Override
+            public void onCompletion(Message message) {
+                try {
+                    loggerBean.logMessage("AMQ sent: " + message.getJMSMessageID().toLowerCase());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onException(Message message, Exception exception) {
+                loggerBean.logMessage("Exception: " + exception.getMessage() + " " + Arrays.toString(exception.getStackTrace()));
+            }
+        });
 		jmsProducer.send(vbManualInsertDataBoxListQueue, data);
 	}
 }
