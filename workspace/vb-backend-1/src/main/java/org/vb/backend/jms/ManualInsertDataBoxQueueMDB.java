@@ -2,9 +2,7 @@ package org.vb.backend.jms;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.MessageDriven;
+import javax.ejb.*;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -35,7 +33,8 @@ public class ManualInsertDataBoxQueueMDB implements MessageListener {
 	
 	@EJB
 	private BoxService boxService;
-	
+
+	@Asynchronous
 	public void onMessage(Message message) {
 
 		try {
@@ -48,7 +47,7 @@ public class ManualInsertDataBoxQueueMDB implements MessageListener {
 			JsonReader reader = Json.createReader(new StringReader(body));
 			JsonArray jsonArray = reader.readArray();
 			BoxRSDTO box = new BoxRSDTO();
-			box.setVerbList(new ArrayList<VerbRSDTO>());
+			box.setVerbList(new ArrayList<>());
 			box.setName(boxName);
 			box.setPublic(false);
 			box.setFront(boxFront);
