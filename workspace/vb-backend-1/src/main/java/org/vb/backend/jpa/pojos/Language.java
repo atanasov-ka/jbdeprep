@@ -13,7 +13,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
  
 @Entity(name = "Language")
-@Table(name = "language"//, uniqueConstraints = @UniqueConstraint(columnNames = {"abbreviation"})
+@Table(
+		name = "language",
+		uniqueConstraints = @UniqueConstraint(columnNames = {"abbreviation"})
 )
 @NamedQueries(value = {
 		@NamedQuery(name="findLanguageByAbbreviation", query="select l from Language l where l.abbreviation = :abbr")
