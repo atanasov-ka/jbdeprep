@@ -33,8 +33,7 @@ public class ManualInsertDataBoxQueueMDB implements MessageListener {
 	
 	@EJB
 	private BoxService boxService;
-
-	@Asynchronous
+	
 	public void onMessage(Message message) {
 
 		try {
