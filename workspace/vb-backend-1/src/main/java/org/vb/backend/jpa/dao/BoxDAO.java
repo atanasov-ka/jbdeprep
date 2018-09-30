@@ -4,10 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import org.vb.backend.jpa.pojos.*;
 
@@ -17,8 +14,10 @@ public class BoxDAO {
 	private EntityManager entityManager; 
 
 	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
-		Language langFront = getLanguageByAbbreviation(front); 
+		Language langFront = getLanguageByAbbreviation(front);
+		entityManager.lock(langFront, LockModeType.PESSIMISTIC_WRITE);
 		Language langBack = getLanguageByAbbreviation(back);
+        entityManager.lock(langBack, LockModeType.PESSIMISTIC_WRITE);
 
 		Box box = new Box();
 		box.setBack(langBack);
@@ -33,6 +32,7 @@ public class BoxDAO {
 			box.setVerbList(verbList);
 		}
 		entityManager.persist(box);
+		//entityManager.lock(box, LockModeType.PESSIMISTIC_WRITE);
 		entityManager.flush();
 		return box;
 	}
@@ -56,7 +56,7 @@ public class BoxDAO {
 
 	private Language getLanguageByAbbreviation(String abbr) {
 		abbr = abbr.toLowerCase();
-		
+
 		TypedQuery<Language> queryLangFront = entityManager.createNamedQuery("findLanguageByAbbreviation", Language.class);
 		queryLangFront.setParameter("abbr", abbr);
 		List<Language> result = queryLangFront.getResultList();
