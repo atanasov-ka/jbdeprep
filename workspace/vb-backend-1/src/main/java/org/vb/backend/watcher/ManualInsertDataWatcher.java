@@ -26,7 +26,7 @@ public class ManualInsertDataWatcher {
 	
 	@PostConstruct
 	public void start() throws InterruptedException {
-		Thread.sleep(10000);
+		Thread.sleep(10 * 1000);
 		LOGGER.info("Scanning " + DIR);
 		File directory = new File(DIR);
 		if (directory.exists()) {
@@ -55,7 +55,8 @@ public class ManualInsertDataWatcher {
 	            					String boxName = boxFile.getName();
 	            					LOGGER.info("Processing Box: " + boxName);
 	            					String content = new String(Files.readAllBytes(Paths.get(boxFile.getAbsolutePath())));
-	            					
+
+									Thread.sleep(15 * 1000);
 			    					queueProducer.manualInsertDataBoxList(username, boxName, boxBack, boxFront, content);
 			    				} catch (IOException e) {
 			    					e.printStackTrace();
@@ -63,8 +64,6 @@ public class ManualInsertDataWatcher {
 			    					//oneUserFile.delete();
 			    				}
 	            			}
-	            			
-	            			
 	            		}
 	            	}
 	            }
