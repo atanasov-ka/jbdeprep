@@ -28,12 +28,10 @@ public class BoxDAO {
 		box.setCreated(new Date());
 		BoxCategory category = getBoxCategory(owner, "default");
 		box.setCategory(category);
-		if (null != verbList) {
-			box.setVerbList(verbList);
-		}
+		for (Verb v : verbList) {
+		    box.addVerb(v);
+        }
 		entityManager.persist(box);
-		//entityManager.lock(box, LockModeType.PESSIMISTIC_WRITE);
-		entityManager.flush();
 		return box;
 	}
 

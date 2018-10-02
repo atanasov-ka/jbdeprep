@@ -1,5 +1,6 @@
 package org.vb.backend.jpa.pojos;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Box {
 		this.levelFrontHigh = 0.;
 		this.levelFrontMid = 0.;
 		this.levelFrontLow = 0.;
+		this.verbList = new ArrayList<>();
 	}
 	
 	@Id
@@ -78,7 +80,7 @@ public class Box {
 	@JoinColumn(name = "fk_box_category_id")
 	private BoxCategory boxCategory;
 	
-	@OneToMany(mappedBy = "box", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "box", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Verb> verbList;
 
 	public Long getId() {
@@ -223,5 +225,10 @@ public class Box {
 
 	public void setCategory(BoxCategory boxCategory) {
 		this.boxCategory = boxCategory;
+	}
+
+	public void addVerb(Verb v) {
+		v.setBox(this);
+		this.verbList.add(v);
 	}
 }
