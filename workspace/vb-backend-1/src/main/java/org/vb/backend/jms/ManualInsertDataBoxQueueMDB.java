@@ -21,9 +21,13 @@ import org.vb.backend.jpa.service.BoxService;
  * Message-Driven Bean implementation class for: ManualInsertDataBoxQueueMDB
  */
 @MessageDriven(
-		activationConfig = { @ActivationConfigProperty(
-				propertyName = "destination", propertyValue = "vbManualInsertDataBoxList"), @ActivationConfigProperty(
-				propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+		activationConfig = {
+				@ActivationConfigProperty(
+				propertyName = "destination", propertyValue = "vbManualInsertDataBoxList"),
+				@ActivationConfigProperty(
+				propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+				@ActivationConfigProperty(
+				propertyName = "maxSession", propertyValue = "1")
 		}, 
 		mappedName = "vbManualInsertDataBoxList")
 public class ManualInsertDataBoxQueueMDB implements MessageListener {
