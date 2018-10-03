@@ -55,8 +55,6 @@ public class ManualInsertDataWatcher {
 	            					String boxName = boxFile.getName();
 	            					LOGGER.info("Processing Box: " + boxName);
 	            					String content = new String(Files.readAllBytes(Paths.get(boxFile.getAbsolutePath())));
-
-									Thread.sleep( 1000);
 			    					queueProducer.manualInsertDataBoxList(username, boxName, boxBack, boxFront, content);
 			    				} catch (IOException e) {
 			    					e.printStackTrace();
