@@ -15,9 +15,7 @@ public class BoxDAO {
 
 	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
 		Language langFront = getLanguageByAbbreviation(front);
-		entityManager.lock(langFront, LockModeType.PESSIMISTIC_WRITE);
 		Language langBack = getLanguageByAbbreviation(back);
-        entityManager.lock(langBack, LockModeType.PESSIMISTIC_WRITE);
 
 		Box box = new Box();
 		box.setBack(langBack);
