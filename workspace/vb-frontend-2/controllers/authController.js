@@ -19,11 +19,17 @@ module.exports = {
             "url": "http://localhost:8080/vb/api/users/authenticate",
             "json": authenticationObj
         }, function(error, response, body) {
-            if (error) {
-                console.error("Error: " +  error);
+            if (response.statusCode !== 200) {
+                console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
                 req.session.user = null;
-                // pass "username or passowrd are incorrect
-                res.redirect('/');
+                if (response.statusCode === 401) {
+                    // pass "username or passowrd are incorrect
+                    res.redirect('/login?error=Unauthorized');
+                } else if (response.statusCode === 404) {
+                    res.redirect('/login?error=NoConnection');
+                } else {
+                    res.redirect('/?error=InternalServerError');
+                }
             } else {
                 console.info("OK: " + body);
                 req.session.user = {
