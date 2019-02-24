@@ -39,6 +39,7 @@ app.use(cookieParser());
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/vendor', express.static(path.join(__dirname, 'public/vendor')));
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
@@ -54,7 +55,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error', {layout: false, message: res.statusMessage, code: res.statusCode, stacktrace: res.stacktrace});
 });
 
 module.exports = app;

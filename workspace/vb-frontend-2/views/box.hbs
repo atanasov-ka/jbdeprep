@@ -1,69 +1,99 @@
 <link rel='stylesheet' href='/css/flags.min.css'/>
-<div class="row">
-    {{#each boxList}}
-        <div class="p-3">
-            <div class="card text-center" style="width: 18rem;">
-                <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-                <div class="card-header bg-info">
-                    {{#if this.public}}
-                        <i class="fa fa-unlock"></i>
-                    {{else}}
-                        <i class="fa fa-lock"></i>
-                    {{/if}}
-                    <h5 class="card-title"> {{ this.name}} </h5>
-                </div>
-                <div class="card-body bg-light">
-                    <img src="/images/blank.gif" class="flag flag-{{this.front}}"/>
-                    <img src="/images/blank.gif" class="flag flag-{{this.back}}"/>
-                    <h6 class="card-subtitle mb-2 text-muted"> {{this.front}} {{this.back}} </h6>
-                    <p class="card-subtitle mb-2 text-muted">Contains {{ this.verbCount }} verbs</p>
-                    <p class="card-subtitle mb-2 text-muted">Owner: {{ this.owner}}</p>
-                    {{#if lastPlayDate}}
-                        <div class="text-muted">From <b>{{this.back}}</b> to <b>{{this.front}}</b></div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar"
-                                 style="width: {{this.levelFrontLow}}%" aria-valuenow="{{this.levelFrontLow}}"
-                                 aria-valuemin="0" aria-valuemax="100">{{this.levelFrontLow}} %
-                            </div>
-                            <div class="progress-bar bg-warning" role="progressbar"
-                                 style="width: {{this.levelFrontMid}}%" aria-valuenow="{{this.levelFrontMid}}"
-                                 aria-valuemin="0" aria-valuemax="100">{{this.levelFrontMid}} %
-                            </div>
-                            <div class="progress-bar bg-success" role="progressbar"
-                                 style="width: {{this.levelFrontHigh}}%" aria-valuenow="{{this.levelFrontHigh}}"
-                                 aria-valuemin="0" aria-valuemax="100">{{this.levelFrontHigh}} %
-                            </div>
-                        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
 
-                        <div class="text-muted">From <b>{{this.front}}</b> to <b>{{this.back}}</b></div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{this.levelBackLow}}%"
-                                 aria-valuenow="{{this.levelBackLow}}" aria-valuemin="0"
-                                 aria-valuemax="100">{{this.levelBackLow}} %
-                            </div>
-                            <div class="progress-bar bg-warning" role="progressbar"
-                                 style="width: {{this.levelBackMid}}%" aria-valuenow="{{this.levelBackMid}}"
-                                 aria-valuemin="0" aria-valuemax="100">{{this.levelBackMid}} %
-                            </div>
-                            <div class="progress-bar bg-success" role="progressbar"
-                                 style="width: {{this.levelBackHigh}}%" aria-valuenow="{{this.levelBackHigh}}"
-                                 aria-valuemin="0" aria-valuemax="100">{{this.levelBackHigh}} %
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Add Box <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Add Category <span class="sr-only">(current)</span></a>
+            </li>            <!--<li class="nav-item dropdown">-->
+            <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <!--Dropdown-->
+            <!--</a>-->
+            <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">-->
+            <!--<a class="dropdown-item" href="#">Action</a>-->
+            <!--<a class="dropdown-item" href="#">Another action</a>-->
+            <!--<div class="dropdown-divider"></div>-->
+            <!--<a class="dropdown-item" href="#">Something else here</a>-->
+            <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+        <div class="row">
+            {{#each boxList}}
+                <div class="p-3">
+                    <div class="card text-center" style="width: 18rem;">
+                        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                        <div class="card-header bg-info">
+                            {{#if this.public}}
+                                <i class="fa fa-unlock"></i>
+                            {{else}}
+                                <i class="fa fa-lock"></i>
+                            {{/if}}
+                            <h5 class="card-title"> {{ this.name}} </h5>
+                        </div>
+                        <div class="card-body bg-light">
+                            <img src="/images/blank.gif" class="flag flag-{{this.front}}"/>
+                            <img src="/images/blank.gif" class="flag flag-{{this.back}}"/>
+                            <h6 class="card-subtitle mb-2 text-muted"> {{this.front}} {{this.back}} </h6>
+                            <p class="card-subtitle mb-2 text-muted">Contains {{ this.verbCount }} verbs</p>
+                            <p class="card-subtitle mb-2 text-muted">Owner: {{ this.owner}}</p>
+                            {{#if lastPlayDate}}
+                                <div class="text-muted">From <b>{{this.back}}</b> to <b>{{this.front}}</b></div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar"
+                                         style="width: {{this.levelFrontLow}}%" aria-valuenow="{{this.levelFrontLow}}"
+                                         aria-valuemin="0" aria-valuemax="100">{{this.levelFrontLow}} %
+                                    </div>
+                                    <div class="progress-bar bg-warning" role="progressbar"
+                                         style="width: {{this.levelFrontMid}}%" aria-valuenow="{{this.levelFrontMid}}"
+                                         aria-valuemin="0" aria-valuemax="100">{{this.levelFrontMid}} %
+                                    </div>
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                         style="width: {{this.levelFrontHigh}}%" aria-valuenow="{{this.levelFrontHigh}}"
+                                         aria-valuemin="0" aria-valuemax="100">{{this.levelFrontHigh}} %
+                                    </div>
+                                </div>
+
+                                <div class="text-muted">From <b>{{this.front}}</b> to <b>{{this.back}}</b></div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{this.levelBackLow}}%"
+                                         aria-valuenow="{{this.levelBackLow}}" aria-valuemin="0"
+                                         aria-valuemax="100">{{this.levelBackLow}} %
+                                    </div>
+                                    <div class="progress-bar bg-warning" role="progressbar"
+                                         style="width: {{this.levelBackMid}}%" aria-valuenow="{{this.levelBackMid}}"
+                                         aria-valuemin="0" aria-valuemax="100">{{this.levelBackMid}} %
+                                    </div>
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                         style="width: {{this.levelBackHigh}}%" aria-valuenow="{{this.levelBackHigh}}"
+                                         aria-valuemin="0" aria-valuemax="100">{{this.levelBackHigh}} %
+                                    </div>
+                                </div>
+                                <span class="text-muted">Last played: {{dateFormat lastPlayDate
+                                                                                   "MMMM Do YYYY, h:mm:ss a"}}</span>
+                            {{else}}
+                                <span class="text-muted">Not played yet</span>
+                            {{/if}}
+                        </div>
+                        <div class="card-footer bg-secondary">
+                            <div class="">
+                                <a href="#" class="btn btn-info" disabled>View</a>
+                                <a href="/play/{{this.id}}" class="btn btn-primary">Play</a>
+                                <a href="#/learn/{{this.id}}" class="btn btn-success" disabled>Learn</a>
                             </div>
                         </div>
-                        <span class="text-muted">Last played: {{dateFormat lastPlayDate
-                                                                           "MMMM Do YYYY, h:mm:ss a"}}</span>
-                    {{else}}
-                        <span class="text-muted">Not played yet</span>
-                    {{/if}}
-                </div>
-                <div class="card-footer bg-secondary">
-                    <div class="">
-                        <a href="#" class="btn btn-info" disabled>View</a>
-                        <a href="/play/{{this.id}}" class="btn btn-primary">Play</a>
-                        <a href="#/learn/{{this.id}}" class="btn btn-success" disabled>Learn</a>
                     </div>
                 </div>
-            </div>
+            {{/each}}
         </div>
-    {{/each}}
 </div>

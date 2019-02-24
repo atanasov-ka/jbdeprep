@@ -24,7 +24,7 @@ router.get('/logout', function (req, res, next) {
     res.redirect("/");
 });
 router.get('/login', function (req, res, next) {
-    res.render('login', {title: 'Verbbox Login'});
+    res.render('login', {layout:false, title: 'Verbbox Login'});
 });
 router.get('/', isAuthenticated, function (req, res, next) {
     res.render('home', {title: 'Verbbox'});

@@ -22,14 +22,10 @@ module.exports = {
             if (response.statusCode !== 200) {
                 console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
                 req.session.user = null;
-                if (response.statusCode === 401) {
-                    // pass "username or passowrd are incorrect
-                    res.redirect('/login?error=Unauthorized');
-                } else if (response.statusCode === 404) {
-                    res.redirect('/login?error=NoConnection');
-                } else {
-                    res.redirect('/?error=InternalServerError');
-                }
+                res.render('error', {layout: false,
+                    message: response.statusMessage,
+                    code: response.statusCode,
+                    stacktrace: response.stacktrace});
             } else {
                 console.info("OK: " + body);
                 req.session.user = {

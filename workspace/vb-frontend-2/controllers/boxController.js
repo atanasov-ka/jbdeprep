@@ -12,11 +12,13 @@ module.exports = {
         }, (error, response, body) => {
             if (response.statusCode !== 200) {
                 console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
-                res.redirect('/?errorMessage=' + response.statusMessage);
+                res.render('error', {layout: false,
+                    message: response.statusMessage,
+                    code: response.statusCode,
+                    stacktrace: response.stacktrace});
             } else {
                 let r = JSON.parse(body);
-
-                res.render('box', {boxList: r});
+                res.render('box', {title: "Verbbox Catalog", boxList: r});
             }
         });
     },
@@ -77,7 +79,7 @@ module.exports = {
             }
             let sIndexList = shuffle(indexList);
             console.info(sIndexList);
-            res.render('play', {play: r, body: body, playIndexes: JSON.stringify(sIndexList)});
+            res.render('play', {layout: false, title: "Verbbox Play", play: r, body: body, playIndexes: JSON.stringify(sIndexList)});
         });
     },
     saveProgress: (req, res) => {
