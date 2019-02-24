@@ -42,7 +42,7 @@ module.exports = {
                 console.log(encoded);
                 req.session.authrorizationHeader = "Basic " + encoded;
 
-                res.redirect('/');
+                res.redirect('/box');
             }
         }.bind({username: userName, hashedPassword: hashedPassword}));
     }
