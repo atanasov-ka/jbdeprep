@@ -10,9 +10,14 @@ module.exports = {
             },
             "url": "http://localhost:8080/vb/api/box"
         }, (error, response, body) => {
-            let r = JSON.parse(body);
+            if (response.statusCode !== 200) {
+                console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
+                res.redirect('/?errorMessage=' + response.statusMessage);
+            } else {
+                let r = JSON.parse(body);
 
-            res.render('box', {boxList: r});
+                res.render('box', {boxList: r});
+            }
         });
     },
     getPlay: (req, res) => {
