@@ -1,8 +1,0 @@
-<security-domain name="usersRolesSecurityDomain" cache-type="default">
-                    <authentication>
-                        <login-module code="UsersRoles" flag="required">
-                            <module-option name="usersProperties" value="C:\EX183\jbdeprep\workspace\users.properties"/>
-                            <module-option name="rolesProperties" value="C:\EX183\jbdeprep\workspace\roles.properties"/>
-                        </login-module>
-                    </authentication>
-                </security-domain>
