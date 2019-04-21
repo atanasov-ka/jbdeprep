@@ -16,9 +16,10 @@ module.exports = {
             "headers": {
                 "content-type": "application/json"
             },
-            "url": "http://localhost:8080/vb/api/users/authenticate",
+            "url": "http://backend:8080/vb/api/users/authenticate",
             "json": authenticationObj
         }, function(error, response, body) {
+            console.error("error: " + error);
             if (response.statusCode !== 200) {
                 console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
                 req.session.user = null;

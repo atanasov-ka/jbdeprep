@@ -8,7 +8,7 @@ module.exports = {
                 "content-type": "application/json",
                 "Authorization": req.session.authrorizationHeader
             },
-            "url": "http://localhost:8080/vb/api/box"
+            "url": "http://backend:8080/vb/api/box"
         }, (error, response, body) => {
             if (response.statusCode !== 200) {
                 console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
@@ -29,7 +29,7 @@ module.exports = {
                 "content-type": "application/json",
                 "Authorization": req.session.authrorizationHeader
             },
-            "url": "http://localhost:8080/vb/api/play/" + playId
+            "url": "http://backend:8080/vb/api/play/" + playId
         }, (error, response, body) => {
             let r = JSON.parse(body);
             let indexList = [];
@@ -91,7 +91,7 @@ module.exports = {
                     "content-type": "application/json",
                     "Authorization": req.session.authrorizationHeader
                 },
-                "url": "http://localhost:8080/vb/api/play/" + boxId,
+                "url": "http://backend:8080/vb/api/play/" + boxId,
                 "json": reqBody
             }, function (error, response, body) {
                 // if (error) {
