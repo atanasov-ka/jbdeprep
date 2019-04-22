@@ -15,11 +15,11 @@ public class User {
 	private Long id;
 	
 	@NotNull
-	@Column(name = "username")
+	@Column(name = "vb_username")
 	private String username;
 	
 	@NotNull
-	@Column(name = "password")
+	@Column(name = "vb_password")
 	private String password;
 	
 	@NotNull
