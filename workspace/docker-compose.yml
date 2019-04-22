@@ -16,7 +16,7 @@ services:
         restart: always
         image: dpage/pgadmin4
         ports:
-            - 80:80
+            - 8082:80
         environment:
             PGADMIN_DEFAULT_EMAIL: postgres@localhost
             PGADMIN_DEFAULT_PASSWORD: s3cr3t
@@ -35,7 +35,7 @@ services:
         - backend
         restart: always
         ports:
-            - 3000:3000
+            - 80:3000
         build:
             context: ./vb-frontend-2
             dockerfile: Dockerfile
