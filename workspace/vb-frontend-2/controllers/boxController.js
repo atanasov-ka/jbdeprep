@@ -1,6 +1,9 @@
 const Box = require('../models/Box').Box;
 const Request = require("request");
-
+// let backendHost = "localhost";//process.env.BACKEND_HOST;
+// let backendPort = 8081;//process.env.BACKEND_PORT;
+let backendHost = "backend";//process.env.BACKEND_HOST;
+let backendPort = 8080;//process.env.BACKEND_PORT;
 module.exports = {
     getAll: (req, res) => {
         Request.get({
@@ -8,7 +11,7 @@ module.exports = {
                 "content-type": "application/json",
                 "Authorization": req.session.authrorizationHeader
             },
-            "url": "http://backend:8080/vb/api/box"
+            "url": "http://" + backendHost + ":" + backendPort + "/vb/api/box"
         }, (error, response, body) => {
             if (response.statusCode !== 200) {
                 console.error("Error: " +  response.statusCode + ": " + response.statusMessage);
@@ -29,7 +32,7 @@ module.exports = {
                 "content-type": "application/json",
                 "Authorization": req.session.authrorizationHeader
             },
-            "url": "http://backend:8080/vb/api/play/" + playId
+            "url": "http://" + backendHost + ":" + backendPort + "vb/api/play/" + playId
         }, (error, response, body) => {
             let r = JSON.parse(body);
             let indexList = [];
@@ -91,7 +94,7 @@ module.exports = {
                     "content-type": "application/json",
                     "Authorization": req.session.authrorizationHeader
                 },
-                "url": "http://backend:8080/vb/api/play/" + boxId,
+                "url": "http://" + backendHost + ":" + backendPort + "vb/api/play/" + boxId,
                 "json": reqBody
             }, function (error, response, body) {
                 // if (error) {

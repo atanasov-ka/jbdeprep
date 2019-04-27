@@ -27,6 +27,7 @@ services:
         ports:
             - 8081:8080
             - 9991:9990
+            - 8182:8181
         build:
             context: ./vb-backend-1
             dockerfile: Dockerfile

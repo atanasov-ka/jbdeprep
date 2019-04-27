@@ -1,22 +1,25 @@
 const Request = require("request");
 let Crypto = require('crypto-js');
-
+// let backendHost = "localhost";//process.env.BACKEND_HOST;
+// let backendPort = 8081;//process.env.BACKEND_PORT;
+let backendHost = "backend";//process.env.BACKEND_HOST;
+let backendPort = 8080;//process.env.BACKEND_PORT;
 module.exports = {
     authenticate: (req, res) => {
         let userName = req.body.user.username;
         let plainPassword = req.body.user.password;
         let hashedPassword = Crypto.SHA256(plainPassword).toString();
-
+        console.log("host: " + backendHost);
+        console.log("port: " + backendPort);
         let authenticationObj = {
             "userName": userName,
             "hashedPassword": hashedPassword
         };
-
         Request.post({
             "headers": {
                 "content-type": "application/json"
             },
-            "url": "http://backend:8080/vb/api/users/authenticate",
+            "url": "http://" + backendHost + ":" + backendPort +"/vb/api/users/authenticate",
             "json": authenticationObj
         }, function(error, response, body) {
             console.error("error: " + error);
