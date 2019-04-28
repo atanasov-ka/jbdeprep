@@ -2,6 +2,7 @@ FROM eap7:1.0.0
 
 COPY ./config/ /app
 COPY ./driver/ /jdbcdriver
+COPY ./repository/ /root/.m2/repository
 
 RUN cp /app/* ${JBOSS_HOME}/standalone/configuration/
 RUN cp /jdbcdriver/* ${JBOSS_HOME}/standalone/deployments/
