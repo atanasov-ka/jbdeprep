@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import { Router, Route, Switch} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Grid from '@material-ui/core/Grid';
 
@@ -14,12 +14,9 @@ import './App.css';
 const history = createBrowserHistory();
 
 const App: React.FC = () => {
-
-    console.log('Login... ' + localStorage.getItem("authToken2"));
-
     const PrivateRoute = ({ component: Component, ...rest }) => (
         <Route {...rest} render={(props) => (
-            localStorage.getItem("authToken2")
+            localStorage.getItem("authToken")
                 ? <Component {...props} />
                 : props.history.push("/login")
         )} />
@@ -29,7 +26,7 @@ const App: React.FC = () => {
         <div>
             <ButtonAppBar/>
                 <Grid container justify="center">
-                    <BrowserRouter path="" history={history}>
+                    <Router path="" history={history}>
                         <div>
                             <Switch>
                                 <PrivateRoute exact path="/" component={Home} />
@@ -38,7 +35,7 @@ const App: React.FC = () => {
                                 <Route render={() => <h1>Page not found</h1>} />
                             </Switch>
                         </div>
-                    </BrowserRouter>
+                    </Router>
             </Grid>
         </div>
     );

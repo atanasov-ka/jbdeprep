@@ -27,7 +27,7 @@ class ButtonAppBar extends React.Component {
     };
 
     logout = () => {
-        console.info("clearing local storage" + localStorage.getItem("authToken2"));
+        console.info("clearing local storage" + localStorage.getItem("authToken"));
         localStorage.clear();
         window.location.reload();
     };

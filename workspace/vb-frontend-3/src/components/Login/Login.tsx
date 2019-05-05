@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from "@material-ui/core/Button/Button";
-import TextField from "@material-ui/core/TextField/TextField";
 import { withRouter } from 'react-router-dom'
 import {RouteComponentProps} from 'react-router'
+import Button from "@material-ui/core/Button/Button";
+import TextField from "@material-ui/core/TextField/TextField";
 import Grid from "@material-ui/core/Grid/Grid";
 
 type LoginState = {
@@ -34,19 +34,18 @@ class Login extends React.Component<RouteComponentProps, LoginState> {
             hashedPassword: sha256(this.state.password)
         };
 
-        let bodyText = JSON.stringify(body);
-        console.log(bodyText);
-        fetch(url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: bodyText })
+        fetch(url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
         .then(response => {
             this.setState({error: response.statusText});
             if (response.ok) {
-                localStorage.setItem("authToken2", "asdsdsd");
+                let base64 = require('base-64');
+                localStorage.setItem("authToken", base64.encode(this.state.username + ":" + this.state.password));
                 this.props.history.goBack();
             }
         })
         .catch(error => {
             this.setState({error: error});
-            console.log('An error occured ', error)
+            console.error(error);
         });
     }
 
