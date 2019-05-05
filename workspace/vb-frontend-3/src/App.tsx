@@ -1,11 +1,13 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import Grid from '@material-ui/core/Grid';
+
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import CategoryList from "./components/CategoryList/CategoryList";
 import ButtonAppBar from "./components/ButtonAppBar/ButtonAppBar";
+
 import './App.css';
 
 
