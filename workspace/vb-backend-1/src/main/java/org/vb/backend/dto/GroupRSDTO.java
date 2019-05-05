@@ -1,16 +1,13 @@
 package org.vb.backend.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GroupRSDTO {
 	
 	private Long groupId;
 	private String groupName;
-	private List<BoxRSDTO> boxList;
+	private Long boxCount;
 
 	public GroupRSDTO() {
-		this.boxList = new ArrayList<>();
+
 	}
 
 	public String getGroupName() {
@@ -21,19 +18,19 @@ public class GroupRSDTO {
 		this.groupName = groupName;
 	}
 
-	public List<BoxRSDTO> getBoxList() {
-		return boxList;
-	}
-
-	public void setBoxList(List<BoxRSDTO> boxList) {
-		this.boxList = boxList;
-	}
-
 	public Long getGroupId() {
 		return groupId;
 	}
 
 	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
+	}
+
+	public Long getBoxCount() {
+		return boxCount;
+	}
+
+	public void setBoxCount(Long boxCount) {
+		this.boxCount = boxCount;
 	}
 }

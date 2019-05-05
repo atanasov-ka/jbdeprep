@@ -163,13 +163,19 @@ public class DTOMapper {
 	}
 
 	public static List<GroupRSDTO> getGroupDTOList(List<BoxCategory> boxCategoryList) {
-		// TODO Auto-generated method stub
-		return null;
+		List<GroupRSDTO> resultList = new ArrayList<>();
+		for (BoxCategory oneCategory: boxCategoryList ) {
+			resultList.add(getGroupDTO(oneCategory));
+		}
+		return resultList;
 	}
 
 	public static GroupRSDTO getGroupDTO(BoxCategory boxCategory) {
-		// TODO Auto-generated method stub
-		return null;
+		GroupRSDTO result = new GroupRSDTO();
+		result.setGroupId(boxCategory.getId());
+		result.setGroupName(boxCategory.getName());
+		result.setBoxCount((long) boxCategory.getBoxList().size());
+		return result;
 	}
 
 	
