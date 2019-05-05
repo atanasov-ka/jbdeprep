@@ -23,7 +23,7 @@ const CategoryList = () => (
     <div>
     {
         greeting.list.map(function (value) {
-            return <Category boxId={value.boxId} categoryName={value.categoryName}/>
+            return <Category key={value.boxId} boxId={value.boxId} categoryName={value.categoryName}/>
         })
     }
     </div>
