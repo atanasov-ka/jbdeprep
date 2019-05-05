@@ -28,8 +28,16 @@ public class GroupDAO {
 	}
 
 	public BoxCategory getGroup(String username, boolean isAdmin, Long groupId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        TypedQuery<BoxCategory> oneCategoryQuery;
+        if (isAdmin) {
+            oneCategoryQuery = entityManager.createQuery("select b from BoxCategory b where b.id = :id", BoxCategory.class);
+        } else {
+            oneCategoryQuery = entityManager.createQuery("select b from BoxCategory b where b.user.username = :username and b.id = :id", BoxCategory.class);
+            oneCategoryQuery.setParameter("username", username);
+        }
 
+        oneCategoryQuery.setParameter("id", groupId);
+        List<BoxCategory> resultList = oneCategoryQuery.getResultList();
+        return resultList.isEmpty() ? null : resultList.get(0);
+	}
 }
