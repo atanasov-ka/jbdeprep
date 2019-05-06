@@ -143,9 +143,30 @@ public class BoxDAO {
 		}
 	}
 
-	public List<Verb> findVerbsByBoxId(Long id) {
-		TypedQuery<Verb> query = entityManager.createQuery("select v from Verb v where v.boxId = :id", Verb.class);
+	public List<Verb> findVerbsByBoxId(Long id, String username, boolean isAdmin) {
+		TypedQuery<Verb> query;
+		if (isAdmin) {
+			query = entityManager.createQuery("select v from Verb v where v.box.id = :id order by v.id asc", Verb.class);
+		} else {
+			query = entityManager.createQuery("select v from Verb v where v.box.id = :id and v.box.user.username = :username order by v.id asc", Verb.class);
+			query.setParameter("username", username);
+		}
+
 		query.setParameter("id", id);
+		return query.getResultList();
+	}
+
+	public List<Box> findBoxByGroupId(Long groupId, String username, boolean isAdmin) {
+		TypedQuery<Box> query;
+		if (isAdmin) {
+			query = entityManager.createQuery("select b from Box b where b.boxCategory.id = :groupId order by b.id asc", Box.class);
+
+		} else {
+			query = entityManager.createQuery("select b from Box b where b.boxCategory.id = :groupId and b.user = :username order by b.id asc", Box.class);
+			query.setParameter("username", username);
+		}
+
+		query.setParameter("groupId", groupId);
 		return query.getResultList();
 	}
 }

@@ -26,5 +26,8 @@ public class GroupService {
 		return DTOMapper.getGroupDTO(boxCategory);
 	}
 
-	
+	public GroupRSDTO createCategory(String username, GroupRSDTO groupRsDto) {
+		BoxCategory boxCategory = groupDAO.create(username, groupRsDto);
+		return DTOMapper.getGroupDTO(boxCategory);
+	}
 }

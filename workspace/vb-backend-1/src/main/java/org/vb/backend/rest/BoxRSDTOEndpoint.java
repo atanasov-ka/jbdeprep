@@ -1,6 +1,5 @@
 package org.vb.backend.rest;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
@@ -21,11 +20,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
+
 import org.vb.backend.jpa.service.BoxService;
-import org.vb.backend.jpa.service.GroupService;
-import org.vb.backend.jpa.service.UserService;
 import org.vb.backend.dto.BoxRSDTO;
-import org.vb.backend.dto.GroupRSDTO;
 import org.vb.backend.dto.VerbRSDTO;
 
 @RequestScoped
@@ -36,19 +33,13 @@ public class BoxRSDTOEndpoint {
 
 	@EJB
 	private BoxService boxService;
-	
-	@EJB
-	private UserService userService;
-	
-	@EJB
-	private GroupService groupService;
-	
+
 	@Context
 	SecurityContext context;
 	
 	@RolesAllowed("user")
 	@POST
-	public Response create(@Valid final BoxRSDTO boxrsdto) throws URISyntaxException {
+	public Response create(@Valid final BoxRSDTO boxrsdto) {
 		BoxRSDTO box = boxService.createBox(boxrsdto, getUsername());
 		return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(box.getId())).build()).build();
 	}
@@ -85,20 +76,11 @@ public class BoxRSDTOEndpoint {
 	
 	@RolesAllowed("user")
 	@GET
-	@Path("/byGroup")
-	@Produces("application/json")
-	public List<GroupRSDTO> listAllByGroups(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult) {
-		List<GroupRSDTO> groupList = groupService.getAllGroups(getUsername(), isAdmin());
-		return groupList;
-	}
-	
-	@RolesAllowed("user")
-	@GET
 	@Path("/byGroup/{groupId}")
 	@Produces("application/json")
-	public GroupRSDTO listAllByGroupId(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult, @PathParam("groupId") Long groupId) {
-		GroupRSDTO group = groupService.getGroup(getUsername(), isAdmin(), groupId);
-		return group;
+	public List<BoxRSDTO> listAllByGroupId(@QueryParam("start") final Integer startPosition, @QueryParam("max") final Integer maxResult, @PathParam("groupId") Long groupId) {
+		List<BoxRSDTO> result = boxService.getBoxListByGroupId(getUsername(), isAdmin(), groupId);
+		return result;
 	}
 
 	@RolesAllowed("user")
@@ -120,7 +102,7 @@ public class BoxRSDTOEndpoint {
 		String currentUser = getUsername();
 		boolean isAdmin = isAdmin();
 		boolean isUser = isRegularUser();
-		boolean deleted = false;
+		boolean deleted;
 		if (isAdmin) {
 			deleted = boxService.deleteBoxById(id);
 		} else if (isUser) {

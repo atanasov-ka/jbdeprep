@@ -1,5 +1,6 @@
 package org.vb.backend.jpa.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class BoxService {
 	}
 	
 	public List<VerbRSDTO> getVerbsByBoxId(Long id, String username, boolean isAdmin) {
-		List<Verb> verbList = boxDAO.findVerbsByBoxId(id);
+		List<Verb> verbList = boxDAO.findVerbsByBoxId(id, username, isAdmin);
 		List<VerbRSDTO> result = new LinkedList<>();
 		for (Verb v : verbList) {
 			result.add(DTOMapper.getVerbDTO(v));
@@ -77,6 +78,13 @@ public class BoxService {
 		return DTOMapper.getBoxDTO(box);
 	}
 
-	
 
+	public List<BoxRSDTO> getBoxListByGroupId(String username, boolean isAdmin, Long groupId) {
+		List<Box> boxList = boxDAO.findBoxByGroupId(groupId, username, isAdmin);
+		List<BoxRSDTO> result = new ArrayList<>();
+		for (Box oneBox : boxList) {
+			result.add(DTOMapper.getBoxDTO(oneBox));
+		}
+		return result;
+	}
 }

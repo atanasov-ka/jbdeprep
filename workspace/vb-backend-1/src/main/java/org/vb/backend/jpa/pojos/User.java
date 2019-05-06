@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name = "User")
 @Table(name = "vbuser")
+@NamedQueries(value = {
+		@NamedQuery(name="findUserByUsername", query="select u from User u where u.username = :username")
+})
 public class User {
 	
 	@Id

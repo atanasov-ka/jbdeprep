@@ -174,7 +174,8 @@ public class DTOMapper {
 		GroupRSDTO result = new GroupRSDTO();
 		result.setGroupId(boxCategory.getId());
 		result.setGroupName(boxCategory.getName());
-		result.setBoxCount((long) boxCategory.getBoxList().size());
+        List<Box> list = boxCategory.getBoxList();
+		result.setBoxCount(null != list ? (long) list.size() : 0);
 		return result;
 	}
 

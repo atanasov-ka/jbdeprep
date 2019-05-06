@@ -31,7 +31,7 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
     componentDidMount() {
 
         // this.state = { list:[{id:1, name: "a"}] };
-        let url = 'http://localhost:8081/vb/api/box/byGroup';
+        let url = 'http://localhost:8081/vb/api/category';
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
@@ -75,12 +75,8 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
                     <TextField autoFocus margin="dense" id="name" label="Category name" type="text" fullWidth />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={this.handleClose} color="primary">
-                        Create
-                    </Button>
+                    <Button onClick={this.handleClose} color="primary">Cancel</Button>
+                    <Button onClick={this.handleClose} color="primary">Create</Button>
                 </DialogActions>
             </Dialog>
         </div>

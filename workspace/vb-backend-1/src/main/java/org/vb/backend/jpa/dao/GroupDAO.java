@@ -7,7 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.vb.backend.dto.GroupRSDTO;
 import org.vb.backend.jpa.pojos.BoxCategory;
+import org.vb.backend.jpa.pojos.User;
 
 @Stateless
 public class GroupDAO {
@@ -40,4 +42,16 @@ public class GroupDAO {
         List<BoxCategory> resultList = oneCategoryQuery.getResultList();
         return resultList.isEmpty() ? null : resultList.get(0);
 	}
+
+    public BoxCategory create(String username, GroupRSDTO groupRsDto) {
+        TypedQuery<User> query = entityManager.createNamedQuery("findUserByUsername", User.class);
+        query.setParameter("username", username);
+        User user = query.getSingleResult();
+
+        BoxCategory category = new BoxCategory();
+        category.setName(groupRsDto.getGroupName());
+        category.setUser(user);
+	    entityManager.persist(category);
+        return category;
+    }
 }
