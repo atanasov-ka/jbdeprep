@@ -162,7 +162,7 @@ public class BoxDAO {
 			query = entityManager.createQuery("select b from Box b where b.boxCategory.id = :groupId order by b.id asc", Box.class);
 
 		} else {
-			query = entityManager.createQuery("select b from Box b where b.boxCategory.id = :groupId and b.user = :username order by b.id asc", Box.class);
+			query = entityManager.createQuery("select b from Box b where b.boxCategory.id = :groupId and b.user.username = :username order by b.id asc", Box.class);
 			query.setParameter("username", username);
 		}
 
