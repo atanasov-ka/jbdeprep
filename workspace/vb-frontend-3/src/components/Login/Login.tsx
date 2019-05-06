@@ -26,20 +26,18 @@ class Login extends React.Component<RouteComponentProps, LoginState> {
 
     authenticate() {
         let sha256 = require('sha256');
-        let url = 'http://localhost:8081/vb/api/users/authenticate';
-
-
         let body = {
             userName: this.state.username,
             hashedPassword: sha256(this.state.password)
         };
 
+        let url = 'http://localhost:8081/vb/api/users/authenticate';
         fetch(url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
         .then(response => {
             this.setState({error: response.statusText});
             if (response.ok) {
                 let base64 = require('base-64');
-                localStorage.setItem("authToken", base64.encode(this.state.username + ":" + this.state.password));
+                localStorage.setItem("authToken", base64.encode(this.state.username + ":" + sha256(this.state.password)));
                 this.props.history.goBack();
             }
         })
