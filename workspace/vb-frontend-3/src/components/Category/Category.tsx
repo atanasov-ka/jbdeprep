@@ -11,7 +11,6 @@ import './Category.css';
 const Category = ( {groupId, groupName, boxCount} ) => (
     <Card className={"card"}>
         <CardContent>
-
             <Typography className={"title"} variant="h5" component="h2">
                 <SvgIcon>
                     <path d="M18.208,2.958H8.875V1.792c0-0.644-0.522-1.167-1.167-1.167H1.875c-0.644,0-1.167,0.522-1.167,1.167v16.333
