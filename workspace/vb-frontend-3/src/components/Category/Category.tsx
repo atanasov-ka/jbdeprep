@@ -24,7 +24,7 @@ const Category = ( {groupId, groupName, boxCount} ) => (
             <Typography className={"smaller"} component="h2">Contains {boxCount} boxes</Typography>
         </CardContent>
         <CardActions>
-            <Link to={"/boxes/" + groupId}>Open</Link>
+            <Link to={"/category/" + groupId}>Open</Link>
         </CardActions>
     </Card>
 );

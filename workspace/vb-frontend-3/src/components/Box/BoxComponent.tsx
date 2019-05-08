@@ -1,14 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
+import Flag from 'react-world-flags'
+
 import Card from '@material-ui/core/Card';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import './Box.css';
 
-const Box = ( {boxId, boxName} ) => ( // TODO add more params
+const BoxComponent = ({box} ) => (
     <Card className={"card"}>
         <CardContent>
             <Typography className={"title"} variant="h5" component="h2">
@@ -19,13 +22,22 @@ const Box = ( {boxId, boxName} ) => ( // TODO add more params
                             H1.875V2.375c0-0.323,0.261-0.583,0.583-0.583h4.667c0.323,0,0.583,0.261,0.583,0.583v1.75h9.917c0.322,0,0.583,0.261,0.583,0.583
                             C18.208,5.031,17.947,5.292,17.625,5.292z" />
                 </SvgIcon>
-                <span>{boxName}</span>
+                <span>{box.name}</span>
+                <Flag className={"flag"} code={ box.front } />
+                <Flag className={"flag"} code={ box.back } />
             </Typography>
+            <Typography>{box.verbCount} verbs</Typography>
+            <br />
+            <Typography>Progress Front</Typography>
+            <LinearProgress variant="determinate" value={box.progressFront} />
+            <br />
+            <Typography>Progress Back</Typography>
+            <LinearProgress variant="determinate" value={box.progressBack} />
         </CardContent>
         <CardActions>
-            <Link to={"/boxes/" + boxId}>Open</Link>
+            <Link to={"/box/" + box.id}>Open</Link>
         </CardActions>
     </Card>
 );
 
-export default Box;
+export default BoxComponent;

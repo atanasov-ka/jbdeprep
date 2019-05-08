@@ -10,17 +10,45 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 
-import Box from "../Box/Box";
+import BoxComponent from "../Box/BoxComponent";
 
-type Boxes = {
+export type Boxes = {
     categoryId:number,
     dialogOpen: boolean,
     newBoxName: string,
-    items : Array<{
-        "groupId": number,
-        "groupName": string,
-        "boxCount": number
-    }>
+    items : Array<Box>
+};
+
+export type Box = {
+    "id":number,
+    "name":string,
+    "front":string,
+    "back":string,
+    "owner":string,
+    "verbList":Array<Verb>,
+    "verbCount":number,
+    "categoryId":number,
+    "created":number,
+    "progressFront":number,
+    "progressBack":number,
+    "levelBackHigh":number,
+    "levelBackMid":number,
+    "levelBackLow":number,
+    "levelFrontHigh":number,
+    "levelFrontMid":number,
+    "levelFrontLow":number,
+    "lastPlayDate":number,
+    "public":boolean
+};
+
+export type Verb = {
+    "id":number,
+    "front":string,
+    "back":string,
+    "frontAudio":string,
+    "backAudio":string,
+    "frontTranscription":string,
+    "backTranscription":string
 };
 
 class BoxList extends React.Component<RouteComponentProps, Boxes> {
@@ -90,13 +118,13 @@ class BoxList extends React.Component<RouteComponentProps, Boxes> {
         return <div>
             {
                 this.state.items.map(function (value) {
-                     return <Box key={value.groupId} boxId={value.groupId} boxName={value.groupName}/>
+                    return <BoxComponent key={value.id} box={value} />
                 })
             }
             <Card className={"card"}>
                 <CardContent />
                 <CardActions>
-                    <Button size="small" onClick={this.handleClickOpen}>Add Category</Button>
+                    <Button size="small" onClick={this.handleClickOpen}>Add Box</Button>
                 </CardActions>
             </Card>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">

@@ -32,7 +32,8 @@ const App: React.FC = () => {
                             <Switch>
                                 <PrivateRoute exact path="/" component={Home} />
                                 <PrivateRoute exact path="/categories" component={CategoryList} />
-                                <PrivateRoute path="/boxes/:categoryId" component={BoxList} />
+                                <PrivateRoute path="/category/:categoryId" component={BoxList} />
+                                <PrivateRoute path="/box/:boxId" component={Home} />
                                 <Route exact path="/login" component={Login} />
                                 <Route render={() => <h1>Page not found</h1>} />
                             </Switch>

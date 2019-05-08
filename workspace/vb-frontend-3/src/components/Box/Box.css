@@ -10,3 +10,8 @@
 .smaller {
     font-size: 70px;
 }
+
+.flag {
+    height: 25px;
+    width: 25px;
+}
