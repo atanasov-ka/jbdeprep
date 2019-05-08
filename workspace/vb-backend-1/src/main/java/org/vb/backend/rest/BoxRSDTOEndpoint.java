@@ -41,7 +41,11 @@ public class BoxRSDTOEndpoint {
 	@POST
 	public Response create(@Valid final BoxRSDTO boxrsdto) {
 		BoxRSDTO box = boxService.createBox(boxrsdto, getUsername());
-		return Response.created(UriBuilder.fromResource(BoxRSDTOEndpoint.class).path(String.valueOf(box.getId())).build()).build();
+		if (box == null) {
+			return Response.status(Status.NOT_MODIFIED).build();
+		} else {
+			return Response.ok(box).build();
+		}
 	}
 
 	@RolesAllowed("user")

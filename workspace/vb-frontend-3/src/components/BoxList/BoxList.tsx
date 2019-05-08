@@ -10,11 +10,12 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 
-import Category from "../Category/Category";
+import Box from "../Box/Box";
 
-type Categories = {
+type Boxes = {
+    categoryId:number,
     dialogOpen: boolean,
-    newCategoryName: string,
+    newBoxName: string,
     items : Array<{
         "groupId": number,
         "groupName": string,
@@ -22,21 +23,25 @@ type Categories = {
     }>
 };
 
-class CategoryList extends React.Component<RouteComponentProps, Categories> {
+class BoxList extends React.Component<RouteComponentProps, Boxes> {
     constructor(props){
         super(props);
+
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.state = {dialogOpen:false, newCategoryName:"", items:[]};
+        this.state = {categoryId:0, dialogOpen:false, newBoxName:"", items:[]};
     }
 
     componentDidMount() {
-        let url = 'http://localhost:8081/vb/api/category';
+        const { categoryId } = this.props.match.params;
+        this.setState({categoryId:categoryId});
+        let url = `http://localhost:8081/vb/api/box/byGroup/${categoryId}`;
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
             }})
             .then(response => response.text())
             .then(json => {
+                console.log(JSON.parse(json));
                 this.setState({items:JSON.parse(json)});
             })
             .catch(error => {
@@ -53,22 +58,25 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
         this.setState({ dialogOpen: false });
     };
 
-    setNewCategoryName = (event) => {
-        this.setState({newCategoryName: event.target.value});
+    setnewBoxName = (event) => {
+        this.setState({newBoxName: event.target.value});
     };
 
     handleCreate = () => {
-        let url = 'http://localhost:8081/vb/api/category';
+        let url = 'http://localhost:8081/vb/api/box';
         fetch(url, { method: "POST", headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic ' + localStorage.getItem("authToken")
-            }, body: JSON.stringify({groupName:this.state.newCategoryName})})
+            }, body: JSON.stringify({
+                name: this.state.newBoxName,
+                categoryId: this.state.categoryId,
+                front: "BG", back: "EN"})})
             .then(response => response.text())
             .then(json => {
                 console.log(JSON.parse(json));
-                let newCategory = JSON.parse(json);
+                let newBox = JSON.parse(json);
                 let elems = this.state.items;
-                elems.push(newCategory);
+                elems.push(newBox);
                 this.setState({ items:  elems});
                 this.setState({ dialogOpen: false });
             })
@@ -82,7 +90,7 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
         return <div>
             {
                 this.state.items.map(function (value) {
-                     return <Category key={value.groupId} groupId={value.groupId} groupName={value.groupName} boxCount={value.boxCount}/>
+                     return <Box key={value.groupId} boxId={value.groupId} boxName={value.groupName}/>
                 })
             }
             <Card className={"card"}>
@@ -92,9 +100,9 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
                 </CardActions>
             </Card>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">New category</DialogTitle>
+                <DialogTitle id="form-dialog-title">New box</DialogTitle>
                 <DialogContent>
-                    <TextField autoFocus margin="dense" id="name" label="Name" type="text" onChange={this.setNewCategoryName} fullWidth />
+                    <TextField autoFocus margin="dense" id="name" label="Name" type="text" onChange={this.setnewBoxName} fullWidth />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleCreate} color="primary">Create</Button>
@@ -104,4 +112,4 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
     }
 }
 
-export default CategoryList;
+export default BoxList;

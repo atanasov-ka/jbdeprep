@@ -3,17 +3,22 @@ package org.vb.backend.jpa.dao;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.*;
 
 import org.vb.backend.jpa.pojos.*;
+import org.vb.backend.util.LoggerBean;
 
 @Stateless
 public class BoxDAO {
 	@PersistenceContext(unitName="vb-backend-1")  
 	private EntityManager entityManager; 
 
-	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList) {
+	@EJB
+    LoggerBean loggerBean;
+
+	public Box createBox(String name, String front, String back, boolean isPublic, User owner, List<Verb> verbList, Long categoryId) {
 		Language langFront = getLanguageByAbbreviation(front);
 		Language langBack = getLanguageByAbbreviation(back);
 
@@ -24,27 +29,28 @@ public class BoxDAO {
 		box.setUser(owner);
 		box.setPublic(isPublic);
 		box.setCreated(new Date());
-		BoxCategory category = getBoxCategory(owner, "default");
-		box.setCategory(category);
-		for (Verb v : verbList) {
-		    box.addVerb(v);
-        }
-		entityManager.persist(box);
-		return box;
+		BoxCategory category = getBoxCategory(owner, categoryId);
+		if (null != category) {
+			box.setCategory(category);
+			for (Verb v : verbList) {
+				box.addVerb(v);
+			}
+			entityManager.persist(box);
+			return box;
+		} else {
+            loggerBean.logMessage(String.format("Cannot find box category %s", categoryId));
+			return null;
+		}
 	}
 
-	private BoxCategory getBoxCategory(User owner, String categoryName) {
-		TypedQuery<BoxCategory> boxCategoryQuery = entityManager.createNamedQuery("findCategoryByUserAndName",
+	private BoxCategory getBoxCategory(User owner, Long categoryId) {
+		TypedQuery<BoxCategory> boxCategoryQuery = entityManager.createNamedQuery("findCategoryByIdAndUser",
 				BoxCategory.class);
 		boxCategoryQuery.setParameter("userId", owner.getId());
-		boxCategoryQuery.setParameter("categoryName", categoryName);
+		boxCategoryQuery.setParameter("categoryId", categoryId);
 		List<BoxCategory> boxCategoryList = boxCategoryQuery.getResultList();
 		if (boxCategoryList.isEmpty()) {
-			BoxCategory newCategory = new BoxCategory();
-			newCategory.setName(categoryName);
-			newCategory.setUser(owner);
-			entityManager.persist(newCategory);
-			return newCategory;
+			return null;
 		} else {
 			return boxCategoryList.get(0);
 		}

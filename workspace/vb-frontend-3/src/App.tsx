@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import CategoryList from "./components/CategoryList/CategoryList";
 import ButtonAppBar from "./components/ButtonAppBar/ButtonAppBar";
+import BoxList from "./components/BoxList/BoxList";
 
 import './App.css';
 
@@ -31,6 +32,7 @@ const App: React.FC = () => {
                             <Switch>
                                 <PrivateRoute exact path="/" component={Home} />
                                 <PrivateRoute exact path="/categories" component={CategoryList} />
+                                <PrivateRoute path="/boxes/:categoryId" component={BoxList} />
                                 <Route exact path="/login" component={Login} />
                                 <Route render={() => <h1>Page not found</h1>} />
                             </Switch>

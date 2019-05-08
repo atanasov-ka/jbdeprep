@@ -28,6 +28,7 @@ public class DTOMapper {
 		}
 		
 		BoxRSDTO boxRSDTO = getBoxDTOOnly(box);
+		boxRSDTO.setCategoryId(box.getCategory().getId());
 		boxRSDTO.setVerbList(DTOMapper.getVerbDTOList(new ArrayList<>(box.getVerbList())));
 		return boxRSDTO;
 	}

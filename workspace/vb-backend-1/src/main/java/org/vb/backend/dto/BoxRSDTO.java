@@ -14,6 +14,7 @@ public class BoxRSDTO {
 	private String owner;
 	private List<VerbRSDTO> verbList;
 	private Integer verbCount;
+	private Long categoryId;
 	private Date created;
 	private Double progressFront;
 	private Double progressBack;
@@ -133,5 +134,10 @@ public class BoxRSDTO {
 	public void setLastPlayDate(Date lastPlayDate) {
 		this.lastPlayDate = lastPlayDate;
 	}
-	
+    public Long getCategoryId() {
+        return categoryId;
+    }
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 }

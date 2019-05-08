@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 @NamedQueries(value = {
 		@NamedQuery(
-				name = "findCategoryByUserAndName",
-				query = "select b from BoxCategory b where b.user.id = :userId and b.name = :categoryName")
+				name = "findCategoryByIdAndUser",
+				query = "select b from BoxCategory b where b.user.id = :userId and b.id = :categoryId")
 })
 @Entity(name = "BoxCategory")
 @Table(name = "box_category")
