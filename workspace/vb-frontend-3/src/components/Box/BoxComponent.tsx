@@ -27,12 +27,18 @@ const BoxComponent = ({box} ) => (
                 <Flag className={"flag"} code={ box.back } />
             </Typography>
             <Typography>{box.verbCount} verbs</Typography>
-            <br />
             <Typography>Progress Front</Typography>
-            <LinearProgress variant="determinate" value={box.progressFront} />
+            <LinearProgress color="primary" variant="determinate" value={box.progressFront} />
             <br />
             <Typography>Progress Back</Typography>
-            <LinearProgress variant="determinate" value={box.progressBack} />
+            <LinearProgress color="primary" variant="determinate" value={box.progressBack} />
+            <br />
+            <Typography>Level Back [{box.levelBackLow}/{box.levelBackMid}/{box.levelBackHigh}]</Typography>
+            <Typography>Level Front [{box.levelFrontLow}/{box.levelFrontMid}/{box.levelFrontHigh}]</Typography>
+            <br />
+            <Typography>Created by <b>{box.owner}</b> at: <br />{new Date(box.created).toLocaleString()}</Typography>
+            <br />
+            <Typography>Last played at: <br />{new Date(box.lastPlayDate).toLocaleString()}</Typography>
         </CardContent>
         <CardActions>
             <Link to={"/box/" + box.id}>Open</Link>
