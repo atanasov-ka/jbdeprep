@@ -8,8 +8,8 @@ import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
 
-import BoxComponent from "../../Box/BoxComponent";
-import ButtonAppBar from "../../ButtonAppBar/ButtonAppBar";
+import BoxComponent from "../../elements/Box/BoxComponent";
+import ButtonAppBar from "../../elements/ButtonAppBar/ButtonAppBar";
 
 export type Boxes = {
     categoryId:number,

@@ -8,10 +8,10 @@ import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
 
-import ButtonAppBar from "../../ButtonAppBar/ButtonAppBar";
-import Category from "../../Category/Category";
+import ButtonAppBar from "../../elements/ButtonAppBar/ButtonAppBar";
+import Category from "../../elements/Category/Category";
 
-import "../../Category/Category.css";
+import "../../elements/Category/Category.css";
 
 type Categories = {
     dialogOpen: boolean,
