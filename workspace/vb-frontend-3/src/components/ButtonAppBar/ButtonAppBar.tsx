@@ -78,6 +78,7 @@ class ButtonAppBar extends React.Component {
                             Verbbox App
                         </Typography>
                         <Button onClick={this.logout}>Logout</Button>
+                        {this.props.children}
                     </Toolbar>
                 </AppBar>
             </div>

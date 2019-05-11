@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Flag from 'react-world-flags'
 
 import Card from '@material-ui/core/Card';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';

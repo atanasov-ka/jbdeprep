@@ -4,7 +4,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom'
+import Button from "@material-ui/core/Button/Button";
 
 import './Category.css';
 
@@ -24,7 +24,7 @@ const Category = ( {groupId, groupName, boxCount} ) => (
             <Typography className={"smaller"} component="h2">Contains {boxCount} boxes</Typography>
         </CardContent>
         <CardActions>
-            <Link to={"/category/" + groupId}>Open</Link>
+            <Button href={"/category/" + groupId}>Open</Button>
         </CardActions>
     </Card>
 );
