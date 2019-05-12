@@ -49,7 +49,8 @@ export type Verb = {
     "frontAudio":string,
     "backAudio":string,
     "frontTranscription":string,
-    "backTranscription":string
+    "backTranscription":string,
+    "created":number
 };
 
 class BoxList extends React.Component<RouteComponentProps, Boxes> {

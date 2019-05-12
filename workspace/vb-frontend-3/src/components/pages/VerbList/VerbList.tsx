@@ -1,5 +1,6 @@
 import React from 'react';
 import {RouteComponentProps} from 'react-router'
+import Flag from 'react-world-flags'
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import TableHead from "@material-ui/core/TableHead/TableHead";
@@ -13,17 +14,21 @@ import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-
-import { Verb } from "../BoxList/BoxList";
-import VbAppBar from "../../elements/VbAppBar/VbAppBar";
-import "./VerbList.css"
 import Fade from "@material-ui/core/Fade/Fade";
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Typography from "@material-ui/core/Typography/Typography";
+import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
+
+import VbAppBar from "../../elements/VbAppBar/VbAppBar";
+import {Box, Verb} from "../BoxList/BoxList";
+import "./VerbList.css"
 
 export type Verbs = {
     dialogOpen: boolean,
     categoryId:number,
     boxId: number,
-    items: Array<Verb>
+    box?: Box
 };
 
 class VerbList extends React.Component<RouteComponentProps, Verbs> {
@@ -31,13 +36,13 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
         super(props);
 
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.state = { boxId:0, categoryId:0, dialogOpen:false, items:[] };
+        this.state = { boxId:0, categoryId:0, dialogOpen:false};
     }
 
     componentDidMount() {
         const { boxId } = this.props.match.params;
         this.setState({ boxId:boxId });
-        let url = `http://localhost:8081/vb/api/box/${boxId}/verb`;
+        let url = `http://localhost:8081/vb/api/box/${boxId}`;
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
@@ -45,7 +50,7 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
             .then(response => response.text())
             .then(json => {
                 console.log(JSON.parse(json));
-                this.setState({ items: JSON.parse(json) });
+                this.setState({ box: JSON.parse(json) });
             })
             .catch(error => {
                 //this.setState({error: error});
@@ -54,23 +59,23 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
     }
 
     handleCreate = () => {
-        let url = 'http://localhost:8081/vb/api/box';
-        fetch(url, { method: "GET", headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + localStorage.getItem("authToken")
-            }})
-            .then(response => response.text())
-            .then(json => {
-                console.log(JSON.parse(json));
-                let newBox = JSON.parse(json);
-                let elems = this.state.items;
-                elems.push(newBox);
-                this.setState({ items:  elems});
-            })
-            .catch(error => {
-                //this.setState({error: error});
-                console.error(error);
-            });
+        // let url = 'http://localhost:8081/vb/api/box';
+        // fetch(url, { method: "GET", headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'Basic ' + localStorage.getItem("authToken")
+        //     }})
+        //     .then(response => response.text())
+        //     .then(json => {
+        //         console.log(JSON.parse(json));
+        //         let newBox = JSON.parse(json);
+        //         let elems = this.state.items;
+        //         elems.push(newBox);
+        //         this.setState({ items:  elems});
+        //     })
+        //     .catch(error => {
+        //         //this.setState({error: error});
+        //         console.error(error);
+        //     });
     };
 
     handleClickOpen = () => {
@@ -97,67 +102,104 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
 
     }
 
+    private renderVerbList() {
+        if (this.state.box != null) {
+            return this.state.box.verbList.map(function (verb: Verb) {
+                return <TableRow className="row" key={verb.id}>
+                    <TableCell component="th" scope="row" align="left">
+                        <b>{verb.front}</b><br/>
+                        [<i>{verb.frontTranscription}</i>]
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="left">
+                        <b>{verb.back}</b><br/>
+                        [<i>{verb.backTranscription}</i>]
+                    </TableCell>
+                </TableRow>
+            })
+        } else {
+            return <TableRow/>
+        }
+    }
+
     render() {
-        return <div>
-            <VbAppBar>
-                <Button size="small" href={"/categories"}>Categories</Button>
-                <IconButton color={"inherit"} onClick={this.handleClickOpen} aria-label={"Add Verb"}><AddCircleIcon /></IconButton>
-            </VbAppBar>
-            <Fade in={true}>
-                <Table className={"table"}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Front</TableCell>
-                            <TableCell align="left">Back</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            this.state.items.map(function (verb:Verb) {
-                                return <TableRow className="row" key={verb.id}>
-                                    <TableCell component="th" scope="row" align="left">
-                                        <b>{verb.front}</b><br/>
-                                        [<i>{verb.frontTranscription}</i>]
+        if (null != this.state.box) {
+            return <div>
+                <VbAppBar>
+                    <Button size="small" href={"/categories"}>Categories</Button>
+                    <IconButton color={"inherit"} onClick={this.handleClickOpen} aria-label={"Add Verb"}><AddCircleIcon /></IconButton>
+                </VbAppBar>
+                <div>
+                    <Typography className={"title"} variant="h5" component="h2">
+                        <span>{this.state.box.name}</span>
+                        <Flag className={"flag"} code={ this.state.box.front } />
+                        <Flag className={"flag"} code={ this.state.box.back } />
+                        {this.state.box.public ? <LockOpenIcon /> : <LockIcon />}
+                    </Typography>
+                    <Typography>{this.state.box.verbCount} verbs</Typography>
+                    <Typography>Progress Front</Typography>
+                    <LinearProgress color="primary" variant="determinate" value={this.state.box.progressFront} />
+                    <br />
+                    <Typography>Progress Back</Typography>
+                    <LinearProgress color="primary" variant="determinate" value={this.state.box.progressBack} />
+                    <br />
+                    <Typography>Level Back [{this.state.box.levelBackLow}/{this.state.box.levelBackMid}/{this.state.box.levelBackHigh}]</Typography>
+                    <Typography>Level Front [{this.state.box.levelFrontLow}/{this.state.box.levelFrontMid}/{this.state.box.levelFrontHigh}]</Typography>
+                    <br />
+                    <Typography>Created by <b>{this.state.box.owner}</b> at: {new Date(this.state.box.created).toLocaleString()}</Typography>
+                </div>
+                <Fade in={true}>
+                    <Table className={"table"}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left"><Flag className={"flag"} code={ this.state.box.front } />Front</TableCell>
+                                <TableCell align="left"><Flag className={"flag"} code={ this.state.box.back } />Back</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>{this.renderVerbList()}</TableBody>
+                    </Table>
+                </Fade>
+                <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">New verb</DialogTitle>
+                    <DialogContent>
+                        <Table className={"table"}>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>
+                                        <Flag className={"flag"} code={ this.state.box.front }/><br/>
+                                        <span>{ this.state.box.front }</span>
                                     </TableCell>
-                                    <TableCell component="th" scope="row" align="left">
-                                        <b>{verb.back}</b><br/>
-                                        [<i>{verb.backTranscription}</i>]
+                                    <TableCell>
+                                        <Flag className={"flag"} code={ this.state.box.back }/><br/>
+                                        <span>{ this.state.box.back }</span>
                                     </TableCell>
                                 </TableRow>
-                            })
-                        }
-                    </TableBody>
-                </Table>
-            </Fade>
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">New verb</DialogTitle>
-                <DialogContent>
-                    <Table className={"table"}>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>
-                                    <TextField autoFocus margin="dense" id="front" label="Front" type="text" onChange={this.setNewVerbFront} fullWidth />
-                                </TableCell>
-                                <TableCell>
-                                    <TextField autoFocus margin="dense" id="back" label="Back" type="text" onChange={this.setNewVerbBack} fullWidth />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <TextField autoFocus margin="dense" id="frontTranscription" label="Front transcription" type="text" onChange={this.setNewVerbFrontTranscription} fullWidth />
-                                </TableCell>
-                                <TableCell>
-                                    <TextField autoFocus margin="dense" id="backTranscription" label="Back transcription" type="text" onChange={this.setNewVerbBackTranscription} fullWidth />
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.handleCreate} color="primary">Create</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                                <TableRow>
+                                    <TableCell>
+                                        <TextField autoFocus margin="dense" id="front" label="Front" type="text" onChange={this.setNewVerbFront} fullWidth />
+                                    </TableCell>
+                                    <TableCell>
+                                        <TextField margin="dense" id="back" label="Back" type="text" onChange={this.setNewVerbBack} fullWidth />
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <TextField margin="dense" id="frontTranscription" label="Front transcription" type="text" onChange={this.setNewVerbFrontTranscription} fullWidth />
+                                    </TableCell>
+                                    <TableCell>
+                                        <TextField margin="dense" id="backTranscription" label="Back transcription" type="text" onChange={this.setNewVerbBackTranscription} fullWidth />
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCreate} color="primary">Create</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        } else {
+            return <div/>
+        }
     }
 }
 

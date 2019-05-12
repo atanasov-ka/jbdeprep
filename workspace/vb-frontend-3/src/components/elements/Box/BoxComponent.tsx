@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from "@material-ui/core/Button/Button";
 import Fade from "@material-ui/core/Fade/Fade";
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 import './Box.css';
 
@@ -14,7 +16,7 @@ const BoxComponent = ({box} ) => (
     <Fade in={true}>
         <Card className={"card"}>
             <CardContent>
-                {box.public ? <span>public</span> : <span>private</span>}
+                {box.public ? <LockOpenIcon /> : <LockIcon />}
                 <Typography className={"title"} variant="h5" component="h2">
                     <span>{box.name}</span>
                     <Flag className={"flag"} code={ box.front } />
