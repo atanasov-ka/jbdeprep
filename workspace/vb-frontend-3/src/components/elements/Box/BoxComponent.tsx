@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import Flag from 'react-world-flags'
 
 import Card from '@material-ui/core/Card';
@@ -7,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from "@material-ui/core/Button/Button";
 
 import './Box.css';
 
@@ -34,7 +34,7 @@ const BoxComponent = ({box} ) => (
             <Typography>Last played at: <br />{new Date(box.lastPlayDate).toLocaleString()}</Typography>
         </CardContent>
         <CardActions>
-            <Link to={"/box/" + box.id}>Open</Link>
+            <Button href={"/box/" + box.id}>Open</Button>
         </CardActions>
     </Card>
 );

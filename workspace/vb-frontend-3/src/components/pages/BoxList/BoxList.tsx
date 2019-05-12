@@ -9,7 +9,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
 
 import BoxComponent from "../../elements/Box/BoxComponent";
-import ButtonAppBar from "../../elements/ButtonAppBar/ButtonAppBar";
+import VbAppBar from "../../elements/ButtonAppBar/VbAppBar";
 
 export type Boxes = {
     categoryId:number,
@@ -115,9 +115,9 @@ class BoxList extends React.Component<RouteComponentProps, Boxes> {
 
     render() {
         return <div>
-            <ButtonAppBar><Button size="small" onClick={this.handleClickOpen}>Add Box</Button></ButtonAppBar>
+            <VbAppBar><Button size="small" onClick={this.handleClickOpen}>Add Box</Button></VbAppBar>
             <GridList cols={3} cellHeight={'auto'}>
-            {
+                {
                 this.state.items.map(function (value) { return <BoxComponent key={value.id} box={value} /> })
             }
             </GridList>

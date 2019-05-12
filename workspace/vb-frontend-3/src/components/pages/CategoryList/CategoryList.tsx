@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
 
-import ButtonAppBar from "../../elements/ButtonAppBar/ButtonAppBar";
+import VbAppBar from "../../elements/ButtonAppBar/VbAppBar";
 import Category from "../../elements/Category/Category";
 
 import "../../elements/Category/Category.css";
@@ -81,17 +81,19 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
 
     render() {
         return <div>
-            <ButtonAppBar><Button size="small" onClick={this.handleClickOpen}>Add Category</Button></ButtonAppBar>
-            <GridList cols={3} cellHeight={'auto'}>
-            {
-                this.state.items.map(
-                    function (value) {
-                        return <Category key={value.groupId}
-                                         groupId={value.groupId}
-                                         groupName={value.groupName}
-                                         boxCount={value.boxCount}/> })
-            }
-            </GridList>
+            <VbAppBar><Button size="small" onClick={this.handleClickOpen}>Add Category</Button></VbAppBar>
+            <div>
+                <GridList cols={3} cellHeight={'auto'}>
+                    {
+                    this.state.items.map(
+                        function (value) {
+                            return <Category key={value.groupId}
+                                             groupId={value.groupId}
+                                             groupName={value.groupName}
+                                             boxCount={value.boxCount}/> })
+                }
+                </GridList>
+            </div>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">New category</DialogTitle>
                 <DialogContent>
