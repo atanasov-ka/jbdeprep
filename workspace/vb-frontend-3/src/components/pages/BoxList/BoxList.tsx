@@ -7,9 +7,11 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 
 import BoxComponent from "../../elements/Box/BoxComponent";
-import VbAppBar from "../../elements/ButtonAppBar/VbAppBar";
+import VbAppBar from "../../elements/VbAppBar/VbAppBar";
 
 export type Boxes = {
     categoryId:number,
@@ -115,9 +117,12 @@ class BoxList extends React.Component<RouteComponentProps, Boxes> {
 
     render() {
         return <div>
-            <VbAppBar><Button size="small" onClick={this.handleClickOpen}>Add Box</Button></VbAppBar>
+            <VbAppBar>
+                <Button size="small" href={"/categories"}>Categories</Button>
+                <IconButton color={"inherit"} onClick={this.handleClickOpen} aria-label={"Add Box"}><CreateNewFolderIcon /></IconButton>
+            </VbAppBar>
             <GridList cols={3} cellHeight={'auto'}>
-                {
+            {
                 this.state.items.map(function (value) { return <BoxComponent key={value.id} box={value} /> })
             }
             </GridList>

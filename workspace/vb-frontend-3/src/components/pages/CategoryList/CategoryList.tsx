@@ -7,8 +7,10 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import GridList from "@material-ui/core/GridList/GridList";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 
-import VbAppBar from "../../elements/ButtonAppBar/VbAppBar";
+import VbAppBar from "../../elements/VbAppBar/VbAppBar";
 import Category from "../../elements/Category/Category";
 
 import "../../elements/Category/Category.css";
@@ -81,7 +83,9 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
 
     render() {
         return <div>
-            <VbAppBar><Button size="small" onClick={this.handleClickOpen}>Add Category</Button></VbAppBar>
+            <VbAppBar>
+                <IconButton color={"inherit"} onClick={this.handleClickOpen} aria-label={"Add Category"}><CreateNewFolderIcon /></IconButton>
+            </VbAppBar>
             <div>
                 <GridList cols={3} cellHeight={'auto'}>
                     {
