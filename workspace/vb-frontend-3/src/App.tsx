@@ -6,6 +6,7 @@ import Home from "./components/pages/Home/Home";
 import Login from "./components/pages/Login/Login";
 import CategoryList from "./components/pages/CategoryList/CategoryList";
 import BoxList from "./components/pages/BoxList/BoxList";
+import VerbList from "./components/pages/VerbList/VerbList";
 
 import './App.css';
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
                         <PrivateRoute exact path="/" component={Home} />
                         <PrivateRoute exact path="/categories" component={CategoryList} />
                         <PrivateRoute path="/category/:categoryId" component={BoxList} />
-                        <PrivateRoute path="/box/:boxId" component={Home} />
+                        <PrivateRoute path="/box/:boxId" component={VerbList} />
                         <Route exact path="/login" component={Login} />
                         <Route render={() => <h1>Page not found</h1>} />
                     </Switch>
