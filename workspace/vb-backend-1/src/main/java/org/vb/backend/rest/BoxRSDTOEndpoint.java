@@ -49,6 +49,18 @@ public class BoxRSDTOEndpoint {
 	}
 
 	@RolesAllowed("user")
+	@POST
+	@Path("/{id:[0-9]+}")
+	public Response addVerbsToBox(@Valid final BoxRSDTO boxrsdto, @PathParam("id") final Long boxId) {
+		BoxRSDTO box = boxService.addVerbsToBox(boxId, boxrsdto, getUsername());
+		if (box == null) {
+			return Response.status(Status.NOT_MODIFIED).build();
+		} else {
+			return Response.ok(box).build();
+		}
+	}
+
+	@RolesAllowed("user")
 	@GET
 	@Path("/{id:[0-9]+}")
 	public Response findById(@PathParam("id") final Long id) { 

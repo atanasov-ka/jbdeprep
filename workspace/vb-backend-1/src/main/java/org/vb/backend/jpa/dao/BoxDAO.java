@@ -125,6 +125,21 @@ public class BoxDAO {
 		return foundBox;
 	}
 
+	public Box addVerbToBox(Long boxId, List<Verb> verbs) {
+		Box foundBox = entityManager.find(Box.class, boxId);
+		if (foundBox == null) {
+			return null;
+		}
+
+		for (Verb v: verbs) {
+			v.setCreated(new Date());
+			v.setBox(foundBox);
+			foundBox.getVerbList().add(v);
+		}
+		entityManager.persist(foundBox);
+		return foundBox;
+	}
+
 	public boolean deleteBoxById(Long id) {
 		Box box = getBoxById(id);
 		if (null == box) {

@@ -28,15 +28,19 @@ export type Verbs = {
     dialogOpen: boolean,
     categoryId:number,
     boxId: number,
-    box?: Box
+    box?: Box,
+    newVerbFront:string,
+    newVerbBack:string,
+    newVerbFrontTranscription:string,
+    newVerbBackTranscription:string
 };
 
 class VerbList extends React.Component<RouteComponentProps, Verbs> {
     constructor(props){
         super(props);
-
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.state = { boxId:0, categoryId:0, dialogOpen:false};
+        this.state = { boxId:0, categoryId:0, dialogOpen:false,
+            newVerbFront:"", newVerbBack:"", newVerbFrontTranscription:"", newVerbBackTranscription:""};
     }
 
     componentDidMount() {
@@ -59,23 +63,36 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
     }
 
     handleCreate = () => {
-        // let url = 'http://localhost:8081/vb/api/box';
-        // fetch(url, { method: "GET", headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Basic ' + localStorage.getItem("authToken")
-        //     }})
-        //     .then(response => response.text())
-        //     .then(json => {
-        //         console.log(JSON.parse(json));
-        //         let newBox = JSON.parse(json);
-        //         let elems = this.state.items;
-        //         elems.push(newBox);
-        //         this.setState({ items:  elems});
-        //     })
-        //     .catch(error => {
-        //         //this.setState({error: error});
-        //         console.error(error);
-        //     });
+        let url = `http://localhost:8081/vb/api/box/${this.state.boxId}`;
+        fetch(url, { method: "POST", headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + localStorage.getItem("authToken")
+            }, body: JSON.stringify(
+                {
+                    id:this.state.boxId,
+                    verbList:[
+                        {
+                            front: this.state.newVerbFront,
+                            back: this.state.newVerbBack,
+                            frontTranscription: this.state.newVerbFrontTranscription,
+                            backTranscription: this.state.newVerbBackTranscription,
+                            frontAudio: "",
+                            backAudio: ""
+                        }
+                    ]
+                })})
+            .then(response => response.text())
+            .then(json => {
+                console.log(JSON.parse(json));
+                let newBox = JSON.parse(json);
+                this.setState({box: newBox});
+                this.setState({dialogOpen:false});
+            })
+            .catch(error => {
+                //this.setState({error: error});
+                console.error(error);
+                this.setState({dialogOpen:false});
+            });
     };
 
     handleClickOpen = () => {
@@ -87,20 +104,20 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
     };
 
     setNewVerbFront = (event) => {
-        // this.setState({newCategoryName: event.target.value});
+        this.setState({newVerbFront: event.target.value});
     };
 
-    private setNewVerbFrontTranscription() {
+    setNewVerbFrontTranscription = (event) => {
+        this.setState({newVerbFrontTranscription: event.target.value});
+    };
 
-    }
+    setNewVerbBack = (event) => {
+        this.setState({newVerbBack: event.target.value});
+    };
 
-    private setNewVerbBack() {
-
-    }
-
-    private setNewVerbBackTranscription() {
-
-    }
+    setNewVerbBackTranscription = (event) => {
+        this.setState({newVerbBackTranscription: event.target.value});
+    };
 
     private renderVerbList() {
         if (this.state.box != null) {

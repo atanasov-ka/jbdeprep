@@ -79,6 +79,17 @@ public class BoxService {
 	}
 
 
+	public BoxRSDTO addVerbsToBox(Long boxId, BoxRSDTO boxrsdto, String username) {
+		User user = userDAO.findUserByUsername(username);
+		if (user == null) {
+			return null;
+		}
+
+		List<Verb> verbs = DTOMapper.getVerbList(boxrsdto.getVerbList());
+		Box box = boxDAO.addVerbToBox(boxId, verbs);
+		return DTOMapper.getBoxDTO(box);
+	}
+
 	public List<BoxRSDTO> getBoxListByGroupId(String username, boolean isAdmin, Long groupId) {
 		List<Box> boxList = boxDAO.findBoxByGroupId(groupId, username, isAdmin);
 		List<BoxRSDTO> result = new ArrayList<>();
