@@ -46,7 +46,7 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
     componentDidMount() {
         const { boxId } = this.props.match.params;
         this.setState({ boxId:boxId });
-        let url = `http://localhost:8081/vb/api/box/${boxId}`;
+        let url = `http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/box/${boxId}`;
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
@@ -63,7 +63,7 @@ class VerbList extends React.Component<RouteComponentProps, Verbs> {
     }
 
     handleCreate = () => {
-        let url = `http://localhost:8081/vb/api/box/${this.state.boxId}`;
+        let url = `http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/box/${this.state.boxId}`;
         fetch(url, { method: "POST", headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic ' + localStorage.getItem("authToken")

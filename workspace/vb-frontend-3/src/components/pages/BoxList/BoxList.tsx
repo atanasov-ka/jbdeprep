@@ -64,7 +64,7 @@ class BoxList extends React.Component<RouteComponentProps, Boxes> {
     componentDidMount() {
         const { categoryId } = this.props.match.params;
         this.setState({categoryId:categoryId});
-        let url = `http://localhost:8081/vb/api/box/byGroup/${categoryId}`;
+        let url = `http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/box/byGroup/${categoryId}`;
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
@@ -93,7 +93,7 @@ class BoxList extends React.Component<RouteComponentProps, Boxes> {
     };
 
     handleCreate = () => {
-        let url = 'http://localhost:8081/vb/api/box';
+        let url = 'http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/box';
         fetch(url, { method: "POST", headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic ' + localStorage.getItem("authToken")

@@ -31,7 +31,7 @@ class Login extends React.Component<RouteComponentProps, LoginState> {
             hashedPassword: sha256(this.state.password)
         };
 
-        let url = 'http://localhost:8081/vb/api/users/authenticate';
+        let url = `http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/users/authenticate`;
         fetch(url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
         .then(response => {
             this.setState({error: response.statusText});

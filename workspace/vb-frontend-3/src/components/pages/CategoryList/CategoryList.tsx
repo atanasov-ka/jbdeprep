@@ -33,7 +33,7 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
     }
 
     componentDidMount() {
-        let url = 'http://localhost:8081/vb/api/category';
+        let url = 'http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/category';
         fetch(url, { method: "GET", headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + localStorage.getItem("authToken")
@@ -61,7 +61,7 @@ class CategoryList extends React.Component<RouteComponentProps, Categories> {
     };
 
     handleCreate = () => {
-        let url = 'http://localhost:8081/vb/api/category';
+        let url = `http://${process.env.REACT_APP_BACKEND_HOST}:8081/vb/api/category`;
         fetch(url, { method: "POST", headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic ' + localStorage.getItem("authToken")

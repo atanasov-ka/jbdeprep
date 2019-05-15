@@ -9,6 +9,6 @@ RUN npm install -g serve
 
 COPY ./ ./
 RUN npm run build
-
+ENV REACT_APP_BACKEND_HOST verbbox.com
 EXPOSE 3000
 CMD serve -s build -l 3000
