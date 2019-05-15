@@ -34,7 +34,7 @@ services:
         - backend
         restart: always
         ports:
-            - 80:3000
+            - 3001:3000
         image: aatanasovka/verbbox:react-app-latest
 
 volumes:
