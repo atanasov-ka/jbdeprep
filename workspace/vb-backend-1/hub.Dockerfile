@@ -1,4 +1,4 @@
-FROM verbbox:eap7r-1.0.0
+FROM aatanasovka/verbbox:eap7r-1.0.0
 
 COPY . /vbsource/
 RUN cd /vbsource \
