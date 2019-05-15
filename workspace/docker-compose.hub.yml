@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+    pg96:
+        restart: always
+        image: postgres:9.6
+        volumes:
+            - pg96data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_PASSWORD: s3cr3t
+    pgadmin4:
+        depends_on:
+        - pg96
+        restart: always
+        image: dpage/pgadmin4
+        ports:
+            - 8082:80
+        environment:
+            PGADMIN_DEFAULT_EMAIL: postgres@localhost
+            PGADMIN_DEFAULT_PASSWORD: s3cr3t
+    backend:
+        depends_on:
+        - pg96
+        restart: always
+        ports:
+            - 8081:8080
+            - 9991:9990
+            - 8182:8181
+        image: aatanasovka/verbbox:eap7-1.0.0-app-latest
+    frontend:
+        depends_on:
+        - backend
+        restart: always
+        ports:
+            - 80:3000
+        image: aatanasovka/verbbox:react-app-latest
+
+volumes:
+    pg96data:
+        external: true
